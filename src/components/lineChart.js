@@ -9,17 +9,7 @@ const embedSpec = {
       "format": {"type": "csv"}
     },
     "mark": dp.views[0].spec.mark,
-    "encoding": {
-      "y": {
-        "field": dp.views[0].spec.encoding.y.field,
-        "type": dp.views[0].spec.encoding.y.type
-      },
-      "x": {
-        "field": dp.views[0].spec.encoding.x.field,
-        "type": dp.views[0].spec.encoding.x.type
-      }
-    }
-
+    "encoding": dp.views[0].spec.encoding
   }
 };
 
