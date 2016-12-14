@@ -1,21 +1,19 @@
-import React from 'react';
-import dp from 'json!../../fixtures/dp1/datapackage.json'
+import React from "react";
+import DataPackage from "../js/dataPackage.js"
+import dpJson from "json!../../fixtures/dp1/datapackage.json"
 
-const embedSpec = {
-  mode: "vega-lite",
-  spec: {
-    "data": {
-      "url": "fixtures/dp1/" + dp.resources[0].path,
-      "format": {"type": "csv"}
-    },
-    "mark": dp.views[0].spec.mark,
-    "encoding": dp.views[0].spec.encoding
-  }
+let dp = new DataPackage(dpJson);
+let path = dp.getResourcePath();
+let myVegaSpec = dp.spec;
+
+myVegaSpec["data"] = {
+  "url": path,
+  "format": {"type": dp.format}
 };
 
 class Chart extends React.Component {
   componentDidMount() {
-    vg.embed("#vis", embedSpec);
+    vg.embed("#vis", {mode: "vega-lite", spec: myVegaSpec});
   };
   render() {
     return (
