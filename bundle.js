@@ -21505,17 +21505,7 @@
 	      "format": { "type": "csv" }
 	    },
 	    "mark": _datapackage2.default.views[0].spec.mark,
-	    "encoding": {
-	      "y": {
-	        "field": _datapackage2.default.views[0].spec.encoding.y.field,
-	        "type": _datapackage2.default.views[0].spec.encoding.y.type
-	      },
-	      "x": {
-	        "field": _datapackage2.default.views[0].spec.encoding.x.field,
-	        "type": _datapackage2.default.views[0].spec.encoding.x.type
-	      }
-	    }
-
+	    "encoding": _datapackage2.default.views[0].spec.encoding
 	  }
 	};
 
