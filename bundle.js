@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _react = __webpack_require__(1);
 
@@ -60,7 +60,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_reactDom2.default.render(_react2.default.createElement(_lineChart2.default, null), document.getElementById('root'));
+	_reactDom2.default.render(_react2.default.createElement(_lineChart2.default, null), document.getElementById("root"));
 
 /***/ },
 /* 1 */
@@ -21473,7 +21473,7 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -21485,7 +21485,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _datapackage = __webpack_require__(179);
+	var _dataPackage = __webpack_require__(179);
+
+	var _dataPackage2 = _interopRequireDefault(_dataPackage);
+
+	var _datapackage = __webpack_require__(180);
 
 	var _datapackage2 = _interopRequireDefault(_datapackage);
 
@@ -21497,16 +21501,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var embedSpec = {
-	  mode: "vega-lite",
-	  spec: {
-	    "data": {
-	      "url": "fixtures/dp1/" + _datapackage2.default.resources[0].path,
-	      "format": { "type": "csv" }
-	    },
-	    "mark": _datapackage2.default.views[0].spec.mark,
-	    "encoding": _datapackage2.default.views[0].spec.encoding
-	  }
+	var dp = new _dataPackage2.default(_datapackage2.default);
+	var path = dp.getResourcePath();
+	var myVegaSpec = dp.spec;
+
+	myVegaSpec["data"] = {
+	  "url": path,
+	  "format": { "type": dp.format }
 	};
 
 	var Chart = function (_React$Component) {
@@ -21519,14 +21520,14 @@
 	  }
 
 	  _createClass(Chart, [{
-	    key: 'componentDidMount',
+	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      vg.embed("#vis", embedSpec);
+	      vg.embed("#vis", { mode: "vega-lite", spec: myVegaSpec });
 	    }
 	  }, {
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
-	      return _react2.default.createElement('div', { id: 'vis' });
+	      return _react2.default.createElement("div", { id: "vis" });
 	    }
 	  }]);
 
@@ -21537,6 +21538,47 @@
 
 /***/ },
 /* 179 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var DataPackage = function () {
+	  function DataPackage(dpJson) {
+	    _classCallCheck(this, DataPackage);
+
+	    //this.publisherName = dpJson.publisher;
+	    this.packageName = dpJson.name;
+	    this.path = dpJson.resources[0].path;
+	    this.format = dpJson.resources[0].format;
+	    this.spec = {
+	      "mark": dpJson.views[0].spec.mark,
+	      "encoding": dpJson.views[0].spec.encoding
+	    };
+	  }
+
+	  _createClass(DataPackage, [{
+	    key: "getResourcePath",
+	    value: function getResourcePath() {
+	      //return '/api/package/' + this.publisherName + '/' + this.packageName + '/r/' + this.path;
+	      return "fixtures/dp1/" + this.path;
+	    }
+	  }]);
+
+	  return DataPackage;
+	}();
+
+	exports.default = DataPackage;
+
+/***/ },
+/* 180 */
 /***/ function(module, exports) {
 
 	module.exports = {
