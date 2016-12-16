@@ -1,3 +1,8 @@
+<script src="vendor/d3/d3.min.js"></script>
+<script src="vendor/vega/vega.min.js"></script>
+<script src="vendor/vega-lite/vega-lite.min.js"></script>
+<script src="vendor/vega-embed/vega-embed.js" charset="utf-8"></script>
+
 {% macro dataset_summary(dataset) -%}
   <div class="dataset summary">
     <img src="https://assets.okfn.org/p/data/img/icon-128.png"
@@ -71,7 +76,7 @@
   <button>Switch View</button>
   <input id="search" placeholder="Search" type="search" style="float:right; display: none">
   <div class="viewer" style="display: none"></div>
-  <div class="root"></div>
+  <div id="root"></div>
   <div class="resources" id="data">
     <h2>Data Files</h2>
     <div class="resource-listing">
@@ -165,5 +170,5 @@
   </div>
   {{snippets.dataset_show(dataset, jsonDataPackage, dataViews, showDataApi)}}
 </div>
-<script src="bundle.js" charset="utf-8"></script>
 {% endblock %}
+<script src="bundle.js" charset="utf-8"></script>
