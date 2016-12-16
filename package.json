@@ -4,7 +4,8 @@
   "description": "Steps:",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js"
+    "start": "webpack --config webpack.config.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,13 @@
   "homepage": "https://github.com/anuveyatsu/dpr-js#readme",
   "devDependencies": {
     "babel-core": "^6.20.0",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.9",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
+    "jest": "^18.0.0",
     "json-loader": "^0.5.4",
+    "react-test-renderer": "^15.4.1",
     "webpack": "^1.14.0"
   },
   "dependencies": {
