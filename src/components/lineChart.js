@@ -12,9 +12,19 @@ myVegaSpec["data"] = {
 };
 
 class Chart extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      myVegaSpec: myVegaSpec
+    };
+  }
+
   componentDidMount() {
-    vg.embed("#vis", {mode: "vega-lite", spec: myVegaSpec});
+    vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec});
   };
+
   render() {
     return (
       <div id="vis"></div>
