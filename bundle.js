@@ -21513,16 +21513,21 @@
 	var Chart = function (_React$Component) {
 	  _inherits(Chart, _React$Component);
 
-	  function Chart() {
+	  function Chart(props) {
 	    _classCallCheck(this, Chart);
 
-	    return _possibleConstructorReturn(this, (Chart.__proto__ || Object.getPrototypeOf(Chart)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Chart.__proto__ || Object.getPrototypeOf(Chart)).call(this, props));
+
+	    _this.state = {
+	      myVegaSpec: myVegaSpec
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Chart, [{
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      vg.embed("#vis", { mode: "vega-lite", spec: myVegaSpec });
+	      vg.embed("#vis", { mode: "vega-lite", spec: this.state.myVegaSpec });
 	    }
 	  }, {
 	    key: "render",
