@@ -1,174 +1,139 @@
-<script src="vendor/d3/d3.min.js"></script>
-<script src="vendor/vega/vega.min.js"></script>
-<script src="vendor/vega-lite/vega-lite.min.js"></script>
-<script src="vendor/vega-embed/vega-embed.js" charset="utf-8"></script>
-
-{% macro dataset_summary(dataset) -%}
-  <div class="dataset summary">
-    <img src="https://assets.okfn.org/p/data/img/icon-128.png"
-      alt="{{dataset.title}}" class="logo" />
-    <h3><a href="/{{dataset.owner}}/{{dataset.id}}">{{dataset.title}}</a></h3>
-    <div class="description">{{dataset.description}}</div>
-    <div class="actions">
-      <a href="/{{dataset.owner}}/{{dataset.id}}" class="btn btn-primary btn-small">View &raquo;</a>
-      {% if dataset.download_url %}
-      <a href="{{dataset.download_url}}" class="btn btn-success btn-small">Download CSV &raquo;</a>
-      {% endif %}
-    </div>
-    <div class="source">Source: {{listify(dataset.sources)}}</div>
-    <ul class="keywords">
-      {% for kw in dataset.keywords or [] %}
-      <li>{{kw}}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{%- endmacro %}
-
-{% macro listify(list_) -%}
-  {% for item in list_ or [] %}
-  <a href="{{item.web}}" title="Uses data from {{item.name}}" target="_blank">
-    {{item.name}}
-    <i class="icon-external-link"></i>
-  </a>
-  {% endfor %}
-{%- endmacro %}
-
-{% macro dataset_show(dataset, jsonDataPackage, dataViews, showDataApi) -%}
-<div class="dataset show">
-  <div class="row">
-    <div class="col-md-8">
-      <img src="{{dataset.image or 'https://assets.okfn.org/p/data/img/icon-128.png'}}"
-        alt="{{dataset.title}}" class="logo" />
-      <div class="description">{{dataset.readme|truncate}} <a href="#readme">Read more</a></div>
-
-      <div class="actions">
-        <div class="btn-group">
-          <a href="#data" class="btn btn-large btn-primary"><i class="icon-download-alt icon-white"></i> Download Data</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 sidebar">
-      <div class="btn-group">
-        <a href="/api/package/{{dataset.owner}}/{{dataset.name}}" class="btn btn-small btn-default"><i class="icon-download-alt"></i> Metadata</a></a>
-        {% if dataset.bugs and dataset.bugs.url %}
-        <a href="{{dataset.bugs.url}}" class="btn btn-small" target="_blank"><i class="icon-exclamation-sign icon-white"></i> Report an Issue</a>
-        {% endif %}
-      </div>
-      <div class="homepage truncate"><i class="icon-home"></i> <a href="{{dataset.homepage}}" title="Home Page">{{dataset.homepage}}</a></div>
-      {% if dataset.licenses %}
-      <div class="license">
-        <i class="icon-legal"></i> <a href="{{dataset.licenses[0].url}}" title="Available under the following License">{{dataset.licenses[0].name or dataset.licenses[0].id}}</a>
-        <br />
-        <a href="https://opendefinition.org" title="This data is open data as per the Open Definition"><img src="https://assets.okfn.org/images/buttons/od_80x15_blue.png" /></a>
-      </div>
-      {% endif %}
-      <div class="source">
-        <h5>Sources</h5>
-        {{listify(dataset.sources)}}
-      </div>
-    </div>
-  </div>
-
-  <hr/>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-  <button>Switch View</button>
-  <input id="search" placeholder="Search" type="search" style="float:right; display: none">
-  <div class="viewer" style="display: none"></div>
-  <div id="root"></div>
-  <div class="resources" id="data">
-    <h2>Data Files</h2>
-    <div class="resource-listing">
-      <table class="table resource-listing">
-        <thead></thead>
-        <tbody>
-          {% for resource in dataset.resources %}
-          <tr>
-            <td><i class="icon-file-text-alt"></i> <a href="#resource-{{resource.name}}">{{resource.name}}</a></td>
-            <td>{{resource.title}}</td>
-            <td>{{resource.format}}</td>
-            <td class="download truncate"><a href="{{resource.localurl}}"><i class="icon-download-alt"></i> Download</a></td>
-            {% if showDataApi %}
-            <td class="">
-              [Local:
-              <a href="/api/dataproxy/{{dataset.owner}}/{{dataset.name}}/r/{{resource.name}}.csv"><i class="icon-download-alt"></i> CSV</a>
-              &ndash;
-              <a href="/api/dataproxy/{{dataset.owner}}/{{dataset.name}}/r/{{resource.name}}.json"><i class="icon-download-alt"></i> JSON</a>
-              ]
-            </td>
-            {% endif %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    {% for resource in dataset.resources %}
-    <div class="resource-info">
-      <h3 id="resource-{{resource.name}}"><i class="icon-file-text-alt"></i> {{resource.name}}</h3>
-
-    {% if resource.format == 'geojson' %}
-      <div class="js-show-geojson show-geojson" data-resource-index="{{loop.index0}}"></div>
-      {% else %}
-      <input id="search_field" placeholder="Search" type="search" style="float:right" data-resource-index="{{loop.index0}}">
-      <br>
-      <br>
-      <div class="js-show-handsontable-grid" data-resource-index="{{loop.index0}}"></div>
-    {% endif %}
-
-      <h4>Field Information</h4>
-      <table class="table table-bordered table-striped resource-summary">
-        <thead>
-          <tr>
-            <th>Field Name</th>
-            <th>Order</th>
-            <th>Type (Format)</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for field in resource.schema.fields %}
-          <tr>
-            <th>{{field.name}}</th>
-            <td>{{loop.index}}</td>
-            <td class="type type-{{field.type}}">{{field.type}} {% if field.format %}({{field.format}}) {% endif %}</td>
-            <td>{{field.description}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endfor %}
-  </div> <!-- / resoures -->
-
-  <div class="row moreinfo">
-    <div class="col-md-8">
-      <h2 id="readme">README</h2>
-      <div class="readme">{{dataset.readme|markdown}}</div>
-    </div>
-    <div class="col-md-4"></div>
-  </div>
-
-  <script type="text/javascript">
-    var DataPackageJsonUrl = "/fixtures/dp1/datapackage.json";
-  </script>
-
-</div><!-- / dataset show -->
-{%- endmacro %}
-
-{% block title %}
-{{dataset.title}} - Dataset
-{% endblock %}
-
-{% block content %}
 <div class="container">
   <div class="page-header">
     <h1>
       {{ dataset.title }}
     </h1>
   </div>
-  {{snippets.dataset_show(dataset, jsonDataPackage, dataViews, showDataApi)}}
+  <div class="dataset show">
+    <div class="row">
+      <div class="col-md-8">
+        <img src="{{dataset.image or 'https://assets.okfn.org/p/data/img/icon-128.png'}}"
+          alt="{{dataset.title}}" class="logo" />
+        <div class="description">{{dataset.readme|truncate}} <a href="#readme">Read more</a></div>
+
+        <div class="actions">
+          <div class="btn-group">
+            <a href="#data" class="btn btn-large btn-primary"><i class="icon-download-alt icon-white"></i> Download Data</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 sidebar">
+        <div class="btn-group">
+          <a href="/api/package/{{dataset.owner}}/{{dataset.name}}" class="btn btn-small btn-default"><i class="icon-download-alt"></i> Metadata</a></a>
+          {% if dataset.bugs and dataset.bugs.url %}
+          <a href="{{dataset.bugs.url}}" class="btn btn-small" target="_blank"><i class="icon-exclamation-sign icon-white"></i> Report an Issue</a>
+          {% endif %}
+        </div>
+        <div class="homepage truncate"><i class="icon-home"></i> <a href="{{dataset.homepage}}" title="Home Page">{{dataset.homepage}}</a></div>
+        {% if dataset.licenses %}
+        <div class="license">
+          <i class="icon-legal"></i> <a href="{{dataset.licenses[0].url}}" title="Available under the following License">{{dataset.licenses[0].name or dataset.licenses[0].id}}</a>
+          <br />
+          <a href="https://opendefinition.org" title="This data is open data as per the Open Definition"><img src="https://assets.okfn.org/images/buttons/od_80x15_blue.png" /></a>
+        </div>
+        {% endif %}
+        <div class="source">
+          <h5>Sources</h5>
+          {% for item in dataset.sources or [] %}
+          <a href="{{item.web}}" title="Uses data from {{item.name}}" target="_blank">
+            {{item.name}}
+            <i class="icon-external-link"></i>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <button>Switch View</button>
+    <input id="search" placeholder="Search" type="search" style="float:right; display: none">
+    <div class="viewer" style="display: none"></div>
+    <div id="root"></div>
+    <div class="resources" id="data">
+      <h2>Data Files</h2>
+      <div class="resource-listing">
+        <table class="table resource-listing">
+          <thead></thead>
+          <tbody>
+            {% for resource in dataset.resources %}
+            <tr>
+              <td><i class="icon-file-text-alt"></i> <a href="#resource-{{resource.name}}">{{resource.name}}</a></td>
+              <td>{{resource.title}}</td>
+              <td>{{resource.format}}</td>
+              <td class="download truncate"><a href="{{resource.localurl}}"><i class="icon-download-alt"></i> Download</a></td>
+              {% if showDataApi %}
+              <td class="">
+                [Local:
+                <a href="/api/dataproxy/{{dataset.owner}}/{{dataset.name}}/r/{{resource.name}}.csv"><i class="icon-download-alt"></i> CSV</a>
+                &ndash;
+                <a href="/api/dataproxy/{{dataset.owner}}/{{dataset.name}}/r/{{resource.name}}.json"><i class="icon-download-alt"></i> JSON</a>
+                ]
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% for resource in dataset.resources %}
+      <div class="resource-info">
+        <h3 id="resource-{{resource.name}}"><i class="icon-file-text-alt"></i> {{resource.name}}</h3>
+
+      {% if resource.format == 'geojson' %}
+        <div class="js-show-geojson show-geojson" data-resource-index="{{loop.index0}}"></div>
+        {% else %}
+        <input id="search_field" placeholder="Search" type="search" style="float:right" data-resource-index="{{loop.index0}}">
+        <br>
+        <br>
+        <div class="js-show-handsontable-grid" data-resource-index="{{loop.index0}}"></div>
+      {% endif %}
+
+        <h4>Field Information</h4>
+        <table class="table table-bordered table-striped resource-summary">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Order</th>
+              <th>Type (Format)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in resource.schema.fields %}
+            <tr>
+              <th>{{field.name}}</th>
+              <td>{{loop.index}}</td>
+              <td class="type type-{{field.type}}">{{field.type}} {% if field.format %}({{field.format}}) {% endif %}</td>
+              <td>{{field.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div> <!-- / resoures -->
+
+    <div class="row moreinfo">
+      <div class="col-md-8">
+        <h2 id="readme">README</h2>
+        <div class="readme">{{dataset.readme|markdown}}</div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+
+    <script type="text/javascript">
+      var DataPackageJsonUrl = "/fixtures/dp1/datapackage.json";
+    </script>
+
+  </div><!-- / dataset show -->
 </div>
-{% endblock %}
+
+<script src="vendor/d3/d3.min.js"></script>
+<script src="vendor/vega/vega.min.js"></script>
+<script src="vendor/vega-lite/vega-lite.min.js"></script>
+<script src="vendor/vega-embed/vega-embed.js" charset="utf-8"></script>
+
 <script src="bundle.js" charset="utf-8"></script>
+
