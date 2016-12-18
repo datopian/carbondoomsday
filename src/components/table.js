@@ -1,6 +1,7 @@
 import React from "react"
 import HandsonTable from "../js/handsonTable.js"
-import _ from "underscore"
+import axios from "axios"
+import Papa from "papaparse"
 
 class Table extends React.Component {
 
@@ -18,11 +19,12 @@ class Table extends React.Component {
 
     let _this = this
 
-    this.serverRequest = CSV.fetch({
-        "url": "fixtures/dp1/data.csv"
-      }).then((dataset) => {
+    this.serverRequest = axios
+      .get("fixtures/dp1/data.csv")
+      .then((result) => {
+        let parsedCSV = Papa.parse(result.data)
 
-        let options = new HandsonTable(dataset)
+        let options = new HandsonTable(parsedCSV.data)
         _this.setState({
           handsonTableSpec: options.handsonTableSpec
         })
