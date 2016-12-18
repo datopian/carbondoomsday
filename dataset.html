@@ -3,7 +3,7 @@
 <script src="vendor/vega-lite/vega-lite.min.js"></script>
 <script src="vendor/vega-embed/vega-embed.js" charset="utf-8"></script>
 
-{% macro dataset_summary(dataset) -%}
+
   <div class="dataset summary">
     <img src="https://assets.okfn.org/p/data/img/icon-128.png"
       alt="{{dataset.title}}" class="logo" />
@@ -22,18 +22,18 @@
       {% endfor %}
     </ul>
   </div>
-{%- endmacro %}
 
-{% macro listify(list_) -%}
+
+
   {% for item in list_ or [] %}
   <a href="{{item.web}}" title="Uses data from {{item.name}}" target="_blank">
     {{item.name}}
     <i class="icon-external-link"></i>
   </a>
   {% endfor %}
-{%- endmacro %}
 
-{% macro dataset_show(dataset, jsonDataPackage, dataViews, showDataApi) -%}
+
+
 <div class="dataset show">
   <div class="row">
     <div class="col-md-8">
@@ -76,7 +76,7 @@
   <button>Switch View</button>
   <input id="search" placeholder="Search" type="search" style="float:right; display: none">
   <div class="viewer" style="display: none"></div>
-  <div id="root"></div>
+  <div class="vis" id="root"></div>
   <div class="resources" id="data">
     <h2>Data Files</h2>
     <div class="resource-listing">
@@ -151,11 +151,11 @@
   </div>
 
   <script type="text/javascript">
-    var DataPackageJsonUrl = "/fixtures/dp1/datapackage.json";
+    var DataPackageJsonUrl = "./fixtures/dp1/datapackage.json";
   </script>
 
 </div><!-- / dataset show -->
-{%- endmacro %}
+
 
 {% block title %}
 {{dataset.title}} - Dataset
@@ -171,4 +171,5 @@
   {{snippets.dataset_show(dataset, jsonDataPackage, dataViews, showDataApi)}}
 </div>
 {% endblock %}
+
 <script src="bundle.js" charset="utf-8"></script>
