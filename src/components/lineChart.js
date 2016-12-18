@@ -1,35 +1,51 @@
-import React from "react";
+import React from "react"
+import axios from "axios"
 import DataPackage from "../js/dataPackage.js"
-import dpJson from "json!../../fixtures/dp1/datapackage.json"
 
-let dp = new DataPackage(dpJson);
-let path = dp.getResourcePath();
-let myVegaSpec = dp.spec;
-
-myVegaSpec["data"] = {
-  "url": path,
-  "format": {"type": dp.format}
-};
 
 class Chart extends React.Component {
 
   constructor(props) {
-    super(props);
 
-    this.state = {
-      myVegaSpec: myVegaSpec
-    };
+    super(props)
+
+    this.state = {myVegaSpec: {}} //just an initial state
+
   }
 
   componentDidMount() {
-    vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec});
-  };
+
+    let _this = this
+
+    this.serverRequest = axios
+      .get(DataPackageJsonUrl)
+      .then((result) => {
+
+        let dpJson = result.data
+        let dp = new DataPackage(dpJson)
+        let myVegaSpec = dp.spec
+        console.log(myVegaSpec)
+        _this.setState({
+          myVegaSpec: myVegaSpec //updating state inside of promise
+        })
+
+      })
+
+  }
+
+  componentWillUnmount() {
+    this.serverRequest.abort() //finishing request
+  }
+
+  componentDidUpdate() {
+    vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec})
+  }
 
   render() {
     return (
       <div id="vis"></div>
-    );
+    )
   }
 }
 
-export default Chart;
+export default Chart
