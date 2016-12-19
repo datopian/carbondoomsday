@@ -1,6 +1,7 @@
 import React from "react"
 import axios from "axios"
 import DataPackage from "../js/dataPackage.js"
+import ReclineView from "../js/reclineToPlotly.js"
 
 
 class Chart extends React.Component {
@@ -23,8 +24,8 @@ class Chart extends React.Component {
 
         let dpJson = result.data
         let dp = new DataPackage(dpJson)
-        let myVegaSpec = dp.spec
-        console.log(myVegaSpec)
+        let myVegaSpec = dp.vlSpec
+
         _this.setState({
           myVegaSpec: myVegaSpec //updating state inside of promise
         })
@@ -38,7 +39,7 @@ class Chart extends React.Component {
   }
 
   componentDidUpdate() {
-    vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec})
+    vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec, actions: false})
   }
 
   render() {

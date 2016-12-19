@@ -5,16 +5,34 @@ class DataPackage {
     this.packageName = dpJson.name;
     this.path = dpJson.resources[0].path;
     this.format = dpJson.resources[0].format;
-    this.spec = dpJson.views[0].spec
-    this.spec.data = {
+    this.vlSpec = dpJson.views[0].spec;
+    this.vlSpec.data = {
       "url": this.getResourcePath(),
       "format": this.format
-    }
+    };
+    this.plotlySpec = {
+      "data": [{
+        "x": [],
+        "y": [],
+        "line": { "width": 1 },
+        "type": "scatter"
+      }],
+      "layout": {
+        "xaxis": {
+        
+          "title": dpJson.views[0].spec.encoding.x.field
+        },
+        "yaxis": {
+          "type": "linear",
+          "title": dpJson.views[0].spec.encoding.y.field
+        }
+      }
+    };
   }
 
   getResourcePath() {
     //return '/api/package/' + this.publisherName + '/' + this.packageName + '/r/' + this.path;
-    return "./fixtures/dp1/" + this.path;
+    return DataPackageJsonUrl.replace("datapackage.json", this.path);
   }
 
 }
