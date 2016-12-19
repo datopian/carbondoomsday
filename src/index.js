@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Chart from "./components/lineChart.js";
+import PlotlyChart from "./components/plotlyChart.js";
 import Table from "./components/table.js";
 
 ReactDOM.render(

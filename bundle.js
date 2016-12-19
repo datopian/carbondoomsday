@@ -58,7 +58,11 @@
 
 	var _lineChart2 = _interopRequireDefault(_lineChart);
 
-	var _table = __webpack_require__(205);
+	var _plotlyChart = __webpack_require__(206);
+
+	var _plotlyChart2 = _interopRequireDefault(_plotlyChart);
+
+	var _table = __webpack_require__(207);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -21499,6 +21503,10 @@
 
 	var _dataPackage2 = _interopRequireDefault(_dataPackage);
 
+	var _reclineToPlotly = __webpack_require__(205);
+
+	var _reclineToPlotly2 = _interopRequireDefault(_reclineToPlotly);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21530,8 +21538,8 @@
 
 	        var dpJson = result.data;
 	        var dp = new _dataPackage2.default(dpJson);
-	        var myVegaSpec = dp.spec;
-	        console.log(myVegaSpec);
+	        var myVegaSpec = dp.vlSpec;
+
 	        _this.setState({
 	          myVegaSpec: myVegaSpec //updating state inside of promise
 	        });
@@ -21545,7 +21553,7 @@
 	  }, {
 	    key: "componentDidUpdate",
 	    value: function componentDidUpdate() {
-	      vg.embed("#vis", { mode: "vega-lite", spec: this.state.myVegaSpec });
+	      vg.embed("#vis", { mode: "vega-lite", spec: this.state.myVegaSpec, actions: false });
 	    }
 	  }, {
 	    key: "render",
@@ -23070,10 +23078,28 @@
 	    this.packageName = dpJson.name;
 	    this.path = dpJson.resources[0].path;
 	    this.format = dpJson.resources[0].format;
-	    this.spec = dpJson.views[0].spec;
-	    this.spec.data = {
+	    this.vlSpec = dpJson.views[0].spec;
+	    this.vlSpec.data = {
 	      "url": this.getResourcePath(),
 	      "format": this.format
+	    };
+	    this.plotlySpec = {
+	      "data": [{
+	        "x": [],
+	        "y": [],
+	        "line": { "width": 1 },
+	        "type": "scatter"
+	      }],
+	      "layout": {
+	        "xaxis": {
+
+	          "title": dpJson.views[0].spec.encoding.x.field
+	        },
+	        "yaxis": {
+	          "type": "linear",
+	          "title": dpJson.views[0].spec.encoding.y.field
+	        }
+	      }
 	    };
 	  }
 
@@ -23081,7 +23107,7 @@
 	    key: "getResourcePath",
 	    value: function getResourcePath() {
 	      //return '/api/package/' + this.publisherName + '/' + this.packageName + '/r/' + this.path;
-	      return "./fixtures/dp1/" + this.path;
+	      return DataPackageJsonUrl.replace("datapackage.json", this.path);
 	    }
 	  }]);
 
@@ -23092,6 +23118,78 @@
 
 /***/ },
 /* 205 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var ReclineView = function () {
+	  function ReclineView(dpJson) {
+	    _classCallCheck(this, ReclineView);
+
+	    //this.publisherName = dpJson.publisher;
+	    //this.packageName = dpJson.name;
+	    this.path = dpJson.resources[0].path;
+	    //this.format = dpJson.resources[0].format;
+	    this.vlSpec = {
+	      "data": {
+	        "url": this.getResourcePath(),
+	        "format": "csv"
+	      },
+	      "mark": "line",
+	      "encoding": {
+	        "x": {
+	          "field": dpJson.views[0].state.group,
+	          "type": "date"
+	        },
+	        "y": {
+	          "field": dpJson.views[0].state.series[0],
+	          "type": "quantitative"
+	        }
+	      }
+	    };
+	    this.plotlySpec = {
+	      "data": [{
+	        "x": [],
+	        "y": [],
+	        "line": { "width": 1 },
+	        "type": "scatter"
+	      }],
+	      "layout": {
+	        "xaxis": {
+	          "type": "date",
+	          "title": dpJson.views[0].state.group
+	        },
+	        "yaxis": {
+	          "type": "linear",
+	          "title": dpJson.views[0].state.series[0]
+	        }
+	      }
+	    };
+	  }
+
+	  _createClass(ReclineView, [{
+	    key: "getResourcePath",
+	    value: function getResourcePath() {
+	      //return '/api/package/' + this.publisherName + '/' + this.packageName + '/r/' + this.path;
+	      return DataPackageJsonUrl.replace("datapackage.json", this.path);
+	    }
+	  }]);
+
+	  return ReclineView;
+	}();
+
+	exports.default = ReclineView;
+
+/***/ },
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23106,15 +23204,122 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _handsonTable = __webpack_require__(206);
+	var _reclineToPlotly = __webpack_require__(205);
 
-	var _handsonTable2 = _interopRequireDefault(_handsonTable);
+	var _reclineToPlotly2 = _interopRequireDefault(_reclineToPlotly);
+
+	var _dataPackage = __webpack_require__(204);
+
+	var _dataPackage2 = _interopRequireDefault(_dataPackage);
 
 	var _axios = __webpack_require__(179);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _papaparse = __webpack_require__(207);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PlotlyChart = function (_React$Component) {
+	  _inherits(PlotlyChart, _React$Component);
+
+	  function PlotlyChart(props) {
+	    _classCallCheck(this, PlotlyChart);
+
+	    var _this2 = _possibleConstructorReturn(this, (PlotlyChart.__proto__ || Object.getPrototypeOf(PlotlyChart)).call(this, props));
+
+	    _this2.state = { myPlotlySpec: {} }; //just an initial state
+
+	    return _this2;
+	  }
+
+	  _createClass(PlotlyChart, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+
+	      var _this = this;
+
+	      this.serverRequest = _axios2.default.get(DataPackageJsonUrl).then(function (result) {
+
+	        var dpJson = result.data;
+	        var dp = new _reclineToPlotly2.default(dpJson);
+	        var myPlotlySpec = dp.plotlySpec;
+
+	        Plotly.d3.csv(dp.getResourcePath(), function (rows) {
+
+	          myPlotlySpec.data[0].x = rows.map(function (row) {
+	            return row[myPlotlySpec.layout.xaxis.title];
+	          });
+
+	          myPlotlySpec.data[0].y = rows.map(function (row) {
+	            return row[myPlotlySpec.layout.yaxis.title];
+	          });
+
+	          _this.setState({
+	            myPlotlySpec: myPlotlySpec
+	          });
+	        });
+	      });
+	    }
+	  }, {
+	    key: "componentWillUnmount",
+	    value: function componentWillUnmount() {
+	      this.serverRequest.abort(); //finishing request
+	    }
+	  }, {
+	    key: "componentDidUpdate",
+	    value: function componentDidUpdate() {
+	      Plotly.newPlot("vis", this.state.myPlotlySpec.data, this.state.myPlotlySpec.layout);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement("div", { id: "vis" });
+	    }
+	  }]);
+
+	  return PlotlyChart;
+	}(_react2.default.Component);
+
+	exports.default = PlotlyChart;
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _handsonTable = __webpack_require__(208);
+
+	var _handsonTable2 = _interopRequireDefault(_handsonTable);
+
+	var _dataPackage = __webpack_require__(204);
+
+	var _dataPackage2 = _interopRequireDefault(_dataPackage);
+
+	var _reclineToPlotly = __webpack_require__(205);
+
+	var _reclineToPlotly2 = _interopRequireDefault(_reclineToPlotly);
+
+	var _axios = __webpack_require__(179);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _papaparse = __webpack_require__(209);
 
 	var _papaparse2 = _interopRequireDefault(_papaparse);
 
@@ -23147,12 +23352,18 @@
 
 	      var _this = this;
 
-	      this.serverRequest = _axios2.default.get("fixtures/dp1/data.csv").then(function (result) {
-	        var parsedCSV = _papaparse2.default.parse(result.data);
+	      this.serverRequest = _axios2.default.get(DataPackageJsonUrl).then(function (result) {
 
-	        var options = new _handsonTable2.default(parsedCSV.data);
-	        _this.setState({
-	          handsonTableSpec: options.handsonTableSpec
+	        var dpJson = result.data;
+	        var dp = new _dataPackage2.default(dpJson);
+
+	        _axios2.default.get(dp.getResourcePath()).then(function (result) {
+	          var parsedCSV = _papaparse2.default.parse(result.data);
+
+	          var options = new _handsonTable2.default(parsedCSV.data);
+	          _this.setState({
+	            handsonTableSpec: options.handsonTableSpec
+	          });
 	        });
 	      });
 	    }
@@ -23179,7 +23390,7 @@
 	exports.default = Table;
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23214,7 +23425,7 @@
 	exports.default = HandsonTable;
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!

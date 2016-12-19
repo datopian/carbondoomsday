@@ -1,5 +1,7 @@
 import React from "react"
 import HandsonTable from "../js/handsonTable.js"
+import DataPackage from "../js/dataPackage.js"
+import ReclineView from "../js/reclineToPlotly.js"
 import axios from "axios"
 import Papa from "papaparse"
 
@@ -20,14 +22,22 @@ class Table extends React.Component {
     let _this = this
 
     this.serverRequest = axios
-      .get("fixtures/dp1/data.csv")
+      .get(DataPackageJsonUrl)
       .then((result) => {
-        let parsedCSV = Papa.parse(result.data)
 
-        let options = new HandsonTable(parsedCSV.data)
-        _this.setState({
-          handsonTableSpec: options.handsonTableSpec
-        })
+        let dpJson = result.data
+        let dp = new DataPackage(dpJson)
+
+        axios.get(dp.getResourcePath())
+          .then((result) => {
+            let parsedCSV = Papa.parse(result.data)
+
+            let options = new HandsonTable(parsedCSV.data)
+            _this.setState({
+              handsonTableSpec: options.handsonTableSpec
+            })
+
+          })
 
       })
 
