@@ -26,7 +26,12 @@ class Table extends React.Component {
       .then((result) => {
 
         let dpJson = result.data
-        let dp = new DataPackage(dpJson)
+        let dp
+        if (dpJson.views[0].spec === undefined) {
+          dp = new ReclineView(dpJson)
+        } else {
+          dp = new DataPackage(dpJson)
+        }
 
         axios.get(dp.getResourcePath())
           .then((result) => {
