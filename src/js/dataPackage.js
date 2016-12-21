@@ -8,7 +8,10 @@ class DataPackage {
     this.vlSpec = dpJson.views[0].spec;
     this.vlSpec.data = {
       "url": this.getResourcePath(),
-      "format": this.format
+      "format": {"type": this.format}
+    };
+    this.vlSpec.config = {
+      "timeFormat": "%b %Y"
     };
     this.plotlySpec = {
       "data": [{
@@ -19,7 +22,6 @@ class DataPackage {
       }],
       "layout": {
         "xaxis": {
-        
           "title": dpJson.views[0].spec.encoding.x.field
         },
         "yaxis": {
