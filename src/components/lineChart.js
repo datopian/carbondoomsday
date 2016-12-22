@@ -45,7 +45,6 @@ class Chart extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.myVegaSpec)
     vg.embed("#vis", {mode: "vega-lite", spec: this.state.myVegaSpec, actions: false})
   }
 
