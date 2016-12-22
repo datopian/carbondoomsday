@@ -21537,7 +21537,13 @@
 	      this.serverRequest = _axios2.default.get(DataPackageJsonUrl).then(function (result) {
 
 	        var dpJson = result.data;
-	        var dp = new _dataPackage2.default(dpJson);
+	        var dp = void 0;
+	        if (dpJson.views[0].spec === undefined) {
+	          dp = new _reclineToPlotly2.default(dpJson);
+	        } else {
+	          dp = new _dataPackage2.default(dpJson);
+	        }
+
 	        var myVegaSpec = dp.vlSpec;
 
 	        _this.setState({
@@ -21553,6 +21559,7 @@
 	  }, {
 	    key: "componentDidUpdate",
 	    value: function componentDidUpdate() {
+	      console.log(this.state.myVegaSpec);
 	      vg.embed("#vis", { mode: "vega-lite", spec: this.state.myVegaSpec, actions: false });
 	    }
 	  }, {
@@ -23081,7 +23088,10 @@
 	    this.vlSpec = dpJson.views[0].spec;
 	    this.vlSpec.data = {
 	      "url": this.getResourcePath(),
-	      "format": this.format
+	      "format": { "type": this.format }
+	    };
+	    this.vlSpec.config = {
+	      "timeFormat": "%b %Y"
 	    };
 	    this.plotlySpec = {
 	      "data": [{
@@ -23092,7 +23102,6 @@
 	      }],
 	      "layout": {
 	        "xaxis": {
-
 	          "title": dpJson.views[0].spec.encoding.x.field
 	        },
 	        "yaxis": {
@@ -23135,26 +23144,33 @@
 	    _classCallCheck(this, ReclineView);
 
 	    //this.publisherName = dpJson.publisher;
-	    //this.packageName = dpJson.name;
+	    this.packageName = dpJson.name;
 	    this.path = dpJson.resources[0].path;
-	    //this.format = dpJson.resources[0].format;
+	    this.format = dpJson.resources[0].format;
 	    this.vlSpec = {
+	      "width": 1080,
+	      "height": 500,
 	      "data": {
 	        "url": this.getResourcePath(),
-	        "format": "csv"
+	        "format": { "type": this.format }
 	      },
 	      "mark": "line",
 	      "encoding": {
 	        "x": {
 	          "field": dpJson.views[0].state.group,
-	          "type": "date"
+	          "type": "temporal",
+	          "axis": { "ticks": 16 }
 	        },
 	        "y": {
 	          "field": dpJson.views[0].state.series[0],
 	          "type": "quantitative"
 	        }
+	      },
+	      "config": {
+	        "timeFormat": "%b %Y"
 	      }
 	    };
+
 	    this.plotlySpec = {
 	      "data": [{
 	        "x": [],
@@ -23246,7 +23262,13 @@
 	      this.serverRequest = _axios2.default.get(DataPackageJsonUrl).then(function (result) {
 
 	        var dpJson = result.data;
-	        var dp = new _reclineToPlotly2.default(dpJson);
+	        var dp = void 0;
+	        if (dpJson.views[0].spec === undefined) {
+	          dp = new _reclineToPlotly2.default(dpJson);
+	        } else {
+	          dp = new _dataPackage2.default(dpJson);
+	        }
+
 	        var myPlotlySpec = dp.plotlySpec;
 
 	        Plotly.d3.csv(dp.getResourcePath(), function (rows) {
@@ -23355,7 +23377,12 @@
 	      this.serverRequest = _axios2.default.get(DataPackageJsonUrl).then(function (result) {
 
 	        var dpJson = result.data;
-	        var dp = new _dataPackage2.default(dpJson);
+	        var dp = void 0;
+	        if (dpJson.views[0].spec === undefined) {
+	          dp = new _reclineToPlotly2.default(dpJson);
+	        } else {
+	          dp = new _dataPackage2.default(dpJson);
+	        }
 
 	        _axios2.default.get(dp.getResourcePath()).then(function (result) {
 	          var parsedCSV = _papaparse2.default.parse(result.data);
