@@ -9,8 +9,8 @@ class ReclineView {
       "width": 1080,
       "height": 500,
       "data": {
-        "url": this.getResourcePath(),
-        "format": {"type": this.format}
+        //"url": this.getResourcePath(),
+        //"format": {"type": this.format}
       },
       "mark": "line",
       "encoding": {
@@ -28,7 +28,7 @@ class ReclineView {
         "timeFormat": "%b %Y"
       }
     };
-    
+
     this.plotlySpec = {
       "data": [{
         "x": [],
