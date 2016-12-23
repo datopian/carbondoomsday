@@ -5,7 +5,7 @@ import PlotlyChart from "./components/plotlyChart.js";
 import Table from "./components/table.js";
 
 ReactDOM.render(
-  <Chart />,
+  <PlotlyChart />,
   document.getElementById("root")
 );
 
