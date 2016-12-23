@@ -7,8 +7,8 @@ class DataPackage {
     this.format = dpJson.resources[0].format;
     this.vlSpec = dpJson.views[0].spec;
     this.vlSpec.data = {
-      "url": this.getResourcePath(),
-      "format": {"type": this.format}
+      //"url": this.getResourcePath(),
+      //"format": {"type": this.format}
     };
     this.vlSpec.config = {
       "timeFormat": "%b %Y"

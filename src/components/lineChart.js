@@ -2,6 +2,7 @@ import React from "react"
 import axios from "axios"
 import DataPackage from "../js/dataPackage.js"
 import ReclineView from "../js/reclineToPlotly.js"
+import Papa from "papaparse"
 
 
 class Chart extends React.Component {
@@ -29,12 +30,21 @@ class Chart extends React.Component {
         } else {
           dp = new DataPackage(dpJson)
         }
-
         let myVegaSpec = dp.vlSpec
+        axios.get(dp.getResourcePath())
+          .then((result) => {
+            let parsedCSV = Papa.parse(result.data, {
+              header: true,
+              dynamicTyping: true
+            })
+            
+            myVegaSpec.data["values"] = parsedCSV.data
 
-        _this.setState({
-          myVegaSpec: myVegaSpec //updating state inside of promise
-        })
+            _this.setState({
+              myVegaSpec: myVegaSpec
+            })
+
+          })
 
       })
 
