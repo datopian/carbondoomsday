@@ -4,7 +4,8 @@
   "description": "Steps:",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js",
+    "build": "webpack --optimize-minimize",
+    "start": "webpack-dev-server",
     "test": "jest"
   },
   "repository": {
@@ -25,7 +26,8 @@
     "babel-preset-react": "^6.16.0",
     "jest": "^18.0.0",
     "react-test-renderer": "^15.4.1",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "axios": "^0.15.3",
