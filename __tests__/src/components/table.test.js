@@ -1,4 +1,3 @@
-jest.dontMock("../../../src/components/table.js")
 import TestUtils from "react-addons-test-utils"
 import React from "react"
 import ReactDOM from "react-dom"
@@ -10,8 +9,8 @@ describe("handsontable module", () => {
       <Table />
     )
 
-    let table = TestUtils.findRenderedDOMComponentWithTag(handsontable, "table")
+    //let table = TestUtils.findRenderedDOMComponentWithTag(handsontable, "table")
 
-    expect(table.attr("class")).toBe("htCore")
+    expect(handsontable.state.handsonTableSpec).toBeDefined()
   })
 })

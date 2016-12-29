@@ -1,19 +1,16 @@
-jest.dontMock("../../../src/components/plotlyChart.js")
-import TestUtils from "react-addons-test-utils"
+//jest.dontMock("../../../src/components/plotlyChart.js")
 import React from "react"
-import ReactDOM from "react-dom"
+import TestUtils from "react-addons-test-utils"
+import renderer from "react-test-renderer"
 import PlotlyChart from "../../../src/components/plotlyChart.js"
 
 describe("plotly chart module", () => {
-  it("should render a graph", () => {
+
+  it("should have generated plotly spec", () => {
     let plotlyChart = TestUtils.renderIntoDocument(
       <PlotlyChart />
     )
-
-    let graph = TestUtils.findRenderedDOMComponentWithTag(plotlyChart, "svg")
-
-    expect(graph.attr("class")).toBe("main-svg")
-    expect(graph.hasChildNodes()).toBeTruthy()
-    expect(graph.childNodes.length).toEqual(10)
+    expect(plotlyChart.state.myPlotlySpec).toBeDefined()
   })
+
 })

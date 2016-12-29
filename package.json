@@ -23,8 +23,13 @@
       "js"
     ],
     "collectCoverage": true,
+    "verbose": true,
+    "globals": {
+      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json"
+    },
     "unmockedModulePathPatterns": [
-      "react"
+      "react",
+      "plotly.js"
     ]
   },
   "bugs": {
