@@ -32,6 +32,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "papaparse": "^4.1.2",
+    "plotly.js": "^1.21.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
   }
