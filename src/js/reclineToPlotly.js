@@ -5,6 +5,8 @@ class ReclineView {
     this.packageName = dpJson.name;
     this.path = dpJson.resources[0].path;
     this.format = dpJson.resources[0].format;
+    this.series = dpJson.views[0].state.series;
+
     this.vlSpec = {
       "width": 1080,
       "height": 500,
@@ -30,20 +32,13 @@ class ReclineView {
     };
 
     this.plotlySpec = {
-      "data": [{
-        "x": [],
-        "y": [],
-        "line": { "width": 1 },
-        "type": "scatter"
-      }],
       "layout": {
         "xaxis": {
           "type": "date",
           "title": dpJson.views[0].state.group
         },
         "yaxis": {
-          "type": "linear",
-          "title": dpJson.views[0].state.series[0]
+          "type": "linear"
         }
       }
     };

@@ -11,7 +11,10 @@ class PlotlyChart extends React.Component {
 
     super(props)
 
-    this.state = {myPlotlySpec: {}} //just an initial state
+    this.state = {
+      myPlotlySpec: {},
+      data: []
+    }
 
   }
 
@@ -34,17 +37,32 @@ class PlotlyChart extends React.Component {
         let myPlotlySpec = dp.plotlySpec
 
         Plotly.d3.csv(dp.getResourcePath(), (rows) => {
+          let dataset = []
+          if (dp.series instanceof Array) {
+            for (let i = 0; i < dp.series.length; i++) {
+              dataset.push({x: [], y: [], mode: "lines", name: dp.series[i]})
+              dataset[i].x = rows.map((row) =>
+                row[dp.plotlySpec.layout.xaxis.title]
+              )
 
-          myPlotlySpec.data[0].x = rows.map((row) =>
-            row[myPlotlySpec.layout.xaxis.title]
-          )
+              dataset[i].y = rows.map((row) =>
+                row[dp.series[i]]
+              )
+            }
+          } else {
+            dataset.push({x: [], y: [], mode: "lines"})
+            dataset[0].x = rows.map((row) =>
+              row[dp.plotlySpec.layout.xaxis.title]
+            )
 
-          myPlotlySpec.data[0].y = rows.map((row) =>
-            row[myPlotlySpec.layout.yaxis.title]
-          )
+            dataset[0].y = rows.map((row) =>
+              row[dp.series]
+            )
+          }
 
           _this.setState({
-            myPlotlySpec: myPlotlySpec
+            myPlotlySpec: myPlotlySpec,
+            data: dataset
           })
         })
 
@@ -57,7 +75,7 @@ class PlotlyChart extends React.Component {
   }
 
   componentDidUpdate() {
-    Plotly.newPlot("vis", this.state.myPlotlySpec.data,
+    Plotly.newPlot("vis", this.state.data,
       this.state.myPlotlySpec.layout)
   }
 
