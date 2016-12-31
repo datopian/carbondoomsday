@@ -1,4 +1,5 @@
 import React from "react"
+import Plotly from "plotly.js/lib/core"
 import ReclineView from "../js/reclineToPlotly.js"
 import DataPackage from "../js/dataPackage.js"
 import axios from "axios"
