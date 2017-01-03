@@ -7,10 +7,12 @@ import PlotlyChart from "../../../src/components/plotlyChart.js"
 describe("plotly chart module", () => {
 
   it("should have generated plotly spec", () => {
-    let plotlyChart = TestUtils.renderIntoDocument(
-      <PlotlyChart />
-    )
-    expect(plotlyChart.state.myPlotlySpec).toBeDefined()
+    const renderer = TestUtils.createRenderer()
+    renderer.render(<PlotlyChart />)
+    const result = renderer.getRenderOutput()
+
+    expect(result.type).toBe("div")
+    expect(result.props.id).toBe("vis")
   })
 
 })
