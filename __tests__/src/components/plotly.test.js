@@ -1,6 +1,4 @@
 import React from "react"
-import TestUtils from "react-addons-test-utils"
-import renderer from "react-test-renderer"
 import { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import PlotlyChart from "../../../src/components/plotly.js"
