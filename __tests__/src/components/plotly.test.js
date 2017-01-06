@@ -1,18 +1,17 @@
 import React from "react"
 import TestUtils from "react-addons-test-utils"
 import renderer from "react-test-renderer"
+import { shallow, mount } from 'enzyme'
+import sinon from 'sinon'
 import PlotlyChart from "../../../src/components/plotly.js"
 
 describe("plotly chart module", () => {
 
   it("should have generated plotly graph", () => {
-    //const renderer = TestUtils.createRenderer()
-    //renderer.render(<PlotlyChart data={[{x: ['2014-01-02', '2014-01-03'], y: [5, 8], mode: "lines"}]}/>)
-    //const result = renderer.componentDidMount()
+    sinon.spy(PlotlyChart.prototype, 'componentDidMount')
+    const wrapper = mount(<PlotlyChart data={[{x: ['2014-01-02', '2014-01-03'], y: [5, 8], mode: "lines"}]} />)
 
-    console.log(result)
-    //expect(result.type).toBe("div")
-    //expect(result.props.id).toBe("vis")
+    expect(wrapper.contains(<svg className="main svg" />)).to.equal(true)
   })
 
 })
