@@ -1,21 +1,34 @@
-# dpr-js
+# DPR-JS
 
-Steps:
+> Requirements: 
+> node: ^6.2.1 
+> npm: ^3.10.6
 
-* [ ] Create repo dpr-js
-* [ ] Scaffold your react app - create an index.html, vendor libs etc 
-* [ ] Create fixture data package to work with
-  * [ ] Data Package with resource data but we will ignore the resource data for now! Write out a vega-lite view with the data inlined as values ...
-* [ ] Create a simple react view that renders this graph using just the vega-lite with inlined data
-  * [ ] add vega-lite libs
-  * [ ] write code to link together - should be super simple
-* [ ] Add support for `dataSource` - i.e. no inline data and injecting data from the data package resource
-  * [ ] New fixture - without inline data and dataSource ...
+## Setup
 
-Next: introduce tests ... 
+To install all dependencies:
+```
+$ npm install
+```
 
-Next: plotly support
+To run local dev server:
+```
+$ npm start
+```
 
-Next: recline spec conversion
+To build production bundle.js:
+```
+$ npm run build
+```
 
-Do a react view for handsontable ... 
+## Tests
+
+To run all tests (we use Jest and Enzyme for tests):
+```
+$ npm test
+```
+
+To run a particular test:
+```
+$ npm test nameOfTest
+```
