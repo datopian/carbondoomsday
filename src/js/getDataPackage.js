@@ -1,7 +1,7 @@
-//import DataPackage from 'datapackage'
+import Datapackage from "datapackage-test"
 
 const getDataPackage = (url) => {
-  //let dp = new DataPackage(url)
+  let dp = new DataPackage(url)
 
 }
 

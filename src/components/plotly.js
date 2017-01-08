@@ -1,5 +1,7 @@
 import React from "react"
 import Plotly from "plotly.js/lib/core"
+import getDataPackage from "../js/getDataPackage.js"
+import getDataResource from "../js/getDataResource.js"
 
 class PlotlyChart extends React.Component {
 

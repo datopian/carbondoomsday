@@ -44,6 +44,7 @@
     "babel-preset-react": "^6.16.0",
     "enzyme": "^2.7.0",
     "jest": "^18.0.0",
+    "json-loader": "^0.5.4",
     "react-addons-test-utils": "^15.4.1",
     "react-test-renderer": "^15.4.1",
     "sinon": "^1.17.7",
@@ -52,6 +53,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "datapackage-test": "^0.2.3",
     "handsontable": "^0.29.2",
     "papaparse": "^4.1.2",
     "plotly.js": "^1.21.2",
