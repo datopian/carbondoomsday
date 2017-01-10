@@ -1,7 +1,9 @@
-//import DataPackage from 'datapackage'
-
 const getDataResource = (resources) => {
+  resources[0].table(table => {
+    table.read().then(data => console.log(data))
+  })
   //resources argument must be array of Resource class objects
+  /*
   let arrayOfData = []
   for (let i=0; i<resources.length; i++) {
     resources[i].table(table => {
@@ -10,7 +12,7 @@ const getDataResource = (resources) => {
       })
     })
   }
-  return arrayOfData
+  return arrayOfData*/
 }
 
 export default getDataResource

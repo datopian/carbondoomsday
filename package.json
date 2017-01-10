@@ -25,7 +25,8 @@
     "collectCoverage": true,
     "verbose": true,
     "globals": {
-      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json"
+      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json",
+      "remoteUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp3/datapackage.json"
     },
     "unmockedModulePathPatterns": [
       "react",
@@ -40,6 +41,7 @@
     "babel-core": "^6.20.0",
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.9",
+    "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "enzyme": "^2.7.0",
