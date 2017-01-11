@@ -1,8 +1,11 @@
 const Datapackage = require('datapackage-test').Datapackage
-const Resource = require('datapackage-test').Resource
 
-const getDataPackage = url => {
-  return new Datapackage(url).then(dp => dp)
+async function getDataPackage(url) {
+  //return new Datapackage(url).then(dp => dp)
+  const dp = await new Datapackage(url)
+  const table = await dp.resources[0].table
+  const data = await table.read()
+  return data
 }
 
 export default getDataPackage
