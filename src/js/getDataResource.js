@@ -1,7 +1,7 @@
-const getDataResource = (resources) => {
-  resources[0].table(table => {
-    table.read().then(data => console.log(data))
-  })
+async function getDataResource(resources) {
+  const table = await resources[0].table
+  const data = await table.read()
+  return data
   //resources argument must be array of Resource class objects
   /*
   let arrayOfData = []
