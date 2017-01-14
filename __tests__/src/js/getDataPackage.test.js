@@ -1,7 +1,7 @@
 import getDataPackage from '../../../src/js/getDataPackage.js'
 
 describe('getDataPackage function', () => {
-  pit('should load the datapackage.json and return a promise', () => {
+  it('should load the datapackage.json and return a promise', () => {
     return getDataPackage(remoteUrl)
       .then(dp => {
         expect(dp.valid).toBe(true)
