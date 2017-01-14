@@ -25,7 +25,9 @@
     "collectCoverage": true,
     "verbose": true,
     "globals": {
-      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json"
+      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json",
+      "remoteDpUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp3/datapackage.json",
+      "remoteCsvUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp1/data.csv"
     },
     "unmockedModulePathPatterns": [
       "react",
@@ -46,13 +48,16 @@
     "jest": "^18.0.0",
     "react-addons-test-utils": "^15.4.1",
     "react-test-renderer": "^15.4.1",
+    "redux-mock-store": "^1.2.1",
     "sinon": "^1.17.7",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "datapackage-test": "^0.2.3",
     "handsontable": "^0.29.2",
+    "isomorphic-fetch": "^2.2.1",
     "papaparse": "^4.1.2",
     "plotly.js": "^1.21.2",
     "react": "^15.4.1",
