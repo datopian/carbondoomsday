@@ -1,6 +1,4 @@
 import "babel-polyfill";
-import getDataResource from '../../../src/js/getDataResource.js'
-import getDataPackage from '../../../src/js/getDataPackage.js'
 const Datapackage = require('datapackage-test').Datapackage
 import nock from 'nock'
 
@@ -24,6 +22,19 @@ let mock3 = nock('http://schemas.datapackages.org')
               .replyWithFile(200, './fixtures/schemas/tabular-data-package.json')
               .get('/fiscal-data-package.json')
               .replyWithFile(200, './fixtures/schemas/fiscal-data-package.json')
+
+describe('get datapackage', () => {
+  it('should load the datapackage.json', async () => {
+    const descriptor = 'https://dp2.com'
+    const dp = await new Datapackage(descriptor)
+
+    expect(dp.valid).toBe(true)
+    expect(dp.descriptor).toBeInstanceOf(Object)
+    expect(dp.descriptor.views).toBeInstanceOf(Array)
+    expect(dp.descriptor.views[0].type).toEqual('Graph')
+    expect(dp.descriptor.resources).toBeInstanceOf(Array)
+  })
+})
 
 describe('getDataResource function', () => {
 
