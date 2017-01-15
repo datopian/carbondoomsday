@@ -1,6 +1,5 @@
-import fetch from 'isomorphic-fetch';
+import 'babel-polyfill'
 import * as actionTypes from "../constants/actionTypes"
-import Papa from "papaparse"
 const Datapackage = require('datapackage-test').Datapackage
 
 export function receiveDatapackage(dp) {
@@ -17,21 +16,14 @@ export function receiveResource(resources) {
   }
 }
 
-export function getDataPackage(url) {
-  return dispatch => {
-    return new Datapackage(url).then(dp => {
-        dispatch(receiveDatapackage(dp.descriptor))
-      })
-  }
-}
-
-export function fetchResource(csvUrl) {
-  return dispatch => {
-    return fetch(csvUrl)
-      .then(response => response.text())
-      .then(result => {
-        result = Papa.parse(result)
-        dispatch(receiveResource(result.data))
-      })
+export function getDataPackage(descriptor) {
+  return async (dispatch) => {
+    const basePath = 'http://' + descriptor.replace('datapackage.json', '')
+    console.log(basePath)
+    const dp = await new Datapackage(descriptor, 'base', true, false, basePath)
+    dispatch(receiveDatapackage(dp.descriptor))
+    const table = await dp.resources[0].table
+    const data = await table.read()
+    dispatch(receiveResource(data))
   }
 }

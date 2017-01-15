@@ -17,10 +17,7 @@ class PlotlyChart extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {dispatch} = this.props
-    nextProps.datapackage.resources.forEach(resource => {
-      let csvUrl = DataPackageJsonUrl.replace('datapackage.json', resource.path)
-      dispatch(actions.fetchResource(csvUrl))
-    })
+
   }
 
   render() {
