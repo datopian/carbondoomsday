@@ -18,8 +18,7 @@ export function receiveResource(resources) {
 
 export function getDataPackage(descriptor) {
   return async (dispatch) => {
-    const basePath = 'http://' + descriptor.replace('datapackage.json', '')
-    console.log(basePath)
+    const basePath = 'fixtures/dp2'//descriptor.replace('datapackage.json', '')
     const dp = await new Datapackage(descriptor, 'base', true, false, basePath)
     dispatch(receiveDatapackage(dp.descriptor))
     const table = await dp.resources[0].table
