@@ -1,5 +1,4 @@
 import reducer from '../../../src/reducers/datapackageReducer'
-import * as types from '../../../src/constants/actionTypes'
 
 describe('update reducer', () => {
   it('should return initial state', () => {
