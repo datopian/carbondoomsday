@@ -3,9 +3,18 @@ import ReactDOM from "react-dom";
 import HandsOnTable from "./components/handsontable.js"
 import PlotlyChart from "./components/plotly.js"
 import VegaLiteChart from "./components/vegalite.js"
+//redux:
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
+
+const store = configureStore(
+  window.devToolsExtension && window.devToolsExtension()
+)
 
 ReactDOM.render(
-  <PlotlyChart data={[{x: ['2014-01-02', '2014-01-03'], y: [5, 8], mode: "lines"}]} />,
+  <Provider store={store}>
+    <PlotlyChart data={[{x: ['2014-01-02', '2014-01-03'], y: [5, 8], mode: "lines"}]} />
+  </Provider>,
   document.getElementById("root")
 );
 /*

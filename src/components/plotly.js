@@ -1,5 +1,8 @@
 import React from "react"
 import Plotly from "plotly.js/lib/core"
+//connect redux:
+import { connect } from 'react-redux'
+import * as actions from '../actions/datapackageActions'
 
 class PlotlyChart extends React.Component {
 
@@ -8,15 +11,13 @@ class PlotlyChart extends React.Component {
   }
 
   componentDidMount() {
-    const spec = {
-      "xaxis": {
-        "type": "date",
-      },
-      "yaxis": {
-        "type": "linear"
-      }
-    }
-    Plotly.newPlot("vis", this.props.data, spec)
+    const {dispatch} = this.props
+    dispatch(actions.getDataPackage(DataPackageJsonUrl))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {dispatch} = this.props
+
   }
 
   render() {
@@ -26,4 +27,13 @@ class PlotlyChart extends React.Component {
   }
 }
 
-export default PlotlyChart
+function mapStateToProps(state) {
+  const { datapackage, resources } = state
+
+  return {
+    datapackage: datapackage,
+    resources: resources
+  }
+}
+
+export default connect(mapStateToProps)(PlotlyChart)
