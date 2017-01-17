@@ -1,7 +1,10 @@
 import React from "react"
 import PlotlyChart from "../components/plotly.js"
+//connect redux:
+import { connect } from 'react-redux'
+import * as actions from '../actions/datapackageActions'
 
-class DataPackageViewContainer extends React.Component {
+export class DataPackageViewContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -10,8 +13,12 @@ class DataPackageViewContainer extends React.Component {
       data: [],
       layout: []
     }
+  }
 
+  componentDidMount() {
     //dispatch redux actions
+    const {dispatch} = this.props
+    dispatch(actions.getDataPackage(DataPackageJsonUrl))
   }
 
   generateSpec(views) {
@@ -46,17 +53,20 @@ class DataPackageViewContainer extends React.Component {
       dataset[i].x = data.slice(1).map(row => row[xIndex])
       dataset[i].y = data.slice(1).map(row => row[yIndex[i]])
     }
-    console.log(dataset)
     return dataset
   }
 
-  componentWillReceiveProps(nextProps) {
-    let data = this.convertData(nextProps.resources[0], nextProps.datapackage)
-    let layout = this.generateSpec(nextProps.datapackage.views)
-    this.setState({
-      data: data,
-      layout: layout
-    })
+  async componentWillReceiveProps(nextProps) {
+    if(nextProps.datapackage) {
+      if(nextProps.datapackage.resources.length == nextProps.resources.length) {
+        let data = await this.convertData(nextProps.resources[0], nextProps.datapackage)
+        let layout = await this.generateSpec(nextProps.datapackage.views)
+        this.setState({
+          data: data,
+          layout: layout
+        })
+      }
+    }
   }
 
   render() {
@@ -66,4 +76,13 @@ class DataPackageViewContainer extends React.Component {
   }
 }
 
-export default DataPackageViewContainer
+const mapStateToProps = (state) => {
+  const { datapackage, resources } = state
+
+  return {
+    datapackage: datapackage,
+    resources: resources
+  }
+}
+
+export default connect(mapStateToProps)(DataPackageViewContainer)
