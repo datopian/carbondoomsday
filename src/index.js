@@ -4,6 +4,7 @@ import HandsOnTable from "./components/handsontable.js"
 import PlotlyChart from "./components/plotly.js"
 import VegaLiteChart from "./components/vegalite.js"
 import DataPackageViewContainer from "./containers/DataPackageViewContainer"
+import TabularResourceViewContainer from "./containers/TabularResourceViewContainer"
 //redux:
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
@@ -25,6 +26,8 @@ ReactDOM.render(
 );
 */
 ReactDOM.render(
-  <HandsOnTable data={[[1,2],[3,4],[5,6]]} colHeaders={["f","s"]} />,
+  <Provider store={store}>
+    <TabularResourceViewContainer />
+  </Provider>,
   document.getElementsByClassName("resource-info")[0]
 );

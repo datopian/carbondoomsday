@@ -7,20 +7,8 @@ class HandsOnTable extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
-    const spec = {
-      data: this.props.data,
-      colHeaders: this.props.colHeaders,
-      readOnly: true,
-      width: 1136,
-      height: 432,
-      colWidths: 47,
-      rowWidth: 27,
-      stretchH: 'all',
-      columnSorting: true,
-      search: true
-    }
-    new Handsontable(document.getElementById('table'), spec)
+  componentDidUpdate() {
+    new Handsontable(document.getElementById('table'), this.props.spec)
   }
 
   render() {
@@ -28,7 +16,7 @@ class HandsOnTable extends React.Component {
       <div id="table"></div>
     )
   }
-  
+
 }
 
 export default HandsOnTable
