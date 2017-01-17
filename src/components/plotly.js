@@ -1,8 +1,5 @@
 import React from "react"
 import Plotly from "plotly.js/lib/core"
-//connect redux:
-import { connect } from 'react-redux'
-import * as actions from '../actions/datapackageActions'
 
 class PlotlyChart extends React.Component {
 
@@ -10,30 +7,16 @@ class PlotlyChart extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
-    const {dispatch} = this.props
-    dispatch(actions.getDataPackage(DataPackageJsonUrl))
+  componentDidUpdate() {
+    Plotly.newPlot("vis", this.props.data, this.props.layout)
   }
-
-  componentWillReceiveProps(nextProps) {
-    const {dispatch} = this.props
-
-  }
-
+  
   render() {
     return (
       <div id="vis"></div>
     )
   }
+
 }
 
-function mapStateToProps(state) {
-  const { datapackage, resources } = state
-
-  return {
-    datapackage: datapackage,
-    resources: resources
-  }
-}
-
-export default connect(mapStateToProps)(PlotlyChart)
+export default PlotlyChart
