@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import HandsOnTable from "./components/handsontable.js"
 import PlotlyChart from "./components/plotly.js"
 import VegaLiteChart from "./components/vegalite.js"
+import DataPackageViewContainer from "./containers/DataPackageViewContainer"
 //redux:
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
@@ -13,7 +14,7 @@ const store = configureStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <PlotlyChart data={[{x: ['2014-01-02', '2014-01-03'], y: [5, 8], mode: "lines"}]} />
+    <DataPackageViewContainer />
   </Provider>,
   document.getElementById("root")
 );
