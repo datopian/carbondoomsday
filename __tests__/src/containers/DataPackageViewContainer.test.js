@@ -1,6 +1,11 @@
+import "babel-polyfill"
 import React from "react"
-import { shallow } from 'enzyme'
-import DataPackageViewContainer from "../../../src/containers/DataPackageViewContainer"
+import { shallow, mount } from 'enzyme'
+import sinon from 'sinon'
+import { DataPackageViewContainer } from "../../../src/containers/DataPackageViewContainer"
+import ContainerWithRedux from "../../../src/containers/DataPackageViewContainer"
+import { Provider } from 'react-redux'
+import configureStore from '../../../src/store/configureStore'
 
 const mockDescriptor = {
   "resources": [
@@ -80,4 +85,19 @@ describe("Datapackage View Container", () => {
     expect(data[0].mode).toEqual('lines')
   })
 
+})
+
+describe("Datapackage View Container with Redux", () => {
+  const store = configureStore()
+
+  it("componentDidMount should be called once", () => {
+    sinon.spy(ContainerWithRedux.prototype, 'componentDidMount')
+    //sinon.spy(ContainerWithRedux.prototype, 'componentWillReceiveProps')
+    const wrapper = mount(
+      <Provider store={store}>
+        <ContainerWithRedux />
+      </Provider>
+    )
+    expect(ContainerWithRedux.prototype.componentDidMount.calledOnce).toEqual(true)
+  })
 })
