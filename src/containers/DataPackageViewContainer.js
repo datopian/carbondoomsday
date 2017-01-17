@@ -31,17 +31,22 @@ class DataPackageViewContainer extends React.Component {
 
   convertData(data, dp) {
     let dataset = []
+    let group = dp.views[0].state.group
     let series = dp.views[0].state.series
+    let xIndex
+    let yIndex = []
+    data[0].forEach((header, index) => {
+      if(header == group) {xIndex = index}
+      series.forEach(serie => {
+        if(header == serie) {yIndex.push(index)}
+      })
+    })
     for (let i = 0; i < series.length; i++) {
       dataset.push({x: [], y: [], mode: "lines"})
-      dataset[i].x = data.map((row) =>
-        row[0]
-      )
-
-      dataset[i].y = data.map((row) =>
-        row[4]
-      )
+      dataset[i].x = data.slice(1).map(row => row[xIndex])
+      dataset[i].y = data.slice(1).map(row => row[yIndex[i]])
     }
+    console.log(dataset)
     return dataset
   }
 
