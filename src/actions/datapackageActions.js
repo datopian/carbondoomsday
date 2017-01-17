@@ -22,7 +22,9 @@ export function getDataPackage(descriptor) {
     const dp = await new Datapackage(descriptor, 'base', true, false, basePath)
     dispatch(receiveDatapackage(dp.descriptor))
     const table = await dp.resources[0].table
-    const data = await table.read()
+    const headers = await table.schema.headers
+    let data = await table.read()
+    data.unshift(headers)
     dispatch(receiveResource(data))
   }
 }
