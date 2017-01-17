@@ -34,7 +34,8 @@ describe('async actions', () => {
     expect(receivedResource[1].type).toEqual('RECEIVE_RESOURCE')
     expect(receivedResource[1].resources).toBeInstanceOf(Array)
     expect(receivedResource[1].resources.length).toBeGreaterThan(1)
-    expect(receivedResource[1].resources[0][1]).toEqual(14.32)
+    expect(receivedResource[1].resources[0][4]).toEqual('DEMOClose')
+    expect(receivedResource[1].resources[1][1]).toEqual(14.32)
   })
-  
+
 })
