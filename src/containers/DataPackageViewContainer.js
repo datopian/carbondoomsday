@@ -21,19 +21,14 @@ export class DataPackageViewContainer extends React.Component {
     dispatch(actions.getDataPackage(DataPackageJsonUrl))
   }
 
-  generateSpec(views) {
-    let plotlySpecs = []
-    views.forEach((view) => {
-      let plotlySpec = {
-        "layout": {
-          "xaxis": {
-            "title": view.state.group
-          }
+  generateSpec(view) {
+    return ({
+      "layout": {
+        "xaxis": {
+          "title": view.state.group
         }
       }
-      plotlySpecs.push(plotlySpec)
     })
-    return plotlySpecs
   }
 
   convertData(data, dp) {
@@ -56,15 +51,22 @@ export class DataPackageViewContainer extends React.Component {
     return dataset
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if(nextProps.datapackage) {
       if(nextProps.datapackage.resources.length == nextProps.resources.length) {
-        let data = await this.convertData(nextProps.resources[0], nextProps.datapackage)
-        let layout = await this.generateSpec(nextProps.datapackage.views)
-        this.setState({
-          data: data,
-          layout: layout
-        })
+        if(nextProps.datapackage.views) {
+          nextProps.datapackage.views.forEach(async (view, index) => {
+            let data = await this.convertData(
+              nextProps.resources[index],
+              nextProps.datapackage
+            )
+            let layout = await this.generateSpec(view)
+            this.setState({
+              data: data,
+              layout: layout
+            })
+          })
+        }
       }
     }
   }
