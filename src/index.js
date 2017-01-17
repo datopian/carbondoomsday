@@ -25,9 +25,14 @@ ReactDOM.render(
   document.getElementById("root")
 );
 */
-ReactDOM.render(
-  <Provider store={store}>
-    <TabularResourceViewContainer />
-  </Provider>,
-  document.getElementsByClassName("resource-info")[0]
-);
+
+let resource_info = document.getElementsByClassName("resource-info")
+
+for(let i=0; i<resource_info.length; i++) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <TabularResourceViewContainer idx={i} />
+    </Provider>,
+    document.getElementsByClassName("resource-info")[i]
+  );
+}
