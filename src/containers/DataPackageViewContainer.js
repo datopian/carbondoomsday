@@ -49,7 +49,7 @@ export class DataPackageViewContainer extends React.Component {
       })
     })
     for (let i = 0; i < series.length; i++) {
-      dataset.push({x: [], y: [], mode: "lines"})
+      dataset.push({x: [], y: [], mode: "lines", name: series[i]})
       dataset[i].x = data.slice(1).map(row => row[xIndex])
       dataset[i].y = data.slice(1).map(row => row[yIndex[i]])
     }
