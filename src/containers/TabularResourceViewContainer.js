@@ -35,7 +35,7 @@ export class TabularResourceViewContainer extends React.Component {
   async componentWillReceiveProps(nextProps) {
     if(nextProps.datapackage) {
       if(nextProps.datapackage.resources.length == nextProps.resources.length) {
-        let spec = await this.buildHandsontableSpec(nextProps.resources[0])
+        let spec = await this.buildHandsontableSpec(nextProps.resources[0][this.props.idx])
         this.setState({
           spec: spec
         })

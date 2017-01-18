@@ -57,7 +57,7 @@ export class DataPackageViewContainer extends React.Component {
         if(nextProps.datapackage.views) {
           nextProps.datapackage.views.forEach(async (view, index) => {
             let data = await this.convertData(
-              nextProps.resources[index],
+              nextProps.resources[0][index],
               nextProps.datapackage
             )
             let layout = await this.generateSpec(view)
