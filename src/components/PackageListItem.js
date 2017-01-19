@@ -25,7 +25,7 @@ class PackageListItem extends React.Component {
 
 PackageListItem.propTypes = {
 	name: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
+	description: PropTypes.string,
 	packageUrl: PropTypes.string.isRequired
 };
 
