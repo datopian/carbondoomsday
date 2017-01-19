@@ -6,9 +6,9 @@ import PackageListItem from '../../../src/components/PackageListItem';
 
 describe("<PackageListItem />", () => {
   it("render one panel item", () => {
-	  const wrapper = shallow(<PackageListItem name="header"
+    const wrapper = shallow(<PackageListItem name="header"
                                              packageUrl="core/demo-package" />);
-	  expect(wrapper.find('div').length).toBe(4);
+    expect(wrapper.find('div').length).toBe(4);
   });
   it("panel header would be same as name property", () => {
     const panelHeader = "this is header";
