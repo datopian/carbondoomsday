@@ -8,12 +8,13 @@ class HandsOnTable extends React.Component {
   }
 
   componentDidUpdate() {
-    new Handsontable(document.getElementById('table'), this.props.spec)
+    new Handsontable(document.getElementById('hTable' + this.props.idx), this.props.spec)
   }
 
   render() {
+    let divId = "hTable" + this.props.idx
     return (
-      <div id="table"></div>
+      <div id={divId}></div>
     )
   }
 
