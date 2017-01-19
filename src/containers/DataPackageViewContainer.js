@@ -4,6 +4,8 @@ import PlotlyChart from "../components/plotly.js"
 import { connect } from 'react-redux'
 import * as actions from '../actions/datapackageActions'
 
+//This container component serves to get descriptor and data resources, it then
+//generates Plotly specific spec, layout and formated data.
 export class DataPackageViewContainer extends React.Component {
 
   constructor(props) {
@@ -15,6 +17,7 @@ export class DataPackageViewContainer extends React.Component {
     }
   }
 
+  //Takes a view and generates Plotly layout.
   generateSpec(view) {
     return ({
       "layout": {
@@ -25,6 +28,8 @@ export class DataPackageViewContainer extends React.Component {
     })
   }
 
+  //Takes a single resource and descriptor, then converts resource into Plotly
+  //specific format.
   convertData(data, dp) {
     let dataset = []
     let group = dp.views[this.props.idx].state.group
@@ -47,9 +52,10 @@ export class DataPackageViewContainer extends React.Component {
 
   async componentWillReceiveProps(nextProps) {
     if(nextProps.datapackage.resources) {
+      //check if resources are received by comparing descriptor's resources and
+      //received data length
       if(nextProps.datapackage.resources.length == nextProps.resources[0].length) {
         if(nextProps.datapackage.views) {
-          console.log(this.props.idx)
           let data = await this.convertData(
             nextProps.resources[0][this.props.idx],
             nextProps.datapackage
@@ -66,6 +72,7 @@ export class DataPackageViewContainer extends React.Component {
   }
 
   render() {
+    //render PlotlyChart component and pass data, layout, and index
     return (
       <PlotlyChart data={this.state.data} layout={this.state.layout} idx={this.props.idx} />
     )

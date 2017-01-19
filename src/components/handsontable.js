@@ -8,6 +8,7 @@ class HandsOnTable extends React.Component {
   }
 
   componentDidUpdate() {
+    //Create and bind Handsontable when the container component triggers update 
     new Handsontable(document.getElementById('hTable' + this.props.idx), this.props.spec)
   }
 
