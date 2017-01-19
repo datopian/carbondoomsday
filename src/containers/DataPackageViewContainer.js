@@ -15,12 +15,6 @@ export class DataPackageViewContainer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    //dispatch redux actions
-    const {dispatch} = this.props
-    dispatch(actions.getDataPackage(DataPackageJsonUrl))
-  }
-
   generateSpec(view) {
     return ({
       "layout": {
@@ -33,8 +27,8 @@ export class DataPackageViewContainer extends React.Component {
 
   convertData(data, dp) {
     let dataset = []
-    let group = dp.views[0].state.group
-    let series = dp.views[0].state.series
+    let group = dp.views[this.props.idx].state.group
+    let series = dp.views[this.props.idx].state.series
     let xIndex
     let yIndex = []
     data[0].forEach((header, index) => {
@@ -51,21 +45,21 @@ export class DataPackageViewContainer extends React.Component {
     return dataset
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.datapackage) {
-      if(nextProps.datapackage.resources.length == nextProps.resources.length) {
+  async componentWillReceiveProps(nextProps) {
+    if(nextProps.datapackage.resources) {
+      if(nextProps.datapackage.resources.length == nextProps.resources[0].length) {
         if(nextProps.datapackage.views) {
-          nextProps.datapackage.views.forEach(async (view, index) => {
-            let data = await this.convertData(
-              nextProps.resources[0][index],
-              nextProps.datapackage
-            )
-            let layout = await this.generateSpec(view)
-            this.setState({
-              data: data,
-              layout: layout
-            })
+          console.log(this.props.idx)
+          let data = await this.convertData(
+            nextProps.resources[0][this.props.idx],
+            nextProps.datapackage
+          )
+          let layout = await this.generateSpec(nextProps.datapackage.views[this.props.idx])
+          this.setState({
+            data: data,
+            layout: layout
           })
+
         }
       }
     }
@@ -73,7 +67,7 @@ export class DataPackageViewContainer extends React.Component {
 
   render() {
     return (
-      <PlotlyChart data={this.state.data} layout={this.state.layout} />
+      <PlotlyChart data={this.state.data} layout={this.state.layout} idx={this.props.idx} />
     )
   }
 }
