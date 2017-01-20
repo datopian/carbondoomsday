@@ -1,5 +1,6 @@
 import "babel-polyfill";
 const Datapackage = require('datapackage-test').Datapackage
+import jts from 'jsontableschema'
 import nock from 'nock'
 
 let mock1 = nock('http://bit.do/datapackage-json')
@@ -55,4 +56,21 @@ describe('getDataResource function', () => {
     expect(data[0][1]).toEqual(14.32)
   })
 
+})
+
+describe('playing with datapackage', () => {
+  it('works hooray', async () => {
+    const url = 'https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'
+    const basePath = url.replace('datapackage.json', '')
+    const dp = await new Datapackage(url);
+    expect(dp.descriptor.title).toEqual('DEMO - CBOE Volatility Index');
+    let dataset = []
+    for(let i=0; i<dp.resources.length; i++) {
+      const source = basePath + dp.resources[i].descriptor.path
+      const table = await new jts.Table(dp.resources[i].descriptor.schema, source)
+      const data = await table.read()
+      dataset.push(data)
+    }
+    expect(dataset.length).toEqual(dp.resources.length)
+  })
 })
