@@ -49,7 +49,9 @@
     <button>Switch View</button>
     <input id="search" placeholder="Search" type="search" style="float:right; display: none">
     <div class="viewer" style="display: none"></div>
-    <div class="vis" id="root"></div>
+    <div class="vis"></div>
+    <div class="vis"></div>
+    <div class="vis"></div>
 
     <div class="resources" id="data">
       <h2>Data Files</h2>
@@ -113,6 +115,74 @@
           </tbody>
         </table>
       </div>
+      <div class="resource-info">
+        <h3 id="resource-{{resource.name}}"><i class="icon-file-text-alt"></i> {{resource.name}}</h3>
+
+      {% if resource.format == 'geojson' %}
+        <div class="js-show-geojson show-geojson" data-resource-index="{{loop.index0}}"></div>
+        {% else %}
+        <input id="search_field" placeholder="Search" type="search" style="float:right" data-resource-index="{{loop.index0}}">
+        <br>
+        <br>
+        <div class="js-show-handsontable-grid" data-resource-index="{{loop.index0}}"></div>
+      {% endif %}
+
+        <h4>Field Information</h4>
+        <table class="table table-bordered table-striped resource-summary">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Order</th>
+              <th>Type (Format)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in resource.schema.fields %}
+            <tr>
+              <th>{{field.name}}</th>
+              <td>{{loop.index}}</td>
+              <td class="type type-{{field.type}}">{{field.type}} {% if field.format %}({{field.format}}) {% endif %}</td>
+              <td>{{field.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="resource-info">
+        <h3 id="resource-{{resource.name}}"><i class="icon-file-text-alt"></i> {{resource.name}}</h3>
+
+      {% if resource.format == 'geojson' %}
+        <div class="js-show-geojson show-geojson" data-resource-index="{{loop.index0}}"></div>
+        {% else %}
+        <input id="search_field" placeholder="Search" type="search" style="float:right" data-resource-index="{{loop.index0}}">
+        <br>
+        <br>
+        <div class="js-show-handsontable-grid" data-resource-index="{{loop.index0}}"></div>
+      {% endif %}
+
+        <h4>Field Information</h4>
+        <table class="table table-bordered table-striped resource-summary">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Order</th>
+              <th>Type (Format)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in resource.schema.fields %}
+            <tr>
+              <th>{{field.name}}</th>
+              <td>{{loop.index}}</td>
+              <td class="type type-{{field.type}}">{{field.type}} {% if field.format %}({{field.format}}) {% endif %}</td>
+              <td>{{field.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
       {% endfor %}
     </div> <!-- / resoures -->
 
@@ -125,7 +195,7 @@
     </div>
 
     <script type="text/javascript">
-      var DataPackageJsonUrl = "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json";
+      var DataPackageJsonUrl = "https://raw.githubusercontent.com/anuveyatsu/test_data/master/datapackage.json";
     </script>
 
   </div><!-- / dataset show -->

@@ -8,12 +8,13 @@ class PlotlyChart extends React.Component {
   }
 
   componentDidUpdate() {
-    Plotly.newPlot("vis", this.props.data, this.props.layout)
+    Plotly.newPlot("plotly" + this.props.idx, this.props.data, this.props.layout)
   }
-  
+
   render() {
+    let divId = "plotly" + this.props.idx
     return (
-      <div id="vis"></div>
+      <div id={divId}></div>
     )
   }
 
