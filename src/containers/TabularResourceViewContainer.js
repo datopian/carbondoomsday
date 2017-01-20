@@ -4,6 +4,8 @@ import HandsOnTable from "../components/handsontable"
 import { connect } from 'react-redux'
 import * as actions from '../actions/datapackageActions'
 
+//This container component serves to get data resources
+//and convert them into Handsontable spec.
 export class TabularResourceViewContainer extends React.Component {
 
   constructor(props) {
@@ -14,10 +16,11 @@ export class TabularResourceViewContainer extends React.Component {
     }
   }
 
+  //Takes a single resource and returns Handsontable spec
   buildHandsontableSpec(data) {
     let spec = {
-      data: data.slice(1),
-      colHeaders: data[0],
+      data: data.slice(1), //excluding headers
+      colHeaders: data[0], //selecting headers
       readOnly: true,
       width: 1136,
       height: function(){
@@ -34,7 +37,10 @@ export class TabularResourceViewContainer extends React.Component {
 
   async componentWillReceiveProps(nextProps) {
     if(nextProps.datapackage) {
-      if(nextProps.datapackage.resources.length == nextProps.resources.length) {
+      //check if resources are received by comparing descriptor's resources and
+      //received data length
+      if(nextProps.datapackage.resources.length == nextProps.resources[0].length) {
+        //build Handsontable spec using related data resource
         let spec = await this.buildHandsontableSpec(nextProps.resources[0][this.props.idx])
         this.setState({
           spec: spec
@@ -44,8 +50,9 @@ export class TabularResourceViewContainer extends React.Component {
   }
 
   render() {
+    //render HandsOnTable component, pass spec and index of table
     return (
-      <HandsOnTable spec={this.state.spec} />
+      <HandsOnTable spec={this.state.spec} idx={this.props.idx} />
     )
   }
 }

@@ -1,11 +1,13 @@
 import "babel-polyfill"
 import React from "react"
-import { shallow, mount } from 'enzyme'
-import sinon from 'sinon'
+import { shallow, mount } from 'enzyme' //for testing with shallow/mount wrapper
+import sinon from 'sinon' //for spy
 import { DataPackageViewContainer } from "../../../src/containers/DataPackageViewContainer"
 import ContainerWithRedux from "../../../src/containers/DataPackageViewContainer"
 import { Provider } from 'react-redux'
-import configureStore from '../../../src/store/configureStore'
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import * as actions from '../../../src/actions/datapackageActions'
 
 const mockDescriptor = {
   "resources": [
@@ -68,9 +70,10 @@ const mockData = [
 
 describe("Datapackage View Container", () => {
 
-  const wrapper = shallow(<DataPackageViewContainer />)
+  const wrapper = shallow(<DataPackageViewContainer idx={0} />)
 
-  it("should render PlotlyChart component", () => {
+  it("should render PlotlyChart component and pass index", () => {
+    expect(wrapper.props().idx).toEqual(0)
     expect(wrapper.text()).toEqual('<PlotlyChart />')
   })
 
@@ -88,16 +91,23 @@ describe("Datapackage View Container", () => {
 })
 
 describe("Datapackage View Container with Redux", () => {
-  const store = configureStore()
+  const middlewares = [ thunk ]
+  const mockStore = configureMockStore(middlewares)
+  let store = mockStore({
+    datapackage: mockDescriptor,
+    resources: [mockData]
+  })
 
-  it("componentDidMount should be called once", () => {
-    sinon.spy(ContainerWithRedux.prototype, 'componentDidMount')
-    //sinon.spy(ContainerWithRedux.prototype, 'componentWillReceiveProps')
+  it("should call componentWillReceiveProps after props change", async () => {
+    sinon.spy(ContainerWithRedux.prototype, 'componentWillReceiveProps')
     const wrapper = mount(
       <Provider store={store}>
-        <ContainerWithRedux />
+        <ContainerWithRedux idx={0} />
       </Provider>
     )
-    expect(ContainerWithRedux.prototype.componentDidMount.calledOnce).toEqual(true)
+    expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(false)
+    wrapper.setProps({test: 'test'}) //changing props
+    expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(true)
   })
+  
 })
