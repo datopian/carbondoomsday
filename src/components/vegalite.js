@@ -8,23 +8,7 @@ class VegaLiteChart extends React.Component {
   }
 
   componentDidMount() {
-    const spec = {
-      "data": {
-        "values": this.props.data
-      },
-      "mark": "line",
-      "encoding": {
-        "x": {
-          "field": "x",
-          "type": "temporal"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        }
-      }
-    }
-    embed("#vega", {mode: "vega-lite", spec: spec, actions: false})
+    embed("#vega", {mode: "vega-lite", spec: this.props.vlSpec, actions: false})
   }
 
   render() {

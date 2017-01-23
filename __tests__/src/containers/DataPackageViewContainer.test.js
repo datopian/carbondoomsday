@@ -88,6 +88,14 @@ describe("Datapackage View Container", () => {
     expect(data[0].mode).toEqual('lines')
   })
 
+  it("should generate vega-lite spec", () => {
+    let vlSpec = wrapper.instance().generateVegaLiteSpec(mockData, mockDescriptor.views[0])
+    expect(vlSpec.mark).toEqual("line")
+    expect(vlSpec.data.values[0].DEMOClose).toEqual(14.23)
+    expect(vlSpec.encoding.x.field).toEqual("Date")
+    expect(vlSpec.encoding.y.field).toEqual("DEMOClose")
+  })
+
 })
 
 describe("Datapackage View Container with Redux", () => {
@@ -109,5 +117,5 @@ describe("Datapackage View Container with Redux", () => {
     wrapper.setProps({test: 'test'}) //changing props
     expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(true)
   })
-  
+
 })
