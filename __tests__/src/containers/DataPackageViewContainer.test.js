@@ -78,7 +78,7 @@ describe("Datapackage View Container", () => {
   })
 
   it("should generate spec for Plotly", () => {
-    let spec = wrapper.instance().generateSpec(mockDescriptor.views[0])
+    let spec = wrapper.instance().generatePlotlySpec(mockDescriptor.views[0])
     expect(spec.layout.xaxis.title).toEqual('Date')
   })
 
