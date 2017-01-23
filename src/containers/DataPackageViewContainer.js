@@ -5,8 +5,9 @@ import VegaLiteChart from "../components/vegalite"
 import { connect } from 'react-redux'
 import * as actions from '../actions/datapackageActions'
 
-//This container component serves to get descriptor and data resources, it then
-//generates Plotly specific spec, layout and formated data.
+//This container component listens to updates in datapackage and resources from
+//the Redux Store. It then generates either Plotly or Vega-lite spec and renders
+//appropriate chart.
 export class DataPackageViewContainer extends React.Component {
 
   constructor(props) {
@@ -46,7 +47,7 @@ export class DataPackageViewContainer extends React.Component {
   }
 
   //Takes a view and generates Plotly layout.
-  generateSpec(view) {
+  generatePlotlySpec(view) {
     return ({
       "layout": {
         "xaxis": {
@@ -114,7 +115,8 @@ export class DataPackageViewContainer extends React.Component {
   }
 
   render() {
-    //render PlotlyChart component and pass data, layout, and index
+    //Check if graph type is vega-lite. If so render VegaLiteChart with vlSpec.
+    //Else render PlotlyChart component and pass data, layout, and index.
     if(this.state.graphType == "vega-lite") {
       return (
         <VegaLiteChart vlSpec={this.state.vlSpec} idx={this.props.idx} />
