@@ -8,12 +8,20 @@ class VegaLiteChart extends React.Component {
   }
 
   componentDidMount() {
-    embed("#vega", {mode: "vega-lite", spec: this.props.vlSpec, actions: false})
+    embed(
+      "#vega" + this.props.idx,
+      {
+        mode: "vega-lite",
+        spec: this.props.vlSpec,
+        actions: false
+      }
+    )
   }
 
   render() {
+    let divId = "vega" + this.props.idx
     return (
-      <div id="vega"></div>
+      <div id={divId}></div>
     )
   }
 }

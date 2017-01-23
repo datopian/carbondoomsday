@@ -117,7 +117,7 @@ export class DataPackageViewContainer extends React.Component {
     //render PlotlyChart component and pass data, layout, and index
     if(this.state.graphType == "vega-lite") {
       return (
-        <VegaLiteChart vlSpec={this.state.vlSpec} />
+        <VegaLiteChart vlSpec={this.state.vlSpec} idx={this.props.idx} />
       )
     }
     return (
