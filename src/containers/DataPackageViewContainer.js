@@ -27,11 +27,7 @@ export class DataPackageViewContainer extends React.Component {
       "width": 900,
       "height": 400,
       "data": {"values": []},
-      "mark": "line",
-      "encoding": {
-        "x": {"field": "", "type": "temporal"},
-        "y": {"field": "", "type": "quantitative"}
-      }
+      "layers": []
     }
     let headers = data.shift()
     let objects = data.map(values => {
@@ -41,8 +37,18 @@ export class DataPackageViewContainer extends React.Component {
       }, {})
     })
     vlSpec.data.values = objects
-    vlSpec.encoding.x.field = view.state.group
-    vlSpec.encoding.y.field = view.state.series[0]
+    for(let i=0; i<view.state.series.length; i++) {
+      let layer = {
+        "mark": "line",
+        "encoding": {
+          "x": {"field": "", "type": "temporal"},
+          "y": {"field": "", "type": "quantitative"}
+        }
+      }
+      layer.encoding.x.field = view.state.group
+      layer.encoding.y.field = view.state.series[i]
+      vlSpec.layers.push(layer)
+    }
     return vlSpec
   }
 
