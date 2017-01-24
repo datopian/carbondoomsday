@@ -1,4 +1,5 @@
 import React from "react"
+import embed from "vega-embed"
 
 class VegaLiteChart extends React.Component {
 
@@ -7,28 +8,20 @@ class VegaLiteChart extends React.Component {
   }
 
   componentDidMount() {
-    const spec = {
-      "data": {
-        "values": this.props.data
-      },
-      "mark": "line",
-      "encoding": {
-        "x": {
-          "field": "x",
-          "type": "temporal"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        }
+    embed(
+      "#vega" + this.props.idx,
+      {
+        mode: "vega-lite",
+        spec: this.props.vlSpec,
+        actions: false
       }
-    }
-    vg.embed("#vega", {mode: "vega-lite", spec: spec, actions: false})
+    )
   }
 
   render() {
+    let divId = "vega" + this.props.idx
     return (
-      <div id="vega"></div>
+      <div id={divId}></div>
     )
   }
 }

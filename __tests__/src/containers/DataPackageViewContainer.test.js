@@ -78,7 +78,7 @@ describe("Datapackage View Container", () => {
   })
 
   it("should generate spec for Plotly", () => {
-    let spec = wrapper.instance().generateSpec(mockDescriptor.views[0])
+    let spec = wrapper.instance().generatePlotlySpec(mockDescriptor.views[0])
     expect(spec.layout.xaxis.title).toEqual('Date')
   })
 
@@ -86,6 +86,14 @@ describe("Datapackage View Container", () => {
     let data = wrapper.instance().convertData(mockData, mockDescriptor)
     expect(data[0].x[0]).toEqual('2014-01-01T18:00:00.000Z')
     expect(data[0].mode).toEqual('lines')
+  })
+
+  it("should generate vega-lite spec", () => {
+    let vlSpec = wrapper.instance().generateVegaLiteSpec(mockData, mockDescriptor.views[0])
+    expect(vlSpec.mark).toEqual("line")
+    expect(vlSpec.data.values[0].DEMOClose).toEqual(14.23)
+    expect(vlSpec.encoding.x.field).toEqual("Date")
+    expect(vlSpec.encoding.y.field).toEqual("DEMOClose")
   })
 
 })
@@ -109,5 +117,5 @@ describe("Datapackage View Container with Redux", () => {
     wrapper.setProps({test: 'test'}) //changing props
     expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(true)
   })
-  
+
 })
