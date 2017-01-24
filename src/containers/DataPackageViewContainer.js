@@ -1,6 +1,7 @@
 import React from "react"
 import PlotlyChart from "../components/plotly.js"
 import VegaLiteChart from "../components/vegalite"
+import HandsOnTable from "../components/handsontable"
 //connect redux:
 import { connect } from 'react-redux'
 import * as actions from '../actions/datapackageActions'
@@ -15,9 +16,9 @@ export class DataPackageViewContainer extends React.Component {
 
     this.state = {
       graphType: "",
-      data: [],
-      layout: [],
-      vlSpec: {}
+      plotlySpec: {},
+      vlSpec: {},
+      htSpec: {}
     }
   }
 
@@ -29,8 +30,8 @@ export class DataPackageViewContainer extends React.Component {
       "data": {"values": []},
       "layers": []
     }
-    let headers = data.shift()
-    let objects = data.map(values => {
+    let headers = data[0]
+    let objects = data.slice(1).map(values => {
       return headers.reduce((o, k, i) => {
         o[k] = values[i]
         return o
@@ -52,20 +53,10 @@ export class DataPackageViewContainer extends React.Component {
     return vlSpec
   }
 
-  //Takes a view and generates Plotly layout.
-  generatePlotlySpec(view) {
-    return ({
-      "layout": {
-        "xaxis": {
-          "title": view.state.group
-        }
-      }
-    })
-  }
-
   //Takes a single resource and descriptor, then converts resource into Plotly
-  //specific format.
-  convertData(data, dp) {
+  //specific format and generates plotlySpec.
+  generatePlotlySpec(data, dp) {
+    let plotlySpec = {}
     let dataset = []
     let group = dp.views[this.props.idx].state.group
     let series = dp.views[this.props.idx].state.series
@@ -82,7 +73,34 @@ export class DataPackageViewContainer extends React.Component {
       dataset[i].x = data.slice(1).map(row => row[xIndex])
       dataset[i].y = data.slice(1).map(row => row[yIndex[i]])
     }
-    return dataset
+
+    let layout = {
+      "xaxis": {
+        "title": dp.views[this.props.idx].state.group
+      }
+    }
+    plotlySpec.data = dataset
+    plotlySpec.layout = layout
+    return plotlySpec
+  }
+
+  //Takes a single resource and returns Handsontable spec
+  generateHandsontableSpec(data) {
+    let htSpec = {
+      data: data.slice(1), //excluding headers
+      colHeaders: data[0], //selecting headers
+      readOnly: true,
+      width: 1136,
+      height: function(){
+        if (data.length > 16) {return 432;}
+      },
+      colWidths: 47,
+      rowWidth: 27,
+      stretchH: 'all',
+      columnSorting: true,
+      search: true
+    }
+    return htSpec
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -94,6 +112,11 @@ export class DataPackageViewContainer extends React.Component {
         if(nextProps.datapackage.views) {
           graphType = nextProps.datapackage.views[this.props.idx].type
         }
+        //build Handsontable spec using related data resource
+        let htSpec = await this.generateHandsontableSpec(nextProps.resources[0][this.props.idx])
+        this.setState({
+          htSpec: htSpec
+        })
       }
     }
 
@@ -107,15 +130,13 @@ export class DataPackageViewContainer extends React.Component {
         vlSpec: vlSpec
       })
     } else {
-      let data = await this.convertData(
+      let plotlySpec = await this.generatePlotlySpec(
         nextProps.resources[0][this.props.idx],
         nextProps.datapackage
       )
-      let layout = await this.generateSpec(nextProps.datapackage.views[this.props.idx])
       this.setState({
         graphType: graphType,
-        data: data,
-        layout: layout
+        plotlySpec: plotlySpec
       })
     }
   }
@@ -125,11 +146,20 @@ export class DataPackageViewContainer extends React.Component {
     //Else render PlotlyChart component and pass data, layout, and index.
     if(this.state.graphType == "vega-lite") {
       return (
-        <VegaLiteChart vlSpec={this.state.vlSpec} idx={this.props.idx} />
+        <div>
+          <VegaLiteChart vlSpec={this.state.vlSpec} idx={this.props.idx} />
+          <HandsOnTable spec={this.state.htSpec} idx={this.props.idx} />
+        </div>
       )
     }
     return (
-      <PlotlyChart data={this.state.data} layout={this.state.layout} idx={this.props.idx} />
+      <div>
+        <PlotlyChart
+          data={this.state.plotlySpec.data}
+          layout={this.state.plotlySpec.layout}
+          idx={this.props.idx} />
+        <HandsOnTable spec={this.state.htSpec} idx={this.props.idx} />
+      </div>
     )
   }
 }
