@@ -90,10 +90,10 @@ describe("Datapackage View Container", () => {
 
   it("should generate vega-lite spec", () => {
     let vlSpec = wrapper.instance().generateVegaLiteSpec(mockData, mockDescriptor.views[0])
-    expect(vlSpec.mark).toEqual("line")
+    expect(vlSpec.layers[0].mark).toEqual("line")
     expect(vlSpec.data.values[0].DEMOClose).toEqual(14.23)
-    expect(vlSpec.encoding.x.field).toEqual("Date")
-    expect(vlSpec.encoding.y.field).toEqual("DEMOClose")
+    expect(vlSpec.layers[0].encoding.x.field).toEqual("Date")
+    expect(vlSpec.layers[0].encoding.y.field).toEqual("DEMOClose")
   })
 
 })
