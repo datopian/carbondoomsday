@@ -1,9 +1,13 @@
 import "babel-polyfill"
+//libs:
 import React from "react"
 import { shallow, mount } from 'enzyme' //for testing with shallow/mount wrapper
 import sinon from 'sinon' //for spy
+//components:
 import { DataPackageViewContainer } from "../../../src/containers/DataPackageViewContainer"
 import ContainerWithRedux from "../../../src/containers/DataPackageViewContainer"
+import { TabularResourceViewContainer } from "../../../src/containers/TabularResourceViewContainer"
+//redux:
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
@@ -73,19 +77,15 @@ describe("Datapackage View Container", () => {
   const wrapper = shallow(<DataPackageViewContainer idx={0} />)
 
   it("should render PlotlyChart component and pass index", () => {
-    expect(wrapper.props().idx).toEqual(0)
-    expect(wrapper.text()).toEqual('<PlotlyChart />')
+    expect(wrapper.childAt(0).props().idx).toEqual(0)
+    expect(wrapper.text()).toContain('<PlotlyChart />')
   })
 
   it("should generate spec for Plotly", () => {
-    let spec = wrapper.instance().generatePlotlySpec(mockDescriptor.views[0])
-    expect(spec.layout.xaxis.title).toEqual('Date')
-  })
-
-  it("should convert data for Plotly", () => {
-    let data = wrapper.instance().convertData(mockData, mockDescriptor)
-    expect(data[0].x[0]).toEqual('2014-01-01T18:00:00.000Z')
-    expect(data[0].mode).toEqual('lines')
+    let plotlySpec = wrapper.instance().generatePlotlySpec(mockData, mockDescriptor)
+    expect(plotlySpec.layout.xaxis.title).toEqual('Date')
+    expect(plotlySpec.data[0].x[0]).toEqual('2014-01-01T18:00:00.000Z')
+    expect(plotlySpec.data[0].mode).toEqual('lines')
   })
 
   it("should generate vega-lite spec", () => {
@@ -94,6 +94,18 @@ describe("Datapackage View Container", () => {
     expect(vlSpec.data.values[0].DEMOClose).toEqual(14.23)
     expect(vlSpec.layers[0].encoding.x.field).toEqual("Date")
     expect(vlSpec.layers[0].encoding.y.field).toEqual("DEMOClose")
+  })
+
+  it("should render HandsOnTable component and pass index and spec", () => {
+    expect(wrapper.childAt(1).props().idx).toEqual(0)
+    expect(wrapper.childAt(1).props().spec).toBeDefined()
+    expect(wrapper.text()).toContain('<HandsOnTable />')
+  })
+
+  it("should generate spec with data for HandsOnTable", () => {
+    let htSpec = wrapper.instance().generateHandsontableSpec(mockData)
+    expect(htSpec.data.length).toEqual(mockData.length-1)
+    expect(htSpec.colHeaders[4]).toEqual('DEMOClose')
   })
 
 })

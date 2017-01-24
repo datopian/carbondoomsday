@@ -10,8 +10,8 @@ describe("Multiple DataPackage View Container", () => {
     )
 
     it("should render 3 charts", () => {
-      let idx = wrapper.props().idx
-      expect(wrapper.html()).toEqual('<div id="plotly'+idx+'"></div>')
+      let idx = wrapper.childAt(0).props().idx
+      expect(wrapper.html()).toContain('<div id="plotly'+idx+'"></div>')
     })
   }
 
