@@ -6,7 +6,6 @@ import sinon from 'sinon' //for spy
 //components:
 import { DataPackageViewContainer } from "../../../src/containers/DataPackageViewContainer"
 import ContainerWithRedux from "../../../src/containers/DataPackageViewContainer"
-import { TabularResourceViewContainer } from "../../../src/containers/TabularResourceViewContainer"
 //redux:
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
