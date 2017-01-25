@@ -11,13 +11,13 @@ function Footer() {
               <p>
                 Copyright © 2015 Open Knowledge International
                 <br />
-                <a href="http://okfn.org/terms-of-use/">Terms of Use</a>
+                <a href="https://okfn.org/terms-of-use/">Terms of Use</a>
                 &ndash;
-                <a href="http://okfn.org/ip-policy/">IP Policy</a>
+                <a href="https://okfn.org/ip-policy/">IP Policy</a>
                 <br/>
-                <a href="http://opendefinition.org/okd/" title="Open Data">
+                <a href="https://opendefinition.org/okd/" title="Open Data">
                   <img src="https://assets.okfn.org/images/ok_buttons/od_80x15_blue.png" alt="" border="" /></a>
-                <a href="http://opendefinition.org/ossd/" title="Open Online Software Service">
+                <a href="https://opendefinition.org/ossd/" title="Open Online Software Service">
                   <img src="https://assets.okfn.org/images/ok_buttons/os_80x15_orange_grey.png" alt="" border="" />
                 </a>
               </p>

@@ -12,17 +12,17 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
             Copyright © 2015 Open Knowledge International
             <br />
             <a
-              href="http://okfn.org/terms-of-use/">
+              href="https://okfn.org/terms-of-use/">
               Terms of Use
             </a>
             –
             <a
-              href="http://okfn.org/ip-policy/">
+              href="https://okfn.org/ip-policy/">
               IP Policy
             </a>
             <br />
             <a
-              href="http://opendefinition.org/okd/"
+              href="https://opendefinition.org/okd/"
               title="Open Data">
               <img
                 alt=""
@@ -30,7 +30,7 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
                 src="https://assets.okfn.org/images/ok_buttons/od_80x15_blue.png" />
             </a>
             <a
-              href="http://opendefinition.org/ossd/"
+              href="https://opendefinition.org/ossd/"
               title="Open Online Software Service">
               <img
                 alt=""
