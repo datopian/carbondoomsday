@@ -1,6 +1,7 @@
-import React from "react"
-import { mount } from 'enzyme'
-import PlotlyChart from "../../../src/components/plotly.js"
+import React from "react";
+import { shallow } from 'enzyme';
+import expect from "expect";
+import PlotlyChart from "../../../src/components/plotly";
 
 const mockData = [{
   x: [
@@ -11,19 +12,21 @@ const mockData = [{
   y: [ 14.23, 13.76, 13.55 ],
   mode: 'lines',
   name: 'DEMOClose'
-}]
+}];
 
-const mockLayout = { layout: { xaxis: { title: 'Date' } } }
+const mockLayout = { layout: { xaxis: { title: 'Date' } } };
 
 describe("plotly chart module", () => {
 
   it("should receive correct props and render div with specific id", () => {
-    let idx = 0
-    const wrapper = mount(<PlotlyChart data={mockData} layout={mockLayout} idx={idx} />)
-    expect(wrapper.html()).toEqual('<div id="plotly'+idx+'"></div>')
-    expect(wrapper.prop('idx')).toEqual(0)
-    expect(wrapper.prop('data')).toEqual(mockData)
-    expect(wrapper.prop('layout')).toEqual(mockLayout)
-  })
+    let idx = 0;
+    const wrapper = shallow(<PlotlyChart data={mockData} layout={mockLayout} idx={idx} />);
+    expect(wrapper.instance().props.idx).toEqual(0);
+    expect(wrapper.instance().props.data).toEqual(mockData);
+    expect(wrapper.instance().props.layout).toEqual(mockLayout);
 
-})
+    expect(wrapper.html()).toEqual('<div id="plotly'+idx+'"></div>');
+
+  });
+
+});

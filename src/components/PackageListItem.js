@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes} from "react";
 
 class PackageListItem extends React.Component {
 
@@ -6,9 +6,9 @@ class PackageListItem extends React.Component {
     super(props);
   }
 
-	render(){
-	  const {name, description, packageUrl} = this.props;
-	  return (
+  render() {
+    const {name, description, packageUrl} = this.props;
+    return (
       <div className="panel panel-default">
         <div className="panel-heading">
           <h3 className="panel-title pull-left">{name}</h3>

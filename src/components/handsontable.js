@@ -1,24 +1,27 @@
-import React from "react"
-import Handsontable from "handsontable"
+import React, {PropTypes} from "react";
+import Handsontable from "handsontable";
 
 class HandsOnTable extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
-  componentDidUpdate() {
-    //Create and bind Handsontable when the container component triggers update 
-    new Handsontable(document.getElementById('hTable' + this.props.idx), this.props.spec)
+  componentDidMount() {
+    //Create and bind Handsontable when the container component triggers update
+    new Handsontable(document.getElementById('hTable' + this.props.idx), this.props.spec);
   }
 
   render() {
-    let divId = "hTable" + this.props.idx
+    let divId = "hTable" + this.props.idx;
     return (
       <div id={divId}></div>
-    )
+    );
   }
-
 }
+// HandsOnTable.propTypes = {
+//   idx: PropTypes.string.required,
+//   spec: PropTypes.object
+// };
 
-export default HandsOnTable
+export default HandsOnTable;
