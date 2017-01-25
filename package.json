@@ -75,6 +75,7 @@
     "handsontable": "^0.29.2",
     "isomorphic-fetch": "^2.2.1",
     "jsontableschema": "^0.2.2",
+    "lodash": "^4.0.0",
     "papaparse": "^4.1.2",
     "plotly.js": "^1.21.2",
     "react": "^15.4.1",

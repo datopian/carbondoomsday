@@ -1,7 +1,5 @@
 import React, {PropTypes} from "react";
-import PlotlyChart from "../components/plotly";
-import VegaLiteChart from "../components/vegalite";
-import HandsOnTable from "../components/handsontable";
+import DataPackagePanel from "../components/dataViewPanel/DataPackagePanel";
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
 import * as actions from '../actions/datapackageActions';
@@ -17,7 +15,6 @@ export class DataPackageViewContainer extends React.Component {
     this.state = {
       specs:{}
     };
-    this.chartRow = this.chartRow.bind(this);
   }
 
   componentDidMount(){
@@ -25,37 +22,15 @@ export class DataPackageViewContainer extends React.Component {
     this.props.dataPackageActions.getDataPackage(url);
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     if(nextProps.datapackage.resources) {
       //check if resources are received by comparing descriptor's resources and
       //received data length
       if(nextProps.datapackage.resources.length === nextProps.resources[0].length) {
-        let specs = this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources[0]);
+        let specs = await this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources[0]);
         this.setState({specs: specs});
       }
     }
-  }
-
-  getSpecsFromNextProps(datapackage, resources){
-    let specs = {};
-    resources.map(function (resource, index) {
-      let graphType;
-      let spec = {};
-      if(datapackage.views) {
-        graphType = datapackage.views[index].type;
-      }
-      let htSpec = this.generateHandsontableSpec(resources[0][index]);
-      spec.set({htSpec: htSpec});
-      if(graphType === "vega-lite") {
-        let vlSpec = this.generateVegaLiteSpec(resources[0][index], datapackage.views[index]);
-        spec.set({graphType: graphType, vlSpec: vlSpec});
-      } else {
-        let plotlySpec = this.generatePlotlySpec(resources[0][index], datapackage, index);
-        spec.set({graphType: graphType, plotlySpec: plotlySpec});
-      }
-      specs.set({index: spec});
-    });
-    return specs;
   }
 
   //Takes data and view, then generates vega-lite specific spec.
@@ -90,15 +65,14 @@ export class DataPackageViewContainer extends React.Component {
 
   //Takes a single resource and descriptor, then converts resource into Plotly
   //specific format and generates plotlySpec.
-  generatePlotlySpec(data, dp, index) {
+  generatePlotlySpec(data, dp, j) {
     let plotlySpec = {};
     let dataset = [];
-    let group = dp.views[index].state.group;
-    let series = dp.views[index].state.series;
+    let group = dp.views[j].state.group;
+    let series = dp.views[j].state.series;
     let xIndex;
     let yIndex = [];
-    debugger;
-    data.forEach((header, index) => {
+    data[0].forEach((header, index) => {
       if(header === group) {xIndex = index;}
       series.forEach(serie => {
         if(header === serie) {yIndex.push(index);}
@@ -112,7 +86,7 @@ export class DataPackageViewContainer extends React.Component {
 
     let layout = {
       "xaxis": {
-        "title": dp.views[index].state.group
+        "title": dp.views[j].state.group
       }
     };
     plotlySpec.data = dataset;
@@ -140,42 +114,34 @@ export class DataPackageViewContainer extends React.Component {
     };
   }
 
-  chartRow(spec, index){
-    debugger;
-    if(spec.graphType === "vega-lite") {
-      return (
-        <div>
-          <VegaLiteChart vlSpec={spec.vlSpec} idx={index} />
-          <HandsOnTable spec={spec.htSpec} idx={index} />
-        </div>
-      );
+  async getSpecsFromNextProps(datapackage, resources){
+    let specs = {};
+
+    for (let i=0; i<resources.length; i++) {
+      let graphType;
+      let spec = {};
+      if(datapackage.views) {
+        graphType = datapackage.views[i].type;
+      }
+      spec['htSpec'] = this.generateHandsontableSpec(resources[i]);
+      if(graphType === "vega-lite") {
+        let vlSpec = this.generateVegaLiteSpec(resources[i], datapackage.views[i]);
+        spec['graphType'] = graphType;
+        spec['vlSpec'] = vlSpec;
+      } else {
+        let plotlySpec = this.generatePlotlySpec(resources[i], datapackage, i);
+        spec['graphType'] = graphType;
+        spec['plotlySpec'] = plotlySpec;
+      }
+      specs[i] = spec;
     }
-    return (
-      <div>
-        <PlotlyChart
-          data={spec.plotlySpec.data}
-          layout={spec.plotlySpec.layout}
-          idx={index} />
-        <HandsOnTable spec={this.state.htSpec} idx={index} />
-      </div>
-    );
+    return specs;
   }
 
   render() {
-    //Check if graph type is vega-lite. If so render VegaLiteChart with vlSpec.
-    //Else render PlotlyChart component and pass data, layout, and index.
-    if (this.state.specs.size > 0){
-      return (
-        <div>
-          { this.state.specs.map(this.chartRow) }
-        </div>
-      );
-    }
-    else{
-      return (
-        <div>""</div>
-      );
-    }
+    return (
+      <DataPackagePanel specs={this.state.specs}/>
+    );
   }
 }
 

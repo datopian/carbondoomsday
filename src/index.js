@@ -21,7 +21,7 @@ ReactDOM.render(
   <Provider store={store}>
     <DataPackageViewContainer />
   </Provider>,
-  document.getElementsByClassName("vis")
+  document.getElementById("vis123")
 );
 
 
