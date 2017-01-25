@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from 'enzyme';
-import HandsOnTable from "../../../src/components/handsontable";
+import HandsOnTable from "../../../src/components/dataPackageView/HandsOnTable";
 import expect from "expect";
 
 const mockSpec = {

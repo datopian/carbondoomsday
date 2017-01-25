@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from 'enzyme'
-import PublisherDetails from "../../../src/components/PublisherDetails"
+import PublisherDetails from "../../../src/components/publisherPage/PublisherDetails"
 
 const data = {
   "name": "Publisher",

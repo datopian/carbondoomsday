@@ -1,5 +1,5 @@
 import React, {PropTypes} from "react";
-import DataPackagePanel from "../components/dataViewPanel/DataPackagePanel";
+import DataPackagePanel from "../components/dataPackageView/DataPackagePanel";
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
 import * as actions from '../actions/datapackageActions';

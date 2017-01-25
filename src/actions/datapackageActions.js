@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import * as actionTypes from "../constants/actionTypes";
 const Datapackage = require('datapackage-test').Datapackage;
 import jts from 'jsontableschema';

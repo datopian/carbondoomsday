@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
-import HandsOnTable from "../handsontable";
-import PlotlyChart from "../plotly";
-import VegaLiteChart from "../vegalite";
+import HandsOnTable from "./HandsOnTable";
+import PlotlyChart from "./PlotlyChart";
+import VegaLiteChart from "./VegaLiteChart";
 
 
 const DataPackagePanelItem = ({idx, spec}) => {
