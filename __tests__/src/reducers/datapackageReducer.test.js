@@ -1,12 +1,13 @@
-import reducer from '../../../src/reducers/datapackageReducer'
+import reducer from '../../../src/reducers/datapackageReducer';
+import expect from "expect";
 
 describe('update reducer', () => {
   it('should return initial state', () => {
     expect(reducer(undefined, {})).toEqual({
       datapackage: {},
       resources: []
-    })
-  })
+    });
+  });
 
   it('should handle RECEIVE_DATAPACKAGE', () => {
     expect(reducer(undefined, {
@@ -25,8 +26,8 @@ describe('update reducer', () => {
         },
         resources: []
       }
-    )
-  })
+    );
+  });
 
   it('should handle RECEIVE_RESOURCE', () => {
     expect(reducer(undefined, {
@@ -39,12 +40,10 @@ describe('update reducer', () => {
       {
         datapackage: {},
         resources: [
-          [
             ["name", "size"], ["gb", "100"],
             ["us", "200"], ["cn", "300"], [""]
-          ]
         ]
       }
-    )
-  })
-})
+    );
+  });
+});

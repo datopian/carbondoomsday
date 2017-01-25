@@ -7,7 +7,7 @@ import * as actions from '../actions/datapackageActions';
 //This container component listens to updates in datapackage and resources from
 //the Redux Store. It then generates either Plotly or Vega-lite spec and renders
 //appropriate chart.
-class DataPackageViewContainer extends React.Component {
+export class DataPackageViewContainer extends React.Component {
 
   constructor(props) {
     super(props);

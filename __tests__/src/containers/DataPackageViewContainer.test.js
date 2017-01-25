@@ -112,8 +112,10 @@ describe("Datapackage View Container with Redux", () => {
   const middlewares = [ thunk ];
   const mockStore = configureMockStore(middlewares);
   let store = mockStore({
-    datapackage: mockDescriptor,
-    resources: [mockData]
+    dpr:{
+      datapackage: mockDescriptor,
+      resources: [mockData]
+    }
   });
 
   it("should call componentWillReceiveProps after props change", async () => {
