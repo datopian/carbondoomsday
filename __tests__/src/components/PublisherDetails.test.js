@@ -2,35 +2,25 @@ import React from "react"
 import { shallow } from 'enzyme'
 import PublisherDetails from "../../../src/components/PublisherDetails"
 
-const data1 = {
-  "name": "Test",
-  "description": "This is description"
-}
-const data2 = {
-  "name": "Test"
+const data = {
+  "name": "Publisher",
+  "title": "Title",
+  "joined": "2017-01-25"
 }
 
 describe("PublisherDetails component", () => {
 
-  it("should render div element with publisher name and description", () => {
+  it("should render publisher name, title and joined date", () => {
     const wrapper = shallow(
-      <PublisherDetails data={data1} />
+      <PublisherDetails data={data} />
     )
     expect(wrapper.find(".container")).toHaveLength(1)
     expect(wrapper.find("h1")).toHaveLength(1)
-    expect(wrapper.find("h1").text()).toEqual("Test")
+    expect(wrapper.find("h1").text()).toEqual("Publisher")
+    expect(wrapper.find("h2")).toHaveLength(1)
+    expect(wrapper.find("h2").text()).toEqual("Title")
     expect(wrapper.find("p")).toHaveLength(1)
-    expect(wrapper.find("p").text()).toEqual("This is description")
-  })
-
-  it("should render div element with publisher name and description", () => {
-    const wrapper = shallow(
-      <PublisherDetails data={data2} />
-    )
-    expect(wrapper.find(".container")).toHaveLength(1)
-    expect(wrapper.find("h1")).toHaveLength(1)
-    expect(wrapper.find("h1").text()).toEqual("Test")
-    expect(wrapper.find("p")).toHaveLength(0)
+    expect(wrapper.find("p").text()).toEqual("2017-01-25")
   })
 
 })

@@ -8,17 +8,11 @@ class PublisherDetails extends React.Component {
 
 	render() {
 	  const {data} = this.props;
-    if(data.description) {
-      return (
-        <div className="container">
-          <h1>{ data.name }</h1>
-          <p>{ data.description }</p>
-        </div>
-      );
-    }
     return (
       <div className="container">
         <h1>{ data.name }</h1>
+        <h2>{ data.title }</h2>
+        <p>{ data.joined }</p>
       </div>
     )
   }
