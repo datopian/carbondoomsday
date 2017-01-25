@@ -7,7 +7,7 @@ import * as actions from '../actions/datapackageActions';
 //This container component listens to updates in datapackage and resources from
 //the Redux Store. It then generates either Plotly or Vega-lite spec and renders
 //appropriate chart.
-export class DataPackageViewContainer extends React.Component {
+class DataPackageViewContainer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,8 +26,8 @@ export class DataPackageViewContainer extends React.Component {
     if(nextProps.datapackage.resources) {
       //check if resources are received by comparing descriptor's resources and
       //received data length
-      if(nextProps.datapackage.resources.length === nextProps.resources[0].length) {
-        let specs = await this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources[0]);
+      if(nextProps.datapackage.resources.length === nextProps.resources.length) {
+        let specs = await this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources);
         this.setState({specs: specs});
       }
     }
@@ -149,8 +149,8 @@ DataPackageViewContainer.propTypes = {
   dataPackageActions: PropTypes.object
 };
 
-function mapStateToProps (state) {
-  const { datapackage, resources } = state;
+function mapStateToProps (state, ownProps) {
+  const { datapackage, resources } = state.dpr;
 
   return {
     datapackage: datapackage,
