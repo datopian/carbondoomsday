@@ -3,7 +3,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer>
+    <footer className="navbar-fixed-bottom">
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
@@ -32,10 +32,10 @@ function Footer() {
               <div className="col-sm-4 connect">
                 <p>Connect with Us</p>
                 <ul className="list-inline">
-                  <li><a href="https://twitter.com/okfnlabs"><i className="icon-twitter"></i></a></li>
-                  <li><a href="https://facebook.com/OKFNetwork"><i className="icon-facebook"></i></a></li>
-                  <li><a href="https://www.youtube.com/user/openknowledgefdn"><i className="icon-youtube"></i></a></li>
-                  <li><a href="https://plus.google.com/112608652597658788737"><i className="icon-google-plus"></i></a></li>
+                  <li><a href="https://twitter.com/okfnlabs"><i className="icon-twitter"/></a></li>
+                  <li><a href="https://facebook.com/OKFNetwork"><i className="icon-facebook"/></a></li>
+                  <li><a href="https://www.youtube.com/user/openknowledgefdn"><i className="icon-youtube"/></a></li>
+                  <li><a href="https://plus.google.com/112608652597658788737"><i className="icon-google-plus"/></a></li>
                 </ul>
               </div>
             </div>
@@ -43,7 +43,7 @@ function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
 export default Footer;

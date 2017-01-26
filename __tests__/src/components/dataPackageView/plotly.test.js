@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from 'enzyme';
 import expect from "expect";
-import PlotlyChart from "../../../src/components/dataPackageView/PlotlyChart";
+import PlotlyChart from "../../../../src/components/dataPackageView/PlotlyChart";
 
 const mockData = [{
   x: [

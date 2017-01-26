@@ -5,19 +5,14 @@ axios.defaults.baseURL = 'https://staging.datapackaged.com';
 const packages = {
   data:[
     {
-      name: "one",
-      description: "This is package one",
-      url: "/core/one"
+      name: "finance-vix",
+      title: "VIX - CBOE Volatility Index",
+      description: "CBOE Volatility Index (VIX) time-series dataset including daily open, close,\nhigh and low. The CBOE Volatility Index (VIX) is a key measure of market\nexpectations of near-term volatility conveyed by S&P 500 stock index option\nprices introduced",
     },
     {
-      name: "two",
-      description: "This is package two",
-      url: "/core/two"
-    },
-    {
-      name: "three",
-      description: "This is package three",
-      url: "/core/three"
+      name: "global-temp",
+      title: "Global Temperature Time Series",
+      description: "Global Temperature Time Series. Data are included from the GISS Surface Temperature (GISTEMP) analysis and the global component of Climate at a Glance (GCAG)",
     }
   ]
 };

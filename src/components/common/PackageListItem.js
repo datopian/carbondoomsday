@@ -1,4 +1,6 @@
 import React, {PropTypes} from "react";
+import {Link} from 'react-router';
+import ReactMarkdown from "react-markdown";
 
 class PackageListItem extends React.Component {
 
@@ -7,17 +9,24 @@ class PackageListItem extends React.Component {
   }
 
   render() {
-    const {name, description, packageUrl} = this.props;
+    const {name, title, description, publisherName} = this.props;
+    let packageUrl = publisherName +"/" + name;
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <h3 className="panel-title pull-left">{name}</h3>
-          <button className="btn btn-success pull-right">
+          <h3 className="panel-title pull-left">{title} [{name}]</h3>
+          <button className="btn btn-default pull-right">
             <a href={packageUrl}>Explore >></a>
           </button>
-          <div className="clearfix"></div>
+          <div className="clearfix"/>
         </div>
-        <div className="panel-body">{description}</div>
+        { undefined !== description ?
+          <ReactMarkdown className="panel-body" source={description} />
+          : ''
+        }
+        <h5> Publisher By:
+          <Link to={"/" +publisherName}>  {publisherName}</Link>
+        </h5>
       </div>
     );
   }
@@ -26,7 +35,8 @@ class PackageListItem extends React.Component {
 PackageListItem.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
-  packageUrl: PropTypes.string.isRequired
+  publisherName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default PackageListItem;

@@ -16,8 +16,9 @@ const PackageList = ({publisherName, packageList}) => {
         packageList.map(packageItem =>
         <PackageListItem key={publisherName + "::" +packageItem.name}
                          name={packageItem.name}
-                         packageUrl={packageItem.url}
-                         description={packageItem.description}/>
+                         publisherName={publisherName}
+                         description={packageItem.description}
+                         title={packageItem.title}/>
         ) : ''
       }
     </div>

@@ -5,7 +5,7 @@ import * as publisherPageActions from "../actions/publisherPageAction";
 import PackageList from "../components/common/PackageList";
 import PublisherDetails from "../components/publisherPage/PublisherDetails";
 
-class PublisherPage extends React.Component {
+class PublisherDetailsPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -27,7 +27,7 @@ class PublisherPage extends React.Component {
   }
 }
 
-PublisherPage.propTypes = {
+PublisherDetailsPage.propTypes = {
   publisherName: PropTypes.string.isRequired,
   publisherPackages: PropTypes.array.isRequired,
   publisherDetails: PropTypes.object.isRequired,
@@ -35,7 +35,6 @@ PublisherPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  debugger;
   const publisherName = ownProps.params.publisher;
   const {data, details} = state.publisherPage;
   return {
@@ -51,4 +50,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PublisherPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PublisherDetailsPage);

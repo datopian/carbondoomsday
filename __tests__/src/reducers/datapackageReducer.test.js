@@ -5,7 +5,8 @@ describe('update reducer', () => {
   it('should return initial state', () => {
     expect(reducer(undefined, {})).toEqual({
       datapackage: {},
-      resources: []
+      resources: [],
+      metadata: {readme: ''}
     });
   });
 
@@ -24,7 +25,8 @@ describe('update reducer', () => {
           resources: ['test resource'],
           views: ['test view']
         },
-        resources: []
+        resources: [],
+        metadata: {readme: ''}
       }
     );
   });
@@ -42,7 +44,8 @@ describe('update reducer', () => {
         resources: [
             ["name", "size"], ["gb", "100"],
             ["us", "200"], ["cn", "300"], [""]
-        ]
+        ],
+        metadata: {readme: ''}
       }
     );
   });

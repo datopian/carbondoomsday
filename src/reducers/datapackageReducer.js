@@ -3,7 +3,10 @@ import * as actionTypes from '../constants/actionTypes';
 
 const initialState = {
   datapackage: {},
-  resources: []
+  resources: [],
+  metadata: {
+    readme: ""
+  }
 };
 
 export default function dataPackageReducer(state = initialState, action) {
@@ -15,6 +18,8 @@ export default function dataPackageReducer(state = initialState, action) {
       let newResources =  _.concat(state.resources, action.resources);
       return Object.assign({}, state, Object.assign({}, state.dpr, {resources: newResources}));
     }
+    case actionTypes.FETCH_PACKAGES_METADATA_SUCCESS:
+      return Object.assign({}, state, Object.assign({}, state.dpr, {metadata: action.metadata}));
     default:
       return state;
   }

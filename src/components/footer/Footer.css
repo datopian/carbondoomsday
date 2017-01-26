@@ -4,3 +4,9 @@ footer a:hover { color:#fff; text-decoration: none;}
 footer .connect li a {
   font-size: 36px;
 }
+.phantom {
+  display: block;
+  padding: 20px;
+  height: 60px;
+  width: 100%;
+}

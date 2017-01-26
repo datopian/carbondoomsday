@@ -1,6 +1,8 @@
 import React, {PropTypes} from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import NavBar from "../components/navbar/NavBar";
+import Footer from "../components/footer/Footer";
 
 class App extends React.Component {
 
@@ -12,7 +14,9 @@ class App extends React.Component {
     render() {
 		return (
 			<div>
+        <NavBar {...this.props} />
 				{this.props.children}
+				<Footer/>
 			</div>
 		);
     }

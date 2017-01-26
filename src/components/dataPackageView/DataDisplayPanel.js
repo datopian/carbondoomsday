@@ -1,6 +1,6 @@
 import React, {PropTypes} from "react";
 import _ from "lodash";
-import DataPackagePanelItem from "./DataPackagePanelItem";
+import DataPackagePanelItem from "./DataDisplayPanelItem";
 
 const DataPackagePanel = ({specs}) => {
   let keys = _.keys(specs);

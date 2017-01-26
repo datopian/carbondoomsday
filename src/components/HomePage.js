@@ -11,7 +11,7 @@ class HomePage extends React.Component {
 		return(
 			<div >
 				<h1>Welcome to Data Package Registry</h1>
-        <Link to={"/pack"}>GO TO DATA PAGE</Link>
+        <Link to={"/core"}>GO TO Core DATA PAGE</Link>
       </div>
 		);
 	}

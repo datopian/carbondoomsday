@@ -1,13 +1,14 @@
 import React, {PropTypes} from "react";
-import DataPackagePanel from "../components/dataPackageView/DataPackagePanel";
+import DataPackagePanel from "../components/dataPackageView/DataDisplayPanel";
 import { connect } from 'react-redux';
+import ReactMarkdown from "react-markdown";
 import {bindActionCreators} from "redux";
 import * as actions from '../actions/datapackageActions';
 
 //This container component listens to updates in datapackage and resources from
 //the Redux Store. It then generates either Plotly or Vega-lite spec and renders
 //appropriate chart.
-export class DataPackageViewContainer extends React.Component {
+export class DataPackageView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -18,8 +19,12 @@ export class DataPackageViewContainer extends React.Component {
   }
 
   componentDidMount(){
-    let url = "https://raw.githubusercontent.com/anuveyatsu/test_data/master/datapackage.json";
+    let baseUrl = "https://bits.staging.datapackaged.com/metadata/";
+    let url = baseUrl + this.props.publisherName + "/" + this.props.packageName + "/_v/latest/datapackage.json";
+    // let url = "https://raw.githubusercontent.com/anuveyatsu/test_data/master/datapackage.json";
     this.props.dataPackageActions.getDataPackage(url);
+    this.props.dataPackageActions
+      .getDataPackageMetaData(this.props.publisherName, this.props.packageName);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -140,21 +145,30 @@ export class DataPackageViewContainer extends React.Component {
 
   render() {
     return (
-      <DataPackagePanel specs={this.state.specs}/>
+      <div className="col-lg-10">
+        <DataPackagePanel specs={this.state.specs}/>
+        <ReactMarkdown source={this.props.metadata.readme}/>
+      </div>
     );
   }
 }
 
-DataPackageViewContainer.propTypes = {
-  dataPackageActions: PropTypes.object
+DataPackageView.propTypes = {
+  dataPackageActions: PropTypes.object,
+  publisherName: PropTypes.string.isRequired,
+  packageName: PropTypes.string.isRequired,
+  metadata: PropTypes.object
 };
 
 function mapStateToProps (state, ownProps) {
-  const { datapackage, resources } = state.dpr;
+  const { datapackage, resources, metadata } = state.dpr;
 
   return {
     datapackage: datapackage,
-    resources: resources
+    resources: resources,
+    metadata: metadata,
+    publisherName: ownProps.params.publisher,
+    packageName: ownProps.params.package,
   };
 }
 
@@ -164,4 +178,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataPackageViewContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DataPackageView);

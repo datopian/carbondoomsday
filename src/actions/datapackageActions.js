@@ -1,4 +1,5 @@
 import * as actionTypes from "../constants/actionTypes";
+import DataPackagePageApi from "../api/dataPackagePageApi";
 const Datapackage = require('datapackage-test').Datapackage;
 import jts from 'jsontableschema';
 
@@ -13,6 +14,13 @@ export function receiveResource(resources) {
   return {
     type: actionTypes.RECEIVE_RESOURCE,
     resources
+  };
+}
+
+export function getDataPackageMetaDataSuccess(metadata) {
+  return {
+    type: actionTypes.FETCH_PACKAGES_METADATA_SUCCESS,
+    metadata
   };
 }
 
@@ -31,6 +39,13 @@ export function getDataPackage(descriptor) {
     }
     dispatch(receiveResource(dataset));
     dispatch(receiveDatapackage(dp.descriptor));
+  };
+}
+
+export function getDataPackageMetaData(publisher, pack) {
+  return dispatch => {
+    return DataPackagePageApi.getPackageMetadata(publisher, pack)
+      .then(result => dispatch(getDataPackageMetaDataSuccess(result.data)));
   };
 }
 

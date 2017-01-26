@@ -4,11 +4,12 @@
   "description": "Steps:",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --optimize-minimize",
+    "build": "babel-node tools/build.js",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
-    "test": "jest",
+    "test": "node_modules/.bin/jest",
+    "test:travis": "npm run test && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "test:watch": "npm run test -- --watch",
     "start": "npm-run-all --parallel open:src lint:watch"
   },
@@ -49,7 +50,6 @@
   "devDependencies": {
     "autoprefixer": "6.5.4",
     "babel-cli": "6.18.0",
-
     "babel-core": "^6.20.0",
     "babel-eslint": "7.1.1",
     "babel-jest": "^18.0.0",
@@ -120,6 +120,8 @@
     "plotly.js": "^1.21.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-gravatar": "2.6.1",
+    "react-markdown": "2.4.4",
     "react-redux": "^5.0.2",
     "react-router": "3.0.0",
     "react-router-redux": "4.0.7",
