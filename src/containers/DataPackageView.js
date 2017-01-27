@@ -1,9 +1,9 @@
-import React, {PropTypes} from "react";
-import DataPackagePanel from "../components/dataPackageView/DataDisplayPanel";
-import { connect } from 'react-redux';
+import React, {PropTypes} from 'react';
+import DataPackagePanel from '../components/dataPackageView/DataDisplayPanel';
+import {connect} from "react-redux";
 import ReactMarkdown from "react-markdown";
 import {bindActionCreators} from "redux";
-import * as actions from '../actions/datapackageActions';
+import * as actions from "../actions/datapackageActions";
 
 //This container component listens to updates in datapackage and resources from
 //the Redux Store. It then generates either Plotly or Vega-lite spec and renders
@@ -11,14 +11,14 @@ import * as actions from '../actions/datapackageActions';
 export class DataPackageView extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      specs:{}
-    };
+      specs: {}
+    }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     let baseUrl = "https://bits.staging.datapackaged.com/metadata/";
     let url = baseUrl + this.props.publisherName + "/" + this.props.packageName + "/_v/latest/datapackage.json";
     // let url = "https://raw.githubusercontent.com/anuveyatsu/test_data/master/datapackage.json";
@@ -28,10 +28,10 @@ export class DataPackageView extends React.Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    if(nextProps.datapackage.resources) {
+    if (nextProps.datapackage.resources) {
       //check if resources are received by comparing descriptor's resources and
       //received data length
-      if(nextProps.datapackage.resources.length === nextProps.resources.length) {
+      if (nextProps.datapackage.resources.length === nextProps.resources.length) {
         let specs = await this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources);
         this.setState({specs: specs});
       }
@@ -53,7 +53,7 @@ export class DataPackageView extends React.Component {
         return o;
       }, {});
     });
-    for(let i=0; i<view.state.series.length; i++) {
+    for (let i = 0; i < view.state.series.length; i++) {
       let layer = {
         "mark": "line",
         "encoding": {
@@ -78,9 +78,13 @@ export class DataPackageView extends React.Component {
     let xIndex;
     let yIndex = [];
     data[0].forEach((header, index) => {
-      if(header === group) {xIndex = index;}
+      if (header === group) {
+        xIndex = index;
+      }
       series.forEach(serie => {
-        if(header === serie) {yIndex.push(index);}
+        if (header === serie) {
+          yIndex.push(index);
+        }
       });
     });
     for (let i = 0; i < series.length; i++) {
@@ -119,17 +123,17 @@ export class DataPackageView extends React.Component {
     };
   }
 
-  async getSpecsFromNextProps(datapackage, resources){
+  async getSpecsFromNextProps(datapackage, resources) {
     let specs = {};
 
-    for (let i=0; i<resources.length; i++) {
+    for (let i = 0; i < resources.length; i++) {
       let graphType;
       let spec = {};
-      if(datapackage.views) {
-        graphType = datapackage.views[i].type;
+      if (datapackage.views) {
+        graphType = datapackage.views[i].type
       }
       spec['htSpec'] = this.generateHandsontableSpec(resources[i]);
-      if(graphType === "vega-lite") {
+      if (graphType === "vega-lite") {
         let vlSpec = this.generateVegaLiteSpec(resources[i], datapackage.views[i]);
         spec['graphType'] = graphType;
         spec['vlSpec'] = vlSpec;
@@ -146,22 +150,22 @@ export class DataPackageView extends React.Component {
   render() {
     return (
       <div className="col-lg-10">
-        <DataPackagePanel specs={this.state.specs}/>
-        <ReactMarkdown source={this.props.metadata.readme}/>
+        <DataPackagePanel specs={this.state.specs} />
+        <ReactMarkdown source={this.props.metadata.readme} />
       </div>
     );
   }
 }
 
 DataPackageView.propTypes = {
-  dataPackageActions: PropTypes.object,
-  publisherName: PropTypes.string.isRequired,
   packageName: PropTypes.string.isRequired,
+  publisherName: PropTypes.string.isRequired,
+  dataPackageActions: PropTypes.object,
   metadata: PropTypes.object
 };
 
-function mapStateToProps (state, ownProps) {
-  const { datapackage, resources, metadata } = state.dpr;
+function mapStateToProps(state, ownProps) {
+  const {datapackage, resources, metadata} = state.dpr;
 
   return {
     datapackage: datapackage,

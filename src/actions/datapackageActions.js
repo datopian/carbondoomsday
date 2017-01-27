@@ -1,7 +1,7 @@
 import * as actionTypes from "../constants/actionTypes";
 import DataPackagePageApi from "../api/dataPackagePageApi";
+import jts from "jsontableschema";
 const Datapackage = require('datapackage-test').Datapackage;
-import jts from 'jsontableschema';
 
 export function receiveDatapackage(dp) {
   return {
@@ -27,11 +27,11 @@ export function getDataPackageMetaDataSuccess(metadata) {
 export function getDataPackage(descriptor) {
   return async dispatch => {
     const basePath = descriptor.replace('datapackage.json', '');
-    const dp = await new Datapackage(descriptor,'base',false,false,null);
+    const dp = await new Datapackage(descriptor, 'base', false, false, null);
     let dataset = [];
-    for(let i=0; i<dp.resources.length; i++) {
+    for (let i = 0; i < dp.resources.length; i++) {
       const source = basePath + dp.resources[i].descriptor.path;
-      const table = await getResourceTable(dp,i,source);
+      const table = await getResourceTable(dp, i, source);
       const headers = await table.schema.headers;
       let data = await table.read();
       data.unshift(headers);
@@ -49,6 +49,6 @@ export function getDataPackageMetaData(publisher, pack) {
   };
 }
 
-async function getResourceTable(dp,idx,source) {
+async function getResourceTable(dp, idx, source) {
   return await new jts.Table(dp.resources[idx].descriptor.schema, source);
 }

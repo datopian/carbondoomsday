@@ -22,7 +22,7 @@ export function getAllPackageForPublisher(publisherName) {
     }).catch(error => {
       throw(error);
     });
-      // .then(result => dispatch(getAllPackageForPublisherSuccess(result.data)));
+    // .then(result => dispatch(getAllPackageForPublisherSuccess(result.data)));
   };
 }
 

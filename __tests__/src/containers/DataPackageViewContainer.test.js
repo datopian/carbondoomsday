@@ -1,13 +1,8 @@
 import "babel-polyfill";
-//libs:
 import React from "react";
-import { shallow, mount } from 'enzyme' ;//for testing with shallow/mount wrapper
-import sinon from 'sinon'; //for spy
+import { shallow } from 'enzyme' ;
 import expect from "expect";
-import ContainerWithRedux, { DataPackageView } from "../../../src/containers/DataPackageView";
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { DataPackageView } from "../../../src/containers/DataPackageView";
 
 const mockDescriptor = {
   "resources": [
@@ -91,42 +86,10 @@ describe("Datapackage View Container", () => {
     expect(vlSpec.layers[0].encoding.y.field).toEqual("DEMOClose");
   });
 
-  // it("should render HandsOnTable component and pass index and spec", () => {
-  //   expect(wrapper.childAt(1).props().idx).toEqual(0);
-  //   expect(wrapper.childAt(1).props().spec).toBeDefined();
-  //   expect(wrapper.text()).toContain('<HandsOnTable />');
-  // });
-
   it("should generate spec with data for HandsOnTable", () => {
     let htSpec = wrapper.instance().generateHandsontableSpec(mockData);
     expect(htSpec.data.length).toEqual(mockData.length-1);
     expect(htSpec.colHeaders[4]).toEqual('DEMOClose');
   });
-
-});
-
-describe("Datapackage View Container with Redux", () => {
-  const middlewares = [ thunk ];
-  const mockStore = configureMockStore(middlewares);
-  let store = mockStore({
-    dpr:{
-      datapackage: mockDescriptor,
-      resources: [mockData],
-      metadata: {readme: 'readme'}
-    }
-  });
-
-  // it("should call componentWillReceiveProps after props change", async () => {
-  //   sinon.spy(ContainerWithRedux.prototype, 'componentWillReceiveProps');
-  //   const wrapper = mount(
-  //     <Provider store={store}>
-  //       <ContainerWithRedux publisherName="publisher" packageName="pack"
-  //           ownprops={{ownProps: {params: {publisher: "publisher", 'package': 'package'}}}}/>
-  //     </Provider>
-  //   );
-  //   expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(false);
-  //   wrapper.setProps({test: 'test', publisherName: "publisher", packageName: "pack"}); //changing props
-  //   expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(true);
-  // });
 
 });

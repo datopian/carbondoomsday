@@ -1,5 +1,5 @@
 import React, {PropTypes} from "react";
-import {Link} from 'react-router';
+import {Link} from "react-router";
 import ReactMarkdown from "react-markdown";
 
 class PackageListItem extends React.Component {
@@ -10,7 +10,7 @@ class PackageListItem extends React.Component {
 
   render() {
     const {name, title, description, publisherName} = this.props;
-    let packageUrl = publisherName +"/" + name;
+    let packageUrl = publisherName + "/" + name;
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
@@ -21,11 +21,11 @@ class PackageListItem extends React.Component {
           <div className="clearfix"/>
         </div>
         { undefined !== description ?
-          <ReactMarkdown className="panel-body" source={description} />
+          <ReactMarkdown className="panel-body" source={description}/>
           : ''
         }
-        <h5> Publisher By:
-          <Link to={"/" +publisherName}>  {publisherName}</Link>
+        <h5> Publisher By :
+          <Link to={"/" + publisherName}>{publisherName}</Link>
         </h5>
       </div>
     );

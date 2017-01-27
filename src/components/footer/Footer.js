@@ -16,9 +16,9 @@ function Footer() {
                 <a href="https://okfn.org/ip-policy/">IP Policy</a>
                 <br/>
                 <a href="https://opendefinition.org/okd/" title="Open Data">
-                  <img src="https://assets.okfn.org/images/ok_buttons/od_80x15_blue.png" alt="" border="" /></a>
+                  <img src="https://assets.okfn.org/images/ok_buttons/od_80x15_blue.png" alt="" border=""/></a>
                 <a href="https://opendefinition.org/ossd/" title="Open Online Software Service">
-                  <img src="https://assets.okfn.org/images/ok_buttons/os_80x15_orange_grey.png" alt="" border="" />
+                  <img src="https://assets.okfn.org/images/ok_buttons/os_80x15_orange_grey.png" alt="" border=""/>
                 </a>
               </p>
             </div>
@@ -27,7 +27,7 @@ function Footer() {
             <div className="row">
               <div className="col-sm-8">
                 <p>This service is run by</p>
-                <img src="https://a.okfn.org/img/oki/landscape-rgb-165x43.png" alt="post" />
+                <img src="https://a.okfn.org/img/oki/landscape-rgb-165x43.png" alt="post"/>
               </div>
               <div className="col-sm-4 connect">
                 <p>Connect with Us</p>

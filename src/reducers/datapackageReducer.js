@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import * as actionTypes from '../constants/actionTypes';
+import _ from "lodash";
+import * as actionTypes from "../constants/actionTypes";
 
 const initialState = {
   datapackage: {},
@@ -15,7 +15,7 @@ export default function dataPackageReducer(state = initialState, action) {
       return Object.assign({}, state, Object.assign({}, state.dpr, {datapackage: action.dp}));
 
     case actionTypes.RECEIVE_RESOURCE: {
-      let newResources =  _.concat(state.resources, action.resources);
+      let newResources = _.concat(state.resources, action.resources);
       return Object.assign({}, state, Object.assign({}, state.dpr, {resources: newResources}));
     }
     case actionTypes.FETCH_PACKAGES_METADATA_SUCCESS:

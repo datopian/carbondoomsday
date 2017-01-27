@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.baseURL = 'https://staging.datapackaged.com';
 
 const packages = {
-  data:[
+  data: [
     {
       name: "finance-vix",
       title: "VIX - CBOE Volatility Index",
@@ -18,7 +18,7 @@ const packages = {
 };
 
 const publisherDetails = {
-  data : {
+  data: {
     name: 'core',
     title: 'The core Publisher',
     joined: '2017-1-1 12:4:4'

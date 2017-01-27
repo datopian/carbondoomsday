@@ -13,13 +13,13 @@ const PackageList = ({publisherName, packageList}) => {
 
       {
         l > 0 ?
-        packageList.map(packageItem =>
-        <PackageListItem key={publisherName + "::" +packageItem.name}
-                         name={packageItem.name}
-                         publisherName={publisherName}
-                         description={packageItem.description}
-                         title={packageItem.title}/>
-        ) : ''
+          packageList.map(packageItem =>
+            <PackageListItem key={publisherName + "::" + packageItem.name}
+                             name={packageItem.name}
+                             publisherName={publisherName}
+                             description={packageItem.description}
+                             title={packageItem.title}/>
+          ) : ''
       }
     </div>
   );
