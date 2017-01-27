@@ -11,28 +11,23 @@ import * as actions from "../actions/datapackageActions";
 export class DataPackageView extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       specs: {}
-    }
+    };
   }
 
   componentDidMount() {
-    let baseUrl = "https://bits.staging.datapackaged.com/metadata/";
-    let url = baseUrl + this.props.publisherName + "/" + this.props.packageName + "/_v/latest/datapackage.json";
-    // let url = "https://raw.githubusercontent.com/anuveyatsu/test_data/master/datapackage.json";
-    this.props.dataPackageActions.getDataPackage(url);
-    this.props.dataPackageActions
-      .getDataPackageMetaData(this.props.publisherName, this.props.packageName);
+    this.props.dataPackageActions.getDataPackage(this.props.publisherName, this.props.packageName);
   }
 
   async componentWillReceiveProps(nextProps) {
-    if (nextProps.datapackage.resources) {
+    if (nextProps.descriptor.resources) {
       //check if resources are received by comparing descriptor's resources and
       //received data length
-      if (nextProps.datapackage.resources.length === nextProps.resources.length) {
-        let specs = await this.getSpecsFromNextProps(nextProps.datapackage, nextProps.resources);
+      if (nextProps.descriptor.resources.length === nextProps.resources.length) {
+        let specs = await this.getSpecsFromNextProps(nextProps.descriptor, nextProps.resources);
         this.setState({specs: specs});
       }
     }
@@ -151,7 +146,7 @@ export class DataPackageView extends React.Component {
     return (
       <div className="col-lg-10">
         <DataPackagePanel specs={this.state.specs} />
-        <ReactMarkdown source={this.props.metadata.readme} />
+        <ReactMarkdown source={this.props.readme} />
       </div>
     );
   }
@@ -161,16 +156,17 @@ DataPackageView.propTypes = {
   packageName: PropTypes.string.isRequired,
   publisherName: PropTypes.string.isRequired,
   dataPackageActions: PropTypes.object,
-  metadata: PropTypes.object
+  readme: PropTypes.string,
+  descriptor: PropTypes.object,
 };
 
 function mapStateToProps(state, ownProps) {
-  const {datapackage, resources, metadata} = state.dpr;
+  const {descriptor, resources, readme} = state.dpr;
 
   return {
-    datapackage: datapackage,
+    descriptor: descriptor,
     resources: resources,
-    metadata: metadata,
+    readme: readme,
     publisherName: ownProps.params.publisher,
     packageName: ownProps.params.package,
   };
