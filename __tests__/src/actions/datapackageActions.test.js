@@ -8,6 +8,14 @@ import * as actions from '../../../src/actions/datapackageActions';
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
+nock('https://dp2.com')
+  .persist()
+  .get('/')
+  .replyWithFile(200, './fixtures/dp2/datapackage.json')
+  .get('/data/demo-resource.csv')
+  .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv');
+
+
 describe('async actions', () => {
   let timeout;
 
@@ -22,7 +30,7 @@ describe('async actions', () => {
 
   it('creates RECEIVE_DATAPACKAGE when fetching datapackage is done', async () => {
     const store = mockStore({ dp: {} });
-    await store.dispatch(actions.getDataPackage('https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'));
+    await store.dispatch(actions.getDataPackage('https://dp2.com/'));
     let receivedDp = store.getActions();
     expect(receivedDp[1]).toBeA(Object);
     expect(receivedDp[1].type).toEqual('RECEIVE_DATAPACKAGE');
@@ -33,7 +41,7 @@ describe('async actions', () => {
 
   it('creates RECEIVE_RESOURCE when fetching resource is done', async () => {
     const store = mockStore({ resources: {} });
-    await store.dispatch(actions.getDataPackage('https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'));
+    await store.dispatch(actions.getDataPackage('https://dp2.com/'));
     let receivedResource = store.getActions();
     expect(receivedResource[0]).toBeA(Object);
     expect(receivedResource[0].type).toEqual('RECEIVE_RESOURCE');
