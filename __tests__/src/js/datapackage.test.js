@@ -59,6 +59,10 @@ describe('getDataResource function', () => {
 })
 
 describe('playing with datapackage', () => {
+  beforeEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  });
+
   it('works hooray', async () => {
     const url = 'https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'
     const basePath = url.replace('datapackage.json', '')
