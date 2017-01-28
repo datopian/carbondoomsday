@@ -1,6 +1,5 @@
 exports[`test Rendered output matches previously created snapshot 1`] = `
-<footer
-  className="navbar-fixed-bottom">
+<footer>
   <div
     className="container">
     <div

@@ -11,7 +11,12 @@ install:
   - npm install
 
 script:
-    - npm test
+  - npm test
 
-after_success:
-  coveralls
+after_script:
+  - node --harmony_proxies node_modules/.bin/jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+
+branches:
+  only:
+  - master
+  - gh-pages
