@@ -1,4 +1,5 @@
-import DataPackage from '../src/js/dataPackage.js';
+import DataPackage from '../src/js/dataPackage';
+import expect from "expect";
 
 const dpJson = {
   "name": "test",
@@ -30,39 +31,31 @@ describe('DataPackage class instance', () => {
 
   it('should be an instance of DataPackage class', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp).toBeInstanceOf(DataPackage);
+    expect(dp).toBeA(DataPackage);
   });
 
   it('should have packageName attribute', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp.packageName).toBeDefined();
+    expect(dp.packageName).toExist();
   });
 
   it('should have path attribute', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp.path).toBeDefined();
+    expect(dp.path).toExist();
   });
 
   it('should have format attribute', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp.format).toBeDefined();
+    expect(dp.format).toExist();
   });
 
   it('should have vlSpec attribute', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp.vlSpec).toBeDefined();
+    expect(dp.vlSpec).toExist();
   });
 
   it('should have plotlySpec attribute', () => {
     let dp = new DataPackage(dpJson);
-    expect(dp.plotlySpec).toBeDefined();
+    expect(dp.plotlySpec).toExist();
   });
-
-  it('should build a resource path', () => {
-    let dp = new DataPackage(dpJson);
-    let path = dp.getResourcePath();
-    expect(path).toMatch(DataPackageJsonUrl
-      .replace("datapackage.json", dpJson.resources[0].path));
-  });
-
 });

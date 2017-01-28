@@ -1,7 +1,8 @@
-import React from "react"
-import { shallow, mount } from 'enzyme'
-import sinon from 'sinon'
-import VegaLiteChart from "../../../src/components/vegaLite.js"
+import React from "react";
+import {  mount } from 'enzyme';
+import sinon from 'sinon';
+import expect from "expect";
+import VegaLiteChart from "../../../../src/components/dataPackageView/VegaLiteChart";
 
 const mockSpec = {
   data: {
@@ -28,21 +29,21 @@ const mockSpec = {
       encoding: {
         x: { field: 'Date', type: 'temporal' },
         y: { field: 'DEMOClose', type: 'quantitative' }
-      }  
+      }
     }
   ]
-}
+};
 
 describe("vegaLite chart module", () => {
 
   it("should receive correct props and render div with specific id", () => {
-    let idx = 0
-    const spy = sinon.spy(VegaLiteChart.prototype, 'componentDidMount')
-    const wrapper = mount(<VegaLiteChart vlSpec={mockSpec} idx={idx} />)
-    expect(spy.calledOnce).toEqual(true)
-    expect(wrapper.html()).toEqual('<div id="vega'+idx+'"></div>')
-    expect(wrapper.prop('idx')).toEqual(0)
-    expect(wrapper.prop('vlSpec')).toEqual(mockSpec)
-  })
+    let idx = 0;
+    const spy = sinon.spy(VegaLiteChart.prototype, 'componentDidMount');
+    const wrapper = mount(<VegaLiteChart vlSpec={mockSpec} idx={idx} />);
+    expect(spy.calledOnce).toEqual(true);
+    expect(wrapper.html()).toEqual('<div id="vega'+idx+'"></div>');
+    expect(wrapper.prop('idx')).toEqual(0);
+    expect(wrapper.prop('vlSpec')).toEqual(mockSpec);
+  });
 
-})
+});
