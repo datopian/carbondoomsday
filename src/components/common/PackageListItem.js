@@ -20,7 +20,7 @@ class PackageListItem extends React.Component {
           </button>
           <div className="clearfix"/>
         </div>
-        { undefined !== description ?
+        { description !== undefined ?
           <ReactMarkdown className="panel-body" source={description}/>
           : ''
         }

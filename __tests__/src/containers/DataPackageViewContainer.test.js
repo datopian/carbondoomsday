@@ -65,7 +65,7 @@ const mockData = [
 
 describe("Datapackage View Container", () => {
 
-  const wrapper = shallow(<DataPackageView publisherName="publisher" packageName="pack" metadata={{readme: ''}}/>);
+  const wrapper = shallow(<DataPackageView publisherName="publisher" packageName="pack" readme="readme"/>);
 
   it("should render data package panel component", () => {
     expect(wrapper.text()).toContain('<DataPackagePanel />');
