@@ -1,0 +1,38 @@
+exports[`test Rendered output matches previously created snapshot 1`] = `
+<div
+  className="panel panel-default">
+  <div
+    className="panel-heading">
+    <h3
+      className="panel-title pull-left">
+      Finance Vix Package
+       [
+      finance-vix
+      ]
+    </h3>
+    <button
+      className="btn btn-default pull-right">
+      <a
+        href="publisher/finance-vix">
+        Explore >>
+      </a>
+    </button>
+    <div
+      className="clearfix" />
+  </div>
+  <div
+    className="panel-body">
+    <p>
+      Awesome package
+    </p>
+  </div>
+  <h5>
+     Publisher By :
+    <a
+      onClick={[Function]}
+      style={Object {}}>
+      publisher
+    </a>
+  </h5>
+</div>
+`

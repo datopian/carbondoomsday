@@ -4,27 +4,32 @@ import expect from "expect";
 describe('update reducer', () => {
   it('should return initial state', () => {
     expect(reducer(undefined, {})).toEqual({
-      datapackage: {},
-      resources: []
+      descriptor: {},
+      resources: [],
+      readme: ''
     });
   });
 
   it('should handle RECEIVE_DATAPACKAGE', () => {
     expect(reducer(undefined, {
       type: 'RECEIVE_DATAPACKAGE',
-      dp: {
-        description: 'test description',
-        resources: ['test resource'],
-        views: ['test view']
-      }
-    })).toEqual(
-      {
-        datapackage: {
+      apiData: {
+        descriptor: {
           description: 'test description',
           resources: ['test resource'],
           views: ['test view']
         },
-        resources: []
+        readme: 'this is readme'
+      }
+    })).toEqual(
+      {
+        descriptor: {
+          description: 'test description',
+          resources: ['test resource'],
+          views: ['test view']
+        },
+        resources: [],
+        readme: 'this is readme'
       }
     );
   });
@@ -38,11 +43,12 @@ describe('update reducer', () => {
       ]
     })).toEqual(
       {
-        datapackage: {},
+        descriptor: {},
         resources: [
             ["name", "size"], ["gb", "100"],
             ["us", "200"], ["cn", "300"], [""]
-        ]
+        ],
+        readme: ''
       }
     );
   });

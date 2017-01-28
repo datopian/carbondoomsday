@@ -2,7 +2,7 @@ import React from "react";
 import {  mount } from 'enzyme';
 import sinon from 'sinon';
 import expect from "expect";
-import VegaLiteChart from "../../../src/components/vegaLite";
+import VegaLiteChart from "../../../../src/components/dataPackageView/VegaLiteChart";
 
 const mockSpec = {
   data: {
@@ -32,7 +32,7 @@ const mockSpec = {
       }
     }
   ]
-}
+};
 
 describe("vegaLite chart module", () => {
 
@@ -44,6 +44,6 @@ describe("vegaLite chart module", () => {
     expect(wrapper.html()).toEqual('<div id="vega'+idx+'"></div>');
     expect(wrapper.prop('idx')).toEqual(0);
     expect(wrapper.prop('vlSpec')).toEqual(mockSpec);
-  })
+  });
 
-})
+});

@@ -1,5 +1,5 @@
-import React from "react"
-import Plotly from "plotly.js/lib/core"
+import React from "react";
+import Plotly from "plotly.js/lib/core";
 
 class PlotlyChart extends React.Component {
 

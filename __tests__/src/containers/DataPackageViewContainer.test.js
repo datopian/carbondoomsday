@@ -1,16 +1,8 @@
 import "babel-polyfill";
-//libs:
 import React from "react";
-import { shallow, mount } from 'enzyme' ;//for testing with shallow/mount wrapper
-import sinon from 'sinon'; //for spy
+import { shallow } from 'enzyme' ;
 import expect from "expect";
-//components:
-import ContainerWithRedux, { DataPackageViewContainer } from "../../../src/containers/DataPackageViewContainer";
-//redux:
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import * as actions from '../../../src/actions/datapackageActions';
+import { DataPackageView } from "../../../src/containers/DataPackageView";
 
 const mockDescriptor = {
   "resources": [
@@ -73,7 +65,7 @@ const mockData = [
 
 describe("Datapackage View Container", () => {
 
-  const wrapper = shallow(<DataPackageViewContainer />);
+  const wrapper = shallow(<DataPackageView publisherName="publisher" packageName="pack" readme="readme"/>);
 
   it("should render data package panel component", () => {
     expect(wrapper.text()).toContain('<DataPackagePanel />');
@@ -94,40 +86,10 @@ describe("Datapackage View Container", () => {
     expect(vlSpec.layers[0].encoding.y.field).toEqual("DEMOClose");
   });
 
-  // it("should render HandsOnTable component and pass index and spec", () => {
-  //   expect(wrapper.childAt(1).props().idx).toEqual(0);
-  //   expect(wrapper.childAt(1).props().spec).toBeDefined();
-  //   expect(wrapper.text()).toContain('<HandsOnTable />');
-  // });
-
   it("should generate spec with data for HandsOnTable", () => {
     let htSpec = wrapper.instance().generateHandsontableSpec(mockData);
     expect(htSpec.data.length).toEqual(mockData.length-1);
     expect(htSpec.colHeaders[4]).toEqual('DEMOClose');
-  });
-
-});
-
-describe("Datapackage View Container with Redux", () => {
-  const middlewares = [ thunk ];
-  const mockStore = configureMockStore(middlewares);
-  let store = mockStore({
-    dpr:{
-      datapackage: mockDescriptor,
-      resources: [mockData]
-    }
-  });
-
-  it("should call componentWillReceiveProps after props change", async () => {
-    sinon.spy(ContainerWithRedux.prototype, 'componentWillReceiveProps');
-    const wrapper = mount(
-      <Provider store={store}>
-        <ContainerWithRedux />
-      </Provider>
-    );
-    expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(false);
-    wrapper.setProps({test: 'test'}); //changing props
-    expect(ContainerWithRedux.prototype.componentWillReceiveProps.calledOnce).toEqual(true);
   });
 
 });

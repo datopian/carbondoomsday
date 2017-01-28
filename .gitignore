@@ -40,3 +40,4 @@ jspm_packages
 .env
 npm-debug.log
 .idea/
+.dist/
