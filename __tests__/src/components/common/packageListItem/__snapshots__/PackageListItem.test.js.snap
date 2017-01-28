@@ -13,7 +13,8 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
     <button
       className="btn btn-default pull-right">
       <a
-        href="publisher/finance-vix">
+        onClick={[Function]}
+        style={Object {}}>
         Explore >>
       </a>
     </button>
