@@ -3,7 +3,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="navbar-fixed-bottom">
+    <footer>
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
