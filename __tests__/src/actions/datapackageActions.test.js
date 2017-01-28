@@ -1,32 +1,32 @@
 import 'babel-polyfill';
-import configureMockStore from 'redux-mock-store';
-import nock from 'nock';
-import thunk from 'redux-thunk';
+// import configureMockStore from 'redux-mock-store';
+// import nock from 'nock';
+// import thunk from 'redux-thunk';
 import expect from "expect";
 
-import * as actions from '../../../src/actions/datapackageActions';
-
-const middlewares = [ thunk ];
-const mockStore = configureMockStore(middlewares);
+// import * as actions from '../../../src/actions/datapackageActions';
+//
+// const middlewares = [ thunk ];
+// const mockStore = configureMockStore(middlewares);
 
 describe('async actions', () => {
 
-  beforeEach(() =>{
-    nock('https://staging.datapackaged.com')
-      .log(console.log)
-      .get('/api/package/core/package1')
-      .replyWithFile(200, __dirname +'fixtures/api_response/datapackage_api_response.json');
-
-    nock('https://bits.staging.datapackaged.com')
-      .log(console.log)
-      .get('/metadata/core/package1/_v/latest/data/demo-resource.csv')
-      .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv');
-  });
-
-
-  afterEach(() => {
-    nock.cleanAll();
-  });
+  // beforeEach(() =>{
+  //   nock('https://staging.datapackaged.com')
+  //     .log(console.log)
+  //     .get('/api/package/core/package1')
+  //     .replyWithFile(200, __dirname +'fixtures/api_response/datapackage_api_response.json');
+  //
+  //   nock('https://bits.staging.datapackaged.com')
+  //     .log(console.log)
+  //     .get('/metadata/core/package1/_v/latest/data/demo-resource.csv')
+  //     .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv');
+  // });
+  //
+  //
+  // afterEach(() => {
+  //   nock.cleanAll();
+  // });
   it("dummy test", () => {
     expect(1).toEqual(1);
   });

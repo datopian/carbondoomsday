@@ -113,7 +113,6 @@
   "dependencies": {
     "axios": "^0.15.3",
     "bootstrap": "^3.3.6",
-    "babel-polyfill": "^6.20.0",
     "datapackage-test": "^0.2.3",
     "handsontable": "^0.29.2",
     "isomorphic-fetch": "^2.2.1",
