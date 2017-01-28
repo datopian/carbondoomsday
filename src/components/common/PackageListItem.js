@@ -16,7 +16,7 @@ class PackageListItem extends React.Component {
         <div className="panel-heading">
           <h3 className="panel-title pull-left">{title} [{name}]</h3>
           <button className="btn btn-default pull-right">
-            <a href={packageUrl}>Explore >></a>
+            <Link to={packageUrl}>Explore >></Link>
           </button>
           <div className="clearfix"/>
         </div>
