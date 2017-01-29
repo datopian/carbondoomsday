@@ -54,18 +54,41 @@ const mockDescriptor = {
 
 const mockData = [
   [ 'Date', 'DEMOOpen', 'DEMOHigh', 'DEMOLow', 'DEMOClose' ],
-  [ '2014-01-01T18:00:00.000Z', 14.32, 14.59, 14.00, 14.23 ],
-  [ '2014-01-02T18:00:00.000Z', 14.06, 14.22, 13.57, 13.76 ],
-  [ '2014-01-05T18:00:00.000Z', 13.41, 14.00, 13.22, 13.55 ]
+  [ '2014-01-01', 14.32, 14.59, 14.00, 14.23 ],
+  [ '2014-01-02', 14.06, 14.22, 13.57, 13.76 ],
+  [ '2014-01-05', 13.41, 14.00, 13.22, 13.55 ]
 ];
 
 
 describe('Data Package View utils', () => {
   it("should generate spec for Plotly", () => {
-    let plotlySpec = utils.generatePlotlySpec(mockData, mockDescriptor, 0);
-    expect(plotlySpec.layout.xaxis.title).toEqual('Date');
-    expect(plotlySpec.data[0].x[0]).toEqual('2014-01-01T18:00:00.000Z');
-    expect(plotlySpec.data[0].mode).toEqual('lines');
+    const viewSpec = mockDescriptor.views[0];
+    let plotlySpec = utils.generatePlotlySpec(viewSpec, mockData);
+    var expected = {
+			"data": [
+        {
+          "x": [
+            "2014-01-01",
+            "2014-01-02",
+            "2014-01-05"
+          ],
+          "y": [
+            14.23,
+            13.76,
+            13.55
+          ],
+          "mode": "lines",
+          "name": "DEMOClose"
+        }
+      ],
+      "layout": {
+        "xaxis": {
+          "title": "Date"
+        }
+      }
+    }
+    // console.log(JSON.stringify(plotlySpec, null, 2));
+    expect(plotlySpec).toEqual(expected);
   });
 
   it("should generate vega-lite spec", () => {

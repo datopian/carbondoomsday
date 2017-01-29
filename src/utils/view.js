@@ -1,5 +1,5 @@
 // Utilities and classes for working with Data Package Views
-
+import { indexOf } from "lodash";
 
 //Takes data and view, then generates vega-lite specific spec.
 export function generateVegaLiteSpec(data, view) {
@@ -31,38 +31,31 @@ export function generateVegaLiteSpec(data, view) {
   return vlSpec;
 }
 
-//Takes a single resource and descriptor, then converts resource into Plotly
-//specific format and generates plotlySpec.
-export function generatePlotlySpec(data, dp, j) {
-  let plotlySpec = {};
-  let dataset = [];
-  let group = dp.views[j].state.group;
-  let series = dp.views[j].state.series;
-  let xIndex;
-  let yIndex = [];
-  data[0].forEach((header, index) => {
-    if (header === group) {
-      xIndex = index;
+// Takes a view spec and resource data (with headers re-inserted) and returns plotly spec
+// @return: Plotly graph spec
+export function generatePlotlySpec(viewSpec, dataTable) {
+  let headers = dataTable[0];
+  let rows = dataTable.slice(1);
+  let xIndex = indexOf(headers, viewSpec.state.group);
+  let xValues = rows.map(row => row[xIndex]);
+  let data = viewSpec.state.series.map(serie => {
+    let yColumn = indexOf(headers, serie)
+    return {
+      x: xValues,
+      y: rows.map(row => row[yColumn]),
+      mode: "lines",
+      name: serie
     }
-    series.forEach(serie => {
-      if (header === serie) {
-        yIndex.push(index);
-      }
-    });
   });
-  for (let i = 0; i < series.length; i++) {
-    dataset.push({x: [], y: [], mode: "lines", name: series[i]});
-    dataset[i].x = data.slice(1).map(row => row[xIndex]);
-    dataset[i].y = data.slice(1).map(row => row[yIndex[i]]);
-  }
 
-  let layout = {
-    "xaxis": {
-      "title": dp.views[j].state.group
+  let plotlySpec = {
+    data: data,
+    layout: {
+      "xaxis": {
+        "title": viewSpec.state.group
+      }
     }
-  };
-  plotlySpec.data = dataset;
-  plotlySpec.layout = layout;
+  }
   return plotlySpec;
 }
 

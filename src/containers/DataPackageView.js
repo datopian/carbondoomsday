@@ -49,7 +49,7 @@ export class DataPackageView extends React.Component {
         spec['graphType'] = graphType;
         spec['vlSpec'] = vlSpec;
       } else {
-        let plotlySpec = view.generatePlotlySpec(resources[i], datapackage, i);
+        let plotlySpec = view.generatePlotlySpec(datapackage.views[i], resources[i]);
         spec['graphType'] = graphType;
         spec['plotlySpec'] = plotlySpec;
       }
