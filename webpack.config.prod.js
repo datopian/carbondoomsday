@@ -56,7 +56,7 @@ export default {
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: true,
-      filename: path.resolve(__dirname, TEMPLATES_PATH + 'index.html'), //'../templates/index.html',
+      filename: path.resolve(__dirname, TEMPLATES_PATH + '/index.html'), //'../templates/index.html',
     }),
 
     // Eliminate duplicate packages when generating bundle
