@@ -7,14 +7,15 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import autoprefixer from "autoprefixer";
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import path from "path";
+require('dotenv').config();
 require('babel-polyfill');
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__: false
 };
-var SCRIPTS_PATH = '../app/static/scripts';
-var TEMPLATES_PATH = '../app/templates';
+const SCRIPTS_PATH = '../app/static/scripts';
+const TEMPLATES_PATH = '../app/templates';
 
 export default {
   resolve: {
@@ -33,7 +34,7 @@ export default {
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
     path: path.resolve(__dirname, SCRIPTS_PATH ),
-    publicPath: '/static/scripts/',
+    publicPath: `${process.env.BIT_STORE_URL===undefined ? '' : process.env.BIT_STORE_UR}/static/scripts/`,
     pathInfo: true,
     filename: '[name].[chunkhash].js'
   },
@@ -56,7 +57,7 @@ export default {
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: true,
-      filename: path.resolve(__dirname, TEMPLATES_PATH + '/index.html'), //'../templates/index.html',
+      filename: path.resolve(__dirname, TEMPLATES_PATH + '/index.html'),
     }),
 
     // Eliminate duplicate packages when generating bundle

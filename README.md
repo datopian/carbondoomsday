@@ -1,5 +1,5 @@
 # DPR-JS
-[![Build Status](https://travis-ci.org/frictionlessdata/dpr-js.svg?branch=master)](https://travis-ci.org/frictionlessdata/dpr-js)
+[![Build Status](https://travis-ci.org/frictionlessdata/dpr-js.svg?branch=gh=pages)](https://travis-ci.org/frictionlessdata/dpr-js)
 
 Requirements: 
 
