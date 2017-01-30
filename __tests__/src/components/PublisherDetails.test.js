@@ -14,13 +14,12 @@ describe("PublisherDetails component", () => {
     const wrapper = shallow(
       <PublisherDetails data={data} />
     )
-    expect(wrapper.find(".container")).toHaveLength(1)
     expect(wrapper.find("h1")).toHaveLength(1)
     expect(wrapper.find("h1").text()).toEqual("Publisher")
-    expect(wrapper.find("h2")).toHaveLength(1)
-    expect(wrapper.find("h2").text()).toEqual("Title")
+    expect(wrapper.find("h4")).toHaveLength(1)
+    expect(wrapper.find("h4").text()).toEqual("Title")
     expect(wrapper.find("p")).toHaveLength(1)
-    expect(wrapper.find("p").text()).toEqual("2017-01-25")
+    expect(wrapper.find("p").text()).toEqual(" 2017-01-25")
   })
 
 })
