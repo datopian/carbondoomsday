@@ -1,13 +1,26 @@
 import React, {PropTypes} from "react";
 import PackageListItem from "./PackageListItem";
+import {Col, Row, Button} from "react-bootstrap";
 
 const PackageList = ({publisherName, packageList}) => {
   let l = packageList.length;
   return (
-    <div className="panel-group pull-right col-lg-6">
-      <div className="panel panel-default">
-        <div className="panel-body ">
-          Publisher Package List
+    <Col sm={5} className="offset-sm-2">
+      <div className="card mb-2">
+        <div className="card-block">
+          <Row className="show-grid">
+            <Col sm={6}>
+              <h3>Data packages</h3>
+            </Col>
+            <Col sm={6}>
+              <div className="input-group">
+                <input type="text" className="form-control" placeholder="Search for..." />
+                <span className="input-group-btn">
+                  <Button bsStyle="secondary">Go!</Button>
+                </span>
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
 
@@ -21,7 +34,7 @@ const PackageList = ({publisherName, packageList}) => {
                              title={packageItem.title}/>
           ) : ''
       }
-    </div>
+    </Col>
   );
 };
 

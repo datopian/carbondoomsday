@@ -1,6 +1,7 @@
 import React, {PropTypes} from "react";
 import {Link} from "react-router";
 import ReactMarkdown from "react-markdown";
+import {Row, Col, Image, Button} from "react-bootstrap";
 
 class PackageListItem extends React.Component {
 
@@ -12,21 +13,31 @@ class PackageListItem extends React.Component {
     const {name, title, description, publisherName} = this.props;
     let packageUrl = publisherName + "/" + name;
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title pull-left">{title} [{name}]</h3>
-          <button className="btn btn-default pull-right">
-            <Link to={packageUrl}>Explore >></Link>
-          </button>
-          <div className="clearfix"/>
+      <div className="card mb-2">
+        <div className="card-block">
+
+          <h5 className="card-title"><span class="fa fa-files-o"></span> {title}</h5>
+          <h6>[{name}]</h6>
+
+          { description !== undefined ?
+            <ReactMarkdown className="panel-body" source={description}/>
+            : ''
+          }
+
+          <Row className="show-grid clearfix">
+            <Col sm={2}>
+              <img src="https://avatars3.githubusercontent.com/u/22451011?v=3&s=200" className="img-fluid rounded-circle" />
+            </Col>
+            <Col sm={6} className="align-self-center">
+              <small><Link to={"/" + publisherName}>by {publisherName}</Link></small>
+            </Col>
+            <Col sm={4} className="pull-right align-self-center">
+              <Button bsStyle="secondary" bsSize="xsmall">
+                <Link to={packageUrl}>Explore</Link>
+              </Button>
+            </Col>
+          </Row>
         </div>
-        { description !== undefined ?
-          <ReactMarkdown className="panel-body" source={description}/>
-          : ''
-        }
-        <h5> Publisher By :
-          <Link to={"/" + publisherName}>{publisherName}</Link>
-        </h5>
       </div>
     );
   }
