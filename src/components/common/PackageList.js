@@ -30,8 +30,8 @@ const PackageList = ({publisherName, packageList}) => {
             <PackageListItem key={publisherName + "::" + packageItem.name}
                              name={packageItem.name}
                              publisherName={publisherName}
-                             description={packageItem.description}
-                             title={packageItem.title}/>
+                             description={packageItem.readme.substring(0, 50)}
+                             title={packageItem.descriptor.title}/>
           ) : ''
       }
     </Col>

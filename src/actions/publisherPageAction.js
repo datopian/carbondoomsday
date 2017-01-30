@@ -4,7 +4,7 @@ import PublisherPageApi from "../api/publisherPageApi";
 export function getAllPackageForPublisherSuccess(packages) {
   return {
     type: actionTypes.FETCH_PACKAGES_SUCCESS,
-    packages: packages.data
+    packages: packages.items
   };
 }
 
@@ -17,23 +17,21 @@ export function getPublisherDetailsSuccess(details) {
 
 export function getAllPackageForPublisher(publisherName) {
   return dispatch => {
-    return PublisherPageApi.getAllPackages(publisherName).then(packages => {
-      dispatch(getAllPackageForPublisherSuccess(packages));
+    return PublisherPageApi.getAllPackages(publisherName).then(result => {
+      dispatch(getAllPackageForPublisherSuccess(result.data));
     }).catch(error => {
       throw(error);
     });
-    // .then(result => dispatch(getAllPackageForPublisherSuccess(result.data)));
   };
 }
 
 export function getPublisherDetails(publisherName) {
   return dispatch => {
-    return PublisherPageApi.getPublisherDetails(publisherName).then(details => {
-      dispatch(getPublisherDetailsSuccess(details));
+    return PublisherPageApi.getPublisherDetails(publisherName).then(result => {
+      dispatch(getPublisherDetailsSuccess(result.data));
     }).catch(error => {
       throw(error);
     });
-    // .then(result => dispatch(getAllPackageForPublisherSuccess(result.data)));
   };
 }
 
