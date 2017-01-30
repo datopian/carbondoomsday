@@ -1,6 +1,7 @@
 import React from "react";
 import BrandLogo from "./brand-small-logo.png";
 import "./NavBar.css";
+import {Navbar} from "react-bootstrap";
 
 class NavBar extends React.Component {
 
@@ -10,29 +11,17 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-default" role="navigation">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="/">
-              <img alt="Brand" src={BrandLogo}/>
-            </a>
-          </div>
-
-          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <div className="col-sm-3 col-md-3">
-              <form className="navbar-form" role="search">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" name="q"/>
-                  <div className="input-group-btn">
-                    <button className="btn btn-default" type="submit">
-                      <i className="glyphicon glyphicon-search"/></button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+      <Navbar className="navbar navbar-light bg-faded mb-5" role="navigation">
+        <div className="container">
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">
+                <img alt="Brand" src={BrandLogo}/>
+              </a>
+            </Navbar.Brand>
+          </Navbar.Header>
         </div>
-      </nav>
+      </Navbar>
     );
   }
 }

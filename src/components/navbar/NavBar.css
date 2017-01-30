@@ -1,7 +1,7 @@
 .navbar-brand>img {
 	height: 30px;
 	width: auto;
-	opacity: 0.5;
+	opacity: 0.7;
 	filter: alpha(opacity=100);
 }
 .navbar-brand>img:hover {
