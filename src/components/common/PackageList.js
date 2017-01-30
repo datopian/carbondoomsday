@@ -3,6 +3,7 @@ import PackageListItem from "./PackageListItem";
 import {Col, Row, Button} from "react-bootstrap";
 
 const PackageList = ({publisherName, packageList}) => {
+  debugger;
   let l = packageList.length;
   return (
     <Col sm={5} className="offset-sm-2">

@@ -18,6 +18,7 @@ class PublisherDetailsPage extends React.Component {
   }
 
   render() {
+    debugger;
     return (
       <Grid>
         <Row className="show-grid">
