@@ -4,6 +4,7 @@ import {bindActionCreators} from "redux";
 import * as publisherPageActions from "../actions/publisherPageAction";
 import PackageList from "../components/common/PackageList";
 import PublisherDetails from "../components/publisherPage/PublisherDetails";
+import {Grid, Row} from "react-bootstrap";
 
 class PublisherDetailsPage extends React.Component {
 
@@ -18,11 +19,13 @@ class PublisherDetailsPage extends React.Component {
 
   render() {
     return (
-      <div >
-        <PublisherDetails data={this.props.publisherDetails}/>
-        <PackageList packageList={this.props.publisherPackages}
-                     publisherName={this.props.publisherName}/>
-      </div>
+      <Grid>
+        <Row className="show-grid">
+          <PublisherDetails data={this.props.publisherDetails}/>
+          <PackageList packageList={this.props.publisherPackages}
+                       publisherName={this.props.publisherName}/>
+        </Row>
+      </Grid>
     );
   }
 }
