@@ -79,3 +79,35 @@ export function generateHandsontableSpec(data) {
   };
 }
 
+// make sure view spec is in "normal" form - i.e. has all the standard fields
+// in standard structure atm this just means adding the dataSource field if
+// absent
+export function normalizeView(viewSpec) {
+  if (!viewSpec.dataSource) {
+    viewSpec.dataSource = {
+      resource: [ 0 ]
+    };
+  }
+}
+
+export function normalizeReclineView(reclineViewSpec) {
+  let graphTypeConvert = {
+    'lines': 'line'
+  };
+  // TODO: support multiple series
+  let out = {
+      'name': reclineViewSpec.id.toLowerCase(),
+      'type': 'simple',
+      'spec': {
+        'mark': graphTypeConvert[reclineViewSpec.state.graphType],
+        'x': {
+          field: reclineViewSpec.state.group
+        },
+        'y': {
+          field: reclineViewSpec.state.series[0]
+        }
+      }
+    };
+  return out;
+}
+

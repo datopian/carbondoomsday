@@ -182,5 +182,49 @@ describe('Data Package View utils', () => {
       "search": true
     };
   });
+
+  it('normalizeView - add dataSource', () => {
+    const inView = {
+      name: 'graph-1',
+      spec: {
+      }
+    };
+    utils.normalizeView(inView);
+    const expected = {
+      name: 'graph-1',
+      dataSource: {
+        resource: [0]
+      },
+      spec: {}
+    }
+    expect(inView).toEqual(expected);
+  });
+
+  it('normalizeReclineView', () => {
+    const inView = {
+      "id": "Graph",
+      "type": "Graph",
+      "state": {
+        "graphType": "lines",
+        "group": "Date",
+        "series": [ "DEMOClose" ]
+      }
+    };
+    const out = utils.normalizeReclineView(inView);
+    const expected = {
+      "name": "graph",
+      "type": "simple",
+      "spec": {
+        "mark": "line",
+        "x": {
+          field: 'Date'
+        },
+        "y": {
+          field: "DEMOClose"
+        }
+      }
+    };
+    expect(out).toEqual(expected);
+  });
 });
 
