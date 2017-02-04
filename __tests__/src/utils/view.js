@@ -93,16 +93,94 @@ describe('Data Package View utils', () => {
 
   it("should generate vega-lite spec", () => {
     let vlSpec = utils.generateVegaLiteSpec(mockData, mockDescriptor.views[0]);
-    expect(vlSpec.layers[0].mark).toEqual("line");
-    expect(vlSpec.data.values[0].DEMOClose).toEqual(14.23);
-    expect(vlSpec.layers[0].encoding.x.field).toEqual("Date");
-    expect(vlSpec.layers[0].encoding.y.field).toEqual("DEMOClose");
+    const expected = {
+      "width": 900,
+      "height": 400,
+      "data": {
+        "values": [
+          {
+            "Date": "2014-01-01",
+            "DEMOOpen": 14.32,
+            "DEMOHigh": 14.59,
+            "DEMOLow": 14,
+            "DEMOClose": 14.23
+          },
+          {
+            "Date": "2014-01-02",
+            "DEMOOpen": 14.06,
+            "DEMOHigh": 14.22,
+            "DEMOLow": 13.57,
+            "DEMOClose": 13.76
+          },
+          {
+            "Date": "2014-01-05",
+            "DEMOOpen": 13.41,
+            "DEMOHigh": 14,
+            "DEMOLow": 13.22,
+            "DEMOClose": 13.55
+          }
+        ]
+      },
+      "layers": [
+        {
+          "mark": "line",
+          "encoding": {
+            "x": {
+              "field": "Date",
+              "type": "temporal"
+            },
+            "y": {
+              "field": "DEMOClose",
+              "type": "quantitative"
+            }
+          }
+        }
+      ]
+    };
+    expect(vlSpec).toEqual(expected);
   });
 
   it("should generate spec with data for HandsOnTable", () => {
     let htSpec = utils.generateHandsontableSpec(mockData);
-    expect(htSpec.data.length).toEqual(mockData.length-1);
-    expect(htSpec.colHeaders[4]).toEqual('DEMOClose');
+		const expected = {
+      "data": [
+        [
+          "2014-01-01",
+          14.32,
+          14.59,
+          14,
+          14.23
+        ],
+        [
+          "2014-01-02",
+          14.06,
+          14.22,
+          13.57,
+          13.76
+        ],
+        [
+          "2014-01-05",
+          13.41,
+          14,
+          13.22,
+          13.55
+        ]
+      ],
+      "colHeaders": [
+        "Date",
+        "DEMOOpen",
+        "DEMOHigh",
+        "DEMOLow",
+        "DEMOClose"
+      ],
+      "readOnly": true,
+      "width": 1136,
+      "colWidths": 47,
+      "rowWidth": 27,
+      "stretchH": "all",
+      "columnSorting": true,
+      "search": true
+    };
   });
 });
 
