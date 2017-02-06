@@ -14,8 +14,7 @@ const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__: false
 };
-const SCRIPTS_PATH = '../app/static/scripts';
-const TEMPLATES_PATH = '../app/templates';
+const SCRIPTS_PATH = '../app/static/react';
 
 export default {
   resolve: {
@@ -34,12 +33,12 @@ export default {
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
     path: path.resolve(__dirname, SCRIPTS_PATH ),
-    publicPath: `${process.env.BIT_STORE_URL===undefined ? '' : process.env.BIT_STORE_URL}/static/scripts/`,
+    publicPath: `${process.env.BIT_STORE_URL===undefined ? '' : process.env.BIT_STORE_URL}/static/react`,
     pathInfo: true,
-    filename: '[name].[chunkhash].js'
+    filename: 'bundle.js'
   },
   plugins: [
-    new CleanWebpackPlugin([SCRIPTS_PATH, TEMPLATES_PATH]),
+    new CleanWebpackPlugin(['app']),
 
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
@@ -57,7 +56,7 @@ export default {
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: true,
-      filename: path.resolve(__dirname, TEMPLATES_PATH + '/index.html'),
+      filename: path.resolve(__dirname, 'index.html'),
     }),
 
     // Eliminate duplicate packages when generating bundle

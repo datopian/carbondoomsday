@@ -12,6 +12,9 @@ let mock2 = nock('https://dp2.com')
               .persist()
               .get('/')
               .replyWithFile(200, './fixtures/dp2/datapackage.json')
+              .get('/fixtures/data/demo-resource.csv')
+              .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv')
+
 
 let mock3 = nock('http://schemas.datapackages.org')
               .persist()

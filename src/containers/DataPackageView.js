@@ -1,10 +1,9 @@
 import React, {PropTypes} from 'react';
 import DataPackagePanel from '../components/dataPackageView/DataDisplayPanel';
 import {connect} from "react-redux";
-import ReactMarkdown from "react-markdown";
 import {bindActionCreators} from "redux";
 import * as actions from "../actions/datapackageActions";
-import * as view from "../utils/view.js"
+import * as view from "../utils/view";
 
 //This container component listens to updates in datapackage and resources from
 //the Redux Store. It then generates either Plotly or Vega-lite spec and renders
@@ -60,10 +59,7 @@ export class DataPackageView extends React.Component {
 
   render() {
     return (
-      <div className="col-lg-10">
         <DataPackagePanel specs={this.state.specs} />
-        <ReactMarkdown source={this.props.readme} />
-      </div>
     );
   }
 }
@@ -82,9 +78,7 @@ function mapStateToProps(state, ownProps) {
   return {
     descriptor: descriptor,
     resources: resources,
-    readme: readme,
-    publisherName: ownProps.params.publisher,
-    packageName: ownProps.params.package,
+    readme: readme
   };
 }
 

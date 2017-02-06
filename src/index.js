@@ -1,20 +1,18 @@
 import React from "react";
-import {render} from "react-dom";
-import routes from "./routes";
+import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
-import {syncHistoryWithStore} from "react-router-redux";
-import {Router, browserHistory} from "react-router";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/handsontable/dist/handsontable.full.min.css";
 import configureStore from "./store/configureStore";
+import DataPackageView from "./containers/DataPackageView"; // eslint-disable-line
+
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
 
-render(
+ReactDOM.render(
   <Provider store={store}>
-    <Router history={history} routes={routes}/>
-  </Provider>, document.getElementById('app')
+    <DataPackageView packageName={packageName} publisherName={publisherName}/>
+  </Provider>, document.getElementById("vis")
 );
 
 
