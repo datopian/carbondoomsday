@@ -33,7 +33,7 @@ export default {
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
     path: path.resolve(__dirname, SCRIPTS_PATH ),
-    publicPath: `${process.env.BIT_STORE_URL===undefined ? '' : process.env.BIT_STORE_URL}/static/react`,
+    publicPath: '/static/react',
     pathInfo: true,
     filename: 'bundle.js'
   },
@@ -50,13 +50,13 @@ export default {
     new webpack.DefinePlugin(GLOBALS),
 
     // Generate an external css file with a hash in the filename
-    new ExtractTextPlugin('[name].[contenthash].css'),
+    new ExtractTextPlugin('[name].css'),
 
     // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
       template: 'index.html',
       inject: true,
-      filename: path.resolve(__dirname, 'index.html'),
+      filename: path.resolve(__dirname, 'app/index.html'),
     }),
 
     // Eliminate duplicate packages when generating bundle
