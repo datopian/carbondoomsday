@@ -1,5 +1,5 @@
 // Utilities and classes for working with Data Package Views
-import { indexOf } from "lodash";
+import { indexOf, find } from "lodash";
 
 //Takes data and view, then generates vega-lite specific spec.
 export function generateVegaLiteSpec(data, view) {
@@ -109,5 +109,22 @@ export function normalizeReclineView(reclineViewSpec) {
       }
     };
   return out;
+}
+
+export function compileData(view, dataPackage, dataPackageData) {
+  let out = view.resources.map(resourceId => {
+    let resource = Object.assign({}, findResourceByNameOfId(dataPackage, resourceId));
+    resource.values = dataPackageData[dataPackage.name][resourceId];
+    return resource;
+  });
+  return out;
+}
+
+export function findResourceByNameOfId(dp, nameOrId) {
+  if (typeof(nameOrId) == 'number') {
+    return dp.resources[nameOrId];
+  } else {
+    return find(dp.resources, (resource) => {return (resource.name == nameOrId)});
+  }
 }
 

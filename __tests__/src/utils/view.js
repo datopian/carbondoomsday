@@ -226,5 +226,30 @@ describe('Data Package View utils', () => {
     };
     expect(out).toEqual(expected);
   });
+
+  it('compileData works', () => {
+    const datapackage = mockDescriptor;
+    let resourceId = datapackage.resources[0].name;
+    let view = {
+      resources: [ resourceId ]
+    }
+    const resourceData = {};
+    resourceData[datapackage.name] = {};
+    resourceData[datapackage.name][resourceId] = mockData;
+
+    const out = utils.compileData(view, datapackage, resourceData);
+
+    let resource = Object.assign({}, datapackage.resources[0]);
+    resource.values = mockData;
+    const expected = [
+      resource
+    ]
+    expect(out).toEqual(expected);
+  });
+
+  it('findResourceByNameOfId', () => {
+    let out = utils.findResourceByNameOfId(mockDescriptor, 'demo-resource');
+    expect(out.name).toEqual('demo-resource');
+  });
 });
 
