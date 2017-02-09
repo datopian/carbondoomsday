@@ -23,33 +23,13 @@ const mockDescriptor = {
             "name": "DEMOHigh",
             "type": "number",
             "description": ""
-          },
-          {
-            "name": "DEMOLow",
-            "type": "number",
-            "description": ""
-          },
-          {
-            "name": "DEMOClose",
-            "type": "number",
-            "description": ""
           }
         ],
         "primaryKey": "Date"
       }
     }
   ],
-  "views": [
-    {
-      "id": "Graph",
-      "type": "Graph",
-      "state": {
-        "graphType": "lines",
-        "group": "Date",
-        "series": [ "DEMOClose" ]
-      }
-    }
-  ]
+  "views": []
 };
 
 const mockData = [
@@ -59,11 +39,31 @@ const mockData = [
   [ '2014-01-05', 13.41, 14.00, 13.22, 13.55 ]
 ];
 
+const mockViews = {
+  recline: {
+    "id": "Graph",
+    "type": "Graph",
+    "state": {
+      "graphType": "lines",
+      "group": "Date",
+      "series": [ "DEMOClose" ]
+    }
+  },
+  simple: {
+    name: "graph",
+    specType: "simple",
+    spec: {
+      type: "line",
+      group: "Date",
+      series: ["DEMOClose"]
+    }
+  }
+}
+
 
 describe('Data Package View utils', () => {
   it("should generate spec for Plotly", () => {
-    const viewSpec = mockDescriptor.views[0];
-    let plotlySpec = utils.generatePlotlySpec(viewSpec, mockData);
+    let plotlySpec = utils.generatePlotlySpec(mockViews['recline'], mockData);
     var expected = {
 			"data": [
         {
@@ -92,7 +92,7 @@ describe('Data Package View utils', () => {
   });
 
   it("should generate vega-lite spec", () => {
-    let vlSpec = utils.generateVegaLiteSpec(mockData, mockDescriptor.views[0]);
+    let vlSpec = utils.generateVegaLiteSpec(mockData, mockViews['recline']);
     const expected = {
       "width": 900,
       "height": 400,
@@ -199,16 +199,7 @@ describe('Data Package View utils', () => {
   });
 
   it('convertReclineToSimple', () => {
-    const inView = {
-      "id": "Graph",
-      "type": "Graph",
-      "state": {
-        "graphType": "lines",
-        "group": "Date",
-        "series": [ "DEMOClose" ]
-      }
-    };
-    const out = utils.convertReclineToSimple(inView);
+    const out = utils.convertReclineToSimple(mockViews['recline']);
     const expected = {
       name: "graph",
       specType: "simple",
@@ -231,13 +222,11 @@ describe('Data Package View utils', () => {
     resourceData[datapackage.name] = {};
     resourceData[datapackage.name][resourceId] = mockData;
 
+    let resourceWithValues = Object.assign({values: mockData}, datapackage.resources[0]);
+    const expected = [ resourceWithValues ]
+
     const out = utils.compileData(view, datapackage, resourceData);
 
-    let resource = Object.assign({}, datapackage.resources[0]);
-    resource.values = mockData;
-    const expected = [
-      resource
-    ]
     expect(out).toEqual(expected);
   });
 
