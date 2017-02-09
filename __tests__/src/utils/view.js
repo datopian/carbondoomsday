@@ -192,15 +192,13 @@ describe('Data Package View utils', () => {
     utils.normalizeView(inView);
     const expected = {
       name: 'graph-1',
-      dataSource: {
-        resource: [0]
-      },
+      resources: [ 0 ],
       spec: {}
     }
     expect(inView).toEqual(expected);
   });
 
-  it('normalizeReclineView', () => {
+  it('convertReclineToSimple', () => {
     const inView = {
       "id": "Graph",
       "type": "Graph",
@@ -210,18 +208,14 @@ describe('Data Package View utils', () => {
         "series": [ "DEMOClose" ]
       }
     };
-    const out = utils.normalizeReclineView(inView);
+    const out = utils.convertReclineToSimple(inView);
     const expected = {
-      "name": "graph",
-      "type": "simple",
-      "spec": {
-        "mark": "line",
-        "x": {
-          field: 'Date'
-        },
-        "y": {
-          field: "DEMOClose"
-        }
+      name: "graph",
+      specType: "simple",
+      spec: {
+        type: "line",
+        group: "Date",
+        series: ["DEMOClose"]
       }
     };
     expect(out).toEqual(expected);
