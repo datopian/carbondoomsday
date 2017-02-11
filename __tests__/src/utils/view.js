@@ -1,6 +1,7 @@
 import * as utils from "../../../src/utils/view.js"
 
 const mockDescriptor = {
+  "name": "demo-package",
   "resources": [
     {
       "name": "demo-resource",
@@ -15,12 +16,12 @@ const mockDescriptor = {
             "description": ""
           },
           {
-            "name": "DEMOOpen",
+            "name": "Open",
             "type": "number",
             "description": ""
           },
           {
-            "name": "DEMOHigh",
+            "name": "High",
             "type": "number",
             "description": ""
           }
@@ -33,10 +34,16 @@ const mockDescriptor = {
 };
 
 const mockData = [
-  [ 'Date', 'DEMOOpen', 'DEMOHigh', 'DEMOLow', 'DEMOClose' ],
-  [ '2014-01-01', 14.32, 14.59, 14.00, 14.23 ],
-  [ '2014-01-02', 14.06, 14.22, 13.57, 13.76 ],
-  [ '2014-01-05', 13.41, 14.00, 13.22, 13.55 ]
+  [ 'Date', 'Open', 'High' ],
+  [ '2014-01-01', 14.32, 14.59 ],
+  [ '2014-01-02', 14.06, 14.22 ],
+  [ '2014-01-05', 13.41, 14.00 ]
+];
+
+const mockTable1 = [
+  { 'Date': '2014-01-01', 'Open': 14.32, 'High': 14.59 },
+  { 'Date': '2014-01-02', 'Open': 14.06, 'High': 14.22 },
+  { 'Date': '2014-01-05', 'Open': 13.41, 'High': 14.00 }
 ];
 
 const mockViews = {
@@ -46,7 +53,7 @@ const mockViews = {
     "state": {
       "graphType": "lines",
       "group": "Date",
-      "series": [ "DEMOClose" ]
+      "series": [ "High" ]
     }
   },
   simple: {
@@ -55,13 +62,152 @@ const mockViews = {
     spec: {
       type: "line",
       group: "Date",
-      series: ["DEMOClose"]
+      series: ["High"]
+    }
+  },
+  simple2: {
+    name: "graph",
+    specType: "simple",
+    spec: {
+      type: "line",
+      group: "Date",
+      series: ["High", "Open"]
+    }
+  },
+  simpleBar: {
+    name: "graph",
+    specType: "simple",
+    spec: {
+      type: "bar",
+      group: "Date",
+      series: ["High"]
+    }
+  },
+}
+
+let mockDataPackageData = {}
+mockDataPackageData[mockDescriptor.name] = {};
+mockDataPackageData[mockDescriptor.name][mockDescriptor.resources[0].name] = mockTable1;
+
+const plotlyExpected = {
+  simple: {
+    "data": [
+      {
+        "x": [
+          "2014-01-01",
+          "2014-01-02",
+          "2014-01-05"
+        ],
+        "y": [
+          14.59,
+          14.22,
+          14
+        ],
+        "type": "scatter",
+        "mode": "lines",
+        "line": { width: 2, shape: "spline" },
+        "name": "High"
+      }
+    ],
+    "layout": {
+      "xaxis": {
+        "title": "Date"
+      }
+    }
+  },
+  simple2: {
+    "data": [
+      {
+        "x": [
+          "2014-01-01",
+          "2014-01-02",
+          "2014-01-05"
+        ],
+        "y": [
+          14.59,
+          14.22,
+          14
+        ],
+        "name": "High",
+        "type": "scatter",
+        "mode": "lines",
+        "line": {
+					width: 2,
+          shape: "spline"
+        }
+      },
+			{
+				"x": [
+					"2014-01-01",
+					"2014-01-02",
+					"2014-01-05"
+				],
+				"y": [
+					14.32,
+					14.06,
+					13.41
+				],
+				"name": "Open",
+				"type": "scatter",
+				"mode": "lines",
+				"line": {
+					"width": 2,
+					"shape": "spline"
+				}
+			}
+    ],
+    "layout": {
+      "xaxis": {
+        "title": "Date"
+      }
+    }
+  },
+  simpleBar: {
+    "data": [
+      {
+        "x": [
+          "2014-01-01",
+          "2014-01-02",
+          "2014-01-05"
+        ],
+        "y": [
+          14.59,
+          14.22,
+          14
+        ],
+        "name": "High",
+        "type": "bar"
+      }
+    ],
+    "layout": {
+      "xaxis": {
+        "title": "Date"
+      }
     }
   }
 }
 
 
 describe('Data Package View utils', () => {
+  it("should generate Plotly spec - lines", () => {
+    let view = utils.compileView(mockViews['simple'], mockDescriptor, mockDataPackageData);
+    let plotlySpec = utils.simpleToPlotly(view);
+    expect(plotlySpec).toEqual(plotlyExpected['simple']);
+  });
+  it("should generate Plotly spec - 2 lines", () => {
+    let view = utils.compileView(mockViews['simple2'], mockDescriptor, mockDataPackageData);
+    let plotlySpec = utils.simpleToPlotly(view);
+    expect(plotlySpec).toEqual(plotlyExpected['simple2']);
+  });
+  it("should generate Plotly spec - bar", () => {
+    let view = utils.compileView(mockViews['simpleBar'], mockDescriptor, mockDataPackageData);
+    let plotlySpec = utils.simpleToPlotly(view);
+    expect(plotlySpec).toEqual(plotlyExpected['simpleBar']);
+  });
+});
+
+
+describe('Old spec generation - to be removed soon', () => {
   it("should generate spec for Plotly", () => {
     let plotlySpec = utils.generatePlotlySpec(mockViews['recline'], mockData);
     var expected = {
@@ -73,12 +219,12 @@ describe('Data Package View utils', () => {
             "2014-01-05"
           ],
           "y": [
-            14.23,
-            13.76,
-            13.55
+            14.59,
+            14.22,
+            14
           ],
           "mode": "lines",
-          "name": "DEMOClose"
+          "name": "High"
         }
       ],
       "layout": {
@@ -100,24 +246,18 @@ describe('Data Package View utils', () => {
         "values": [
           {
             "Date": "2014-01-01",
-            "DEMOOpen": 14.32,
-            "DEMOHigh": 14.59,
-            "DEMOLow": 14,
-            "DEMOClose": 14.23
+            "Open": 14.32,
+            "High": 14.59
           },
           {
             "Date": "2014-01-02",
-            "DEMOOpen": 14.06,
-            "DEMOHigh": 14.22,
-            "DEMOLow": 13.57,
-            "DEMOClose": 13.76
+            "Open": 14.06,
+            "High": 14.22
           },
           {
             "Date": "2014-01-05",
-            "DEMOOpen": 13.41,
-            "DEMOHigh": 14,
-            "DEMOLow": 13.22,
-            "DEMOClose": 13.55
+            "Open": 13.41,
+            "High": 14
           }
         ]
       },
@@ -130,7 +270,7 @@ describe('Data Package View utils', () => {
               "type": "temporal"
             },
             "y": {
-              "field": "DEMOClose",
+              "field": "High",
               "type": "quantitative"
             }
           }
@@ -182,7 +322,10 @@ describe('Data Package View utils', () => {
       "search": true
     };
   });
+});
 
+
+describe('Basic view utility functions', () => {
   it('normalizeView - add dataSource', () => {
     const inView = {
       name: 'graph-1',
@@ -206,33 +349,44 @@ describe('Data Package View utils', () => {
       spec: {
         type: "line",
         group: "Date",
-        series: ["DEMOClose"]
+        series: ["High"]
       }
     };
     expect(out).toEqual(expected);
   });
 
   it('compileData works', () => {
-    const datapackage = mockDescriptor;
-    let resourceId = datapackage.resources[0].name;
+    let resourceId = mockDescriptor.resources[0].name;
     let view = {
       resources: [ resourceId ]
     }
-    const resourceData = {};
-    resourceData[datapackage.name] = {};
-    resourceData[datapackage.name][resourceId] = mockData;
-
-    let resourceWithValues = Object.assign({values: mockData}, datapackage.resources[0]);
+    let resourceWithValues = Object.assign({values: mockTable1}, mockDescriptor.resources[0]);
     const expected = [ resourceWithValues ]
+    let out = utils.compileData(view, mockDescriptor, mockDataPackageData);
+    expect(out).toEqual(expected);
 
-    const out = utils.compileData(view, datapackage, resourceData);
-
+    // check it works with resource index as well
+    view = {
+      resources: [ 0 ]
+    };
+    out = utils.compileData(view, mockDescriptor, mockDataPackageData);
     expect(out).toEqual(expected);
   });
 
-  it('findResourceByNameOfId', () => {
-    let out = utils.findResourceByNameOfId(mockDescriptor, 'demo-resource');
+  it('findResourceByNameOrIndex with name', () => {
+    let out = utils.findResourceByNameOrIndex(mockDescriptor, 'demo-resource');
     expect(out.name).toEqual('demo-resource');
+  });
+
+  it('findResourceByNameOrIndex with index', () => {
+    let out = utils.findResourceByNameOrIndex(mockDescriptor, 0);
+    expect(out.name).toEqual('demo-resource');
+  });
+
+  it('compileView works', () => {
+    let out = utils.compileView(mockViews['simple'], mockDescriptor, mockDataPackageData);
+    expect(out.resources[0].format).toEqual('csv');
+    expect(out.resources[0].values.length).toEqual(3);
   });
 });
 

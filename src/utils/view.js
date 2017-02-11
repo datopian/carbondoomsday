@@ -1,6 +1,54 @@
 // Utilities and classes for working with Data Package Views
 import { indexOf, find } from "lodash";
 
+/**
+ * Convert a view using a simple graph spec to plotly spec for rendering
+ * @param {View} view descriptor with compiled in data
+ * @return {Object} Plotly spec
+ */
+export function simpleToPlotly(view) {
+  let simpleGraphTypesToPlotly = {
+    line: {
+      type: 'scatter',
+      mode: 'lines',
+      line: {
+        width: 2,
+        shape: 'spline'
+      }
+    },
+    bar: {
+      type: 'bar'
+    },
+    scatter: {
+      type: 'scatter'
+    }
+  };
+  let rows = view.resources[0].values;
+  let xValues = rows.map(row => row[view.spec.group]);
+  // generate the plotly series
+  // { 'x': ..., 'y': ..., 'type': ...}
+  let data = view.spec.series.map(serie => {
+    let out = {
+      x: xValues,
+      y: rows.map(row => row[serie]),
+      name: serie
+    }
+		Object.assign(out, simpleGraphTypesToPlotly[view.spec.type]);
+    return out;
+  });
+
+  let plotlySpec = {
+    data: data,
+    layout: {
+      "xaxis": {
+        "title": view.spec.group
+      }
+    }
+  }
+  return plotlySpec;
+}
+
+
 //Takes data and view, then generates vega-lite specific spec.
 export function generateVegaLiteSpec(data, view) {
   let vlSpec = {
@@ -107,20 +155,42 @@ export function convertReclineToSimple(reclineViewSpec) {
   return out;
 }
 
+/**
+ * compile together resources needed for this view based on its data source spec
+ * @param {View} view descriptor
+ * @param {dataPackage} parent data package - used for resolving the resources
+ * @param {dataPackageData} this should be dict keyed by Data Package Name then
+      keyed by Resource Name for looking up data
+ * @return {Array} An array of resources with their data inlined
+ */
 export function compileData(view, dataPackage, dataPackageData) {
   let out = view.resources.map(resourceId => {
-    let resource = Object.assign({}, findResourceByNameOfId(dataPackage, resourceId));
-    resource.values = dataPackageData[dataPackage.name][resourceId];
+    let resource = Object.assign({}, findResourceByNameOrIndex(dataPackage, resourceId));
+    resource.values = dataPackageData[dataPackage.name][resource.name];
     return resource;
   });
   return out;
 }
 
-export function findResourceByNameOfId(dp, nameOrId) {
-  if (typeof(nameOrId) == 'number') {
-    return dp.resources[nameOrId];
+export function findResourceByNameOrIndex(dp, nameOrIndex) {
+  if (typeof(nameOrIndex) == 'number') {
+    return dp.resources[nameOrIndex];
   } else {
-    return find(dp.resources, (resource) => {return (resource.name == nameOrId)});
+    return find(dp.resources, (resource) => {return (resource.name == nameOrIndex)});
   }
+}
+
+
+/**
+ * Prepare a view for conversion to a renderable spec (normalize it and compile in data)
+ * Params as for compileData
+ * @return {Object} "compiled" view - normalized and with data inline
+ */
+export function compileView(inView, dataPackage, dataPackageData) {
+  let view = Object.assign({}, inView);
+  normalizeView(view);
+  let compiledData = compileData(view, dataPackage, dataPackageData);
+  view.resources = compiledData;
+  return view;
 }
 
