@@ -29,7 +29,8 @@
     },
     "moduleFileExtensions": [
       "es6",
-      "js"
+      "js",
+      "jsx"
     ],
     "collectCoverage": true,
     "verbose": true,
@@ -76,6 +77,7 @@
     "dotenv": "4.0.0",
     "enzyme": "^2.7.0",
     "eslint": "3.12.2",
+    "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.8.0",

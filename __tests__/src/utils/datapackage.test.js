@@ -1,14 +1,15 @@
-import "babel-polyfill";
-const Datapackage = require('datapackage-test').Datapackage
+import 'babel-polyfill'
 import jts from 'jsontableschema'
 import nock from 'nock'
 
-let mock1 = nock('http://bit.do/datapackage-json')
+const Datapackage = require('datapackage-test').Datapackage
+
+const mock1 = nock('http://bit.do/datapackage-json')
               .persist()
               .get('')
               .replyWithFile(200, './fixtures/dp4/datapackage.json')
 
-let mock2 = nock('https://dp2.com')
+const mock2 = nock('https://dp2.com')
               .persist()
               .get('/')
               .replyWithFile(200, './fixtures/dp2/datapackage.json')
@@ -16,7 +17,7 @@ let mock2 = nock('https://dp2.com')
               .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv')
 
 
-let mock3 = nock('http://schemas.datapackages.org')
+const mock3 = nock('http://schemas.datapackages.org')
               .persist()
               .get('/registry.json')
               .replyWithFile(200, './fixtures/schemas/registry.json')
@@ -41,7 +42,6 @@ describe('get datapackage', () => {
 })
 
 describe('getDataResource function', () => {
-
   it('should load inline resource', async () => {
     const descriptor = 'http://bit.do/datapackage-json'
     const dp = await new Datapackage(descriptor)
@@ -58,21 +58,20 @@ describe('getDataResource function', () => {
     const data = await table.read()
     expect(data[0][1]).toEqual(14.32)
   })
-
 })
 
 describe('playing with datapackage', () => {
   beforeEach(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-  });
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+  })
 
   it('works hooray', async () => {
     const url = 'https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'
     const basePath = url.replace('datapackage.json', '')
-    const dp = await new Datapackage(url);
-    expect(dp.descriptor.title).toEqual('DEMO - CBOE Volatility Index');
-    let dataset = []
-    for(let i=0; i<dp.resources.length; i++) {
+    const dp = await new Datapackage(url)
+    expect(dp.descriptor.title).toEqual('DEMO - CBOE Volatility Index')
+    const dataset = []
+    for (let i = 0; i < dp.resources.length; i++) {
       const source = basePath + dp.resources[i].descriptor.path
       const table = await new jts.Table(dp.resources[i].descriptor.schema, source)
       const data = await table.read()

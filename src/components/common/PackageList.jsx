@@ -1,9 +1,9 @@
-import React, {PropTypes} from "react";
-import PackageListItem from "./PackageListItem";
-import {Col, Row, Button} from "react-bootstrap";
+import React, { PropTypes } from 'react'
+import { Col, Row, Button } from 'react-bootstrap'
+import PackageListItem from './PackageListItem'
 
-const PackageList = ({publisherName, packageList}) => {
-  let l = packageList.length;
+const PackageList = ({ publisherName, packageList }) => {
+  const l = packageList.length
   return (
     <Col sm={5} className="offset-sm-2">
       <div className="card mb-2">
@@ -27,20 +27,22 @@ const PackageList = ({publisherName, packageList}) => {
       {
         l > 0 ?
           packageList.map(packageItem =>
-            <PackageListItem key={publisherName + "::" + packageItem.name}
-                             name={packageItem.name}
-                             publisherName={publisherName}
-                             description={packageItem.readme.substring(0, 50)}
-                             title={packageItem.descriptor.title}/>
+            <PackageListItem
+              key={`${publisherName}::${packageItem.name}`}
+              name={packageItem.name}
+              publisherName={publisherName}
+              description={packageItem.readme.substring(0, 50)}
+              title={packageItem.descriptor.title}
+            />
           ) : ''
       }
     </Col>
-  );
-};
+  )
+}
 
 PackageList.propTypes = {
-  packageList: PropTypes.array.isRequired,
-  publisherName: PropTypes.string.isRequired
-};
+  packageList: PropTypes.array.isRequired
+  , publisherName: PropTypes.string.isRequired
+}
 
-export default PackageList;
+export default PackageList
