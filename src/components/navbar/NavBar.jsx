@@ -1,12 +1,12 @@
-import React from "react";
-import BrandLogo from "./brand-small-logo.png";
-import "./NavBar.css";
-import {Navbar} from "react-bootstrap";
+import React from 'react'
+import { Navbar } from 'react-bootstrap'
+import BrandLogo from './brand-small-logo.png'
+import './NavBar.css'
 
 class NavBar extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -16,14 +16,14 @@ class NavBar extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <a href="/">
-                <img alt="Brand" src={BrandLogo}/>
+                <img alt="Brand" src={BrandLogo} />
               </a>
             </Navbar.Brand>
           </Navbar.Header>
         </div>
       </Navbar>
-    );
+    )
   }
 }
 
-export default NavBar;
+export default NavBar

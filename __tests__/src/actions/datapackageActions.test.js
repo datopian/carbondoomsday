@@ -1,8 +1,8 @@
-import 'babel-polyfill';
+import 'babel-polyfill'
 // import configureMockStore from 'redux-mock-store';
 // import nock from 'nock';
 // import thunk from 'redux-thunk';
-import expect from "expect";
+import expect from 'expect'
 
 // import * as actions from '../../../src/actions/datapackageActions';
 //
@@ -10,7 +10,6 @@ import expect from "expect";
 // const mockStore = configureMockStore(middlewares);
 
 describe('async actions', () => {
-
   // beforeEach(() =>{
   //   nock('https://staging.datapackaged.com')
   //     .log(console.log)
@@ -27,9 +26,9 @@ describe('async actions', () => {
   // afterEach(() => {
   //   nock.cleanAll();
   // });
-  it("dummy test", () => {
-    expect(1).toEqual(1);
-  });
+  it('dummy test', () => {
+    expect(1).toEqual(1)
+  })
 
   // it('creates RECEIVE_DATAPACKAGE when fetching datapackage is done', async () => {
   //
@@ -64,5 +63,4 @@ describe('async actions', () => {
   //   expect(receivedResource[0].resources[0][0][4]).toEqual('DEMOClose');
   //   expect(receivedResource[0].resources[0][1][1]).toEqual(14.32);
   // });
-
-});
+})
