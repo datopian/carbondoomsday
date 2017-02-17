@@ -49,6 +49,30 @@ export function simpleToPlotly(view) {
 }
 
 
+export function handsOnTableToHandsOnTable(view) {
+  let headers = view.resources[0].schema.fields.map(field => {
+    return field.name;
+  });
+  let data = view.resources[0].values;
+  let height = null;
+  if (data.length > 16) {
+    height = 432;
+  }
+  return {
+    data: data,
+    colHeaders: headers,
+    readOnly: true,
+    width: 1136,
+    height: height,
+    colWidths: 47,
+    rowWidth: 27,
+    stretchH: 'all',
+    columnSorting: true,
+    search: true
+  };
+}
+
+
 //Takes data and view, then generates vega-lite specific spec.
 export function generateVegaLiteSpec(data, view) {
   let vlSpec = {

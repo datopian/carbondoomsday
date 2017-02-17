@@ -207,6 +207,53 @@ describe('Data Package View utils', () => {
 });
 
 
+describe('Data Package View utils - HandsOnTable ', () => {
+  it('should generate handsontable -> handsontable', () => {
+    let view = {
+      name: 'table-resource1',
+      resources: ['demo-resource'],
+      specType: 'handsontable'
+    }
+    let viewCompiled = utils.compileView(view, mockDescriptor, mockDataPackageData);
+    let outSpec = utils.handsOnTableToHandsOnTable(viewCompiled);
+    let expected = {
+      "data": [
+        {
+          "Date": "2014-01-01",
+          "Open": 14.32,
+          "High": 14.59
+        },
+        {
+          "Date": "2014-01-02",
+          "Open": 14.06,
+          "High": 14.22
+        },
+        {
+          "Date": "2014-01-05",
+          "Open": 13.41,
+          "High": 14
+        }
+      ],
+      "colHeaders": [
+        "Date",
+        "Open",
+        "High"
+      ],
+      "readOnly": true,
+      "width": 1136,
+      "height": null,
+      "colWidths": 47,
+      "rowWidth": 27,
+      "stretchH": "all",
+      "columnSorting": true,
+      "search": true
+    };
+    // console.log(JSON.stringify(outSpec, null, 2));
+    expect(outSpec).toEqual(expected);
+  });
+});
+
+
 describe('Old spec generation - to be removed soon', () => {
   it("should generate spec for Plotly", () => {
     let plotlySpec = utils.generatePlotlySpec(mockViews['recline'], mockData);
