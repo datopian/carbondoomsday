@@ -16,7 +16,7 @@ class PackageListItem extends React.Component {
       <div className="card mb-2">
         <div className="card-block">
 
-          <h5 className="card-title"><span className="fa fa-files-o" /> {title}</h5>
+          <h5 className="card-title"><span className="fa fa-files-o" />{title}</h5>
           <h6>[{name}]</h6>
 
           { description !== undefined ?
@@ -29,10 +29,10 @@ class PackageListItem extends React.Component {
               <img src="https://avatars3.githubusercontent.com/u/22451011?v=3&s=200" className="img-fluid rounded-circle" />
             </Col>
             <Col sm={6} className="align-self-center">
-              <small><Link to={`/${publisherName}`}>by {publisherName}</Link></small>
+              <small><Link to={`/${publisherName}`}>by:{publisherName}</Link></small>
             </Col>
             <Col sm={4} className="pull-right align-self-center">
-              <Button bsStyle="secondary" bsSize="xsmall">
+              <Button bsStyle="default" bsSize="xsmall">
                 <Link to={packageUrl}>Explore</Link>
               </Button>
             </Col>

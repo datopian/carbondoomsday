@@ -29,7 +29,8 @@
     },
     "moduleFileExtensions": [
       "es6",
-      "js"
+      "js",
+      "jsx"
     ],
     "collectCoverage": true,
     "verbose": true,

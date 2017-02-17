@@ -6,8 +6,7 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
     <h5
       className="card-title">
       <span
-        class="fa fa-files-o" />
-       
+        className="fa fa-files-o" />
       Finance Vix Package
     </h5>
     <h6>
@@ -35,7 +34,7 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
           <a
             onClick={[Function]}
             style={Object {}}>
-            by 
+            by:
             publisher
           </a>
         </small>
@@ -43,7 +42,7 @@ exports[`test Rendered output matches previously created snapshot 1`] = `
       <div
         className="pull-right align-self-center col-sm-4">
         <button
-          className="btn btn-xs btn-secondary"
+          className="btn btn-xs btn-default"
           disabled={false}
           type="button">
           <a
