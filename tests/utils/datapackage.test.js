@@ -7,15 +7,14 @@ const Datapackage = require('datapackage-test').Datapackage
 const mock1 = nock('http://bit.do/datapackage-json')
               .persist()
               .get('')
-              .replyWithFile(200, './fixtures/dp4/datapackage.json')
+              .replyWithFile(200, './fixtures/dp-inline-data/datapackage.json')
 
-const mock2 = nock('https://dp2.com')
+const mock2 = nock('https://dp-vix-resource-and-view.com')
               .persist()
               .get('/')
-              .replyWithFile(200, './fixtures/dp2/datapackage.json')
+              .replyWithFile(200, './fixtures/dp-vix-resource-and-view/datapackage.json')
               .get('/fixtures/data/demo-resource.csv')
-              .replyWithFile(200, './fixtures/dp2/data/demo-resource.csv')
-
+              .replyWithFile(200, './fixtures/dp-vix-resource-and-view/data/demo-resource.csv')
 
 const mock3 = nock('http://schemas.datapackages.org')
               .persist()
@@ -28,9 +27,10 @@ const mock3 = nock('http://schemas.datapackages.org')
               .get('/fiscal-data-package.json')
               .replyWithFile(200, './fixtures/schemas/fiscal-data-package.json')
 
+
 describe('get datapackage', () => {
   it('should load the datapackage.json', async () => {
-    const descriptor = 'https://dp2.com'
+    const descriptor = 'https://dp-vix-resource-and-view.com'
     const dp = await new Datapackage(descriptor)
 
     expect(dp.valid).toBe(true)
@@ -51,8 +51,8 @@ describe('getDataResource function', () => {
   })
 
   it('should load resource from URL', async () => {
-    const descriptor = 'https://dp2.com'
-    const basePath = 'fixtures/dp2'
+    const descriptor = 'https://dp-vix-resource-and-view.com'
+    const basePath = 'fixtures/dp-vix-resource-and-view'
     const dp = await new Datapackage(descriptor, 'base', true, false, basePath)
     const table = await dp.resources[0].table
     const data = await table.read()
