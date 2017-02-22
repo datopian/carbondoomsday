@@ -1,4 +1,4 @@
-import * as utils from '../../../src/utils/view'
+import * as utils from '../../src/utils/view'
 
 const mockDescriptor = {
   name: 'demo-package'

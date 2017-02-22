@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import expect from 'expect'
 
-import DataPackagePanel from '../../../../src/components/dataPackageView/DataDisplayPanel'
+import DataPackagePanel from '../../../src/components/dataPackageView/DataDisplayPanel'
 
 describe('<DataPackagePanel />', () => {
   it('should render blank div if spec is empty', () => {

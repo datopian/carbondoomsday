@@ -1,7 +1,7 @@
 import React from 'react'
 import expect from 'expect'
 import { shallow } from 'enzyme'
-import HandsOnTable from '../../../../src/components/dataPackageView/HandsOnTable'
+import HandsOnTable from '../../../src/components/dataPackageView/HandsOnTable'
 
 const mockSpec = {
   data: [

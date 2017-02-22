@@ -1,5 +1,5 @@
 import expect from 'expect'
-import reducer from '../../../src/reducers/datapackageReducer'
+import reducer from '../../src/reducers/datapackageReducer'
 
 describe('update reducer', () => {
   it('should return initial state', () => {
