@@ -1,8 +1,7 @@
-import jts from 'jsontableschema'
 import * as actionTypes from '../constants/actionTypes'
 import DataPackagePageApi from '../api/dataPackagePageApi'
 
-const Datapackage = require('datapackage-test').Datapackage
+const Datapackage = require('datapackage').Datapackage
 
 export function receiveDatapackage(apiData) {
   return {
@@ -31,9 +30,8 @@ export function getDataPackage(publisher, packageName) {
         const dp = await new Datapackage(descriptor, 'base', false, false, basePath)
         const dataset = []
         for (let i = 0; i < dp.resources.length; i++) {
-          const source = basePath + dp.resources[i].descriptor.path
-          const table = await getResourceTable(dp, i, source)
-          const headers = await table.schema.headers
+          const table = await dp.resources[i].table
+          const headers = table.schema.headers
           const data = await table.read()
           data.unshift(headers)
           dataset.push(data)
@@ -46,6 +44,3 @@ export function getDataPackage(publisher, packageName) {
       })
 }
 
-async function getResourceTable(dp, idx, source) {
-  return await new jts.Table(dp.resources[idx].descriptor.schema, source)
-}

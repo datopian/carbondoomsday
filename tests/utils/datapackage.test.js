@@ -2,7 +2,8 @@ import 'babel-polyfill'
 import jts from 'jsontableschema'
 import nock from 'nock'
 
-const Datapackage = require('datapackage-test').Datapackage
+const Datapackage = require('datapackage').Datapackage
+
 
 const mock1 = nock('http://bit.do/datapackage-json')
               .persist()
@@ -60,23 +61,23 @@ describe('getDataResource function', () => {
   })
 })
 
+
 describe('playing with datapackage', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
   })
 
   it('works hooray', async () => {
-    const url = 'https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json'
+    const url = 'https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp-vix-resource-and-view/datapackage.json'
     const basePath = url.replace('datapackage.json', '')
     const dp = await new Datapackage(url)
     expect(dp.descriptor.title).toEqual('DEMO - CBOE Volatility Index')
-    const dataset = []
-    for (let i = 0; i < dp.resources.length; i++) {
-      const source = basePath + dp.resources[i].descriptor.path
-      const table = await new jts.Table(dp.resources[i].descriptor.schema, source)
+    const datasets = await dp.resources.map(async resource => {
+      const table = await resource.table
       const data = await table.read()
-      dataset.push(data)
-    }
-    expect(dataset.length).toEqual(dp.resources.length)
+      return data
+    })
+    expect(datasets.length).toEqual(dp.resources.length)
   })
 })
+

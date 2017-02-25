@@ -108,9 +108,8 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "datapackage-test": "^0.2.3",
+    "datapackage": "^0.8.1",
     "handsontable": "^0.29.2",
-    "jsontableschema": "^0.2.2",
     "lodash": "^4.0.0",
     "plotly.js": "^1.21.2",
     "react": "^15.4.1",
