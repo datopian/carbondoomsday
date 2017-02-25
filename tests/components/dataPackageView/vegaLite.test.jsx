@@ -1,7 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
-import expect from 'expect'
 import VegaLiteChart from '../../../src/components/dataPackageView/VegaLiteChart'
 
 const mockSpec = {
