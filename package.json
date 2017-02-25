@@ -34,6 +34,7 @@
     ],
     "collectCoverage": true,
     "verbose": true,
+    "testRegex": "(/tests/.*).jsx?$",
     "globals": {
       "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json",
       "remoteDpUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json",
