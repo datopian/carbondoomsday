@@ -1,6 +1,10 @@
 // Utilities and classes for working with Data Package Views
 import { indexOf, find } from 'lodash'
 
+function getResourceCachedValues(resource) {
+  return resource._values;
+}
+
 /**
  * Convert a view using a simple graph spec to plotly spec for rendering
  * @param {View} view descriptor with compiled in data
@@ -23,7 +27,7 @@ export function simpleToPlotly(view) {
       type: 'scatter'
     }
   }
-  const rows = view.resources[0].values
+  const rows = getResourceCachedValues(view.resources[0])
   const xValues = rows.map(row => row[view.spec.group])
   // generate the plotly series
   // { 'x': ..., 'y': ..., 'type': ...}
@@ -51,7 +55,7 @@ export function simpleToPlotly(view) {
 
 export function handsOnTableToHandsOnTable(view) {
   const headers = view.resources[0].schema.fields.map(field => field.name)
-  const data = view.resources[0].values
+  const data = getResourceCachedValues(view.resources[0])
   let height = null
   if (data.length > 16) {
     height = 432
@@ -179,14 +183,11 @@ export function convertReclineToSimple(reclineViewSpec) {
  * compile together resources needed for this view based on its data source spec
  * @param {View} view descriptor
  * @param {dataPackage} parent data package - used for resolving the resources
- * @param {dataPackageData} this should be dict keyed by Data Package Name then
-      keyed by Resource Name for looking up data
  * @return {Array} An array of resources with their data inlined
  */
-export function compileData(view, dataPackage, dataPackageData) {
+export function compileData(view, dataPackage) {
   const out = view.resources.map((resourceId) => {
     const resource = Object.assign({}, findResourceByNameOrIndex(dataPackage, resourceId))
-    resource.values = dataPackageData[dataPackage.name][resource.name]
     return resource
   })
   return out
@@ -206,10 +207,10 @@ export function findResourceByNameOrIndex(dp, nameOrIndex) {
  * Params as for compileData
  * @return {Object} "compiled" view - normalized and with data inline
  */
-export function compileView(inView, dataPackage, dataPackageData) {
+export function compileView(inView, dataPackage) {
   const view = Object.assign({}, inView)
   normalizeView(view)
-  const compiledData = compileData(view, dataPackage, dataPackageData)
+  const compiledData = compileData(view, dataPackage)
   view.resources = compiledData
   return view
 }

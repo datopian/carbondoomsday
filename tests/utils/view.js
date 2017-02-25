@@ -1,5 +1,11 @@
 import * as utils from '../../src/utils/view'
 
+const mockTable1 = [
+  { Date: '2014-01-01', Open: 14.32, High: 14.59 }
+  , { Date: '2014-01-02', Open: 14.06, High: 14.22 }
+  , { Date: '2014-01-05', Open: 13.41, High: 14.00 }
+]
+
 const mockDescriptor = {
   name: 'demo-package'
   , resources: [
@@ -8,6 +14,7 @@ const mockDescriptor = {
       , path: 'data/demo-resource.csv'
       , format: 'csv'
       , mediatype: 'text/csv'
+      , _values: mockTable1
       , schema: {
         fields: [
           {
@@ -38,12 +45,6 @@ const mockData = [
   , ['2014-01-01', 14.32, 14.59]
   , ['2014-01-02', 14.06, 14.22]
   , ['2014-01-05', 13.41, 14.00]
-]
-
-const mockTable1 = [
-  { Date: '2014-01-01', Open: 14.32, High: 14.59 }
-  , { Date: '2014-01-02', Open: 14.06, High: 14.22 }
-  , { Date: '2014-01-05', Open: 13.41, High: 14.00 }
 ]
 
 const mockViews = {
@@ -84,10 +85,6 @@ const mockViews = {
     }
   }
 }
-
-const mockDataPackageData = {}
-mockDataPackageData[mockDescriptor.name] = {}
-mockDataPackageData[mockDescriptor.name][mockDescriptor.resources[0].name] = mockTable1
 
 const plotlyExpected = {
   simple: {
@@ -190,17 +187,17 @@ const plotlyExpected = {
 
 describe('Data Package View utils', () => {
   it('should generate Plotly spec - lines', () => {
-    const view = utils.compileView(mockViews.simple, mockDescriptor, mockDataPackageData)
+    const view = utils.compileView(mockViews.simple, mockDescriptor)
     const plotlySpec = utils.simpleToPlotly(view)
     expect(plotlySpec).toEqual(plotlyExpected.simple)
   })
   it('should generate Plotly spec - 2 lines', () => {
-    const view = utils.compileView(mockViews.simple2, mockDescriptor, mockDataPackageData)
+    const view = utils.compileView(mockViews.simple2, mockDescriptor)
     const plotlySpec = utils.simpleToPlotly(view)
     expect(plotlySpec).toEqual(plotlyExpected.simple2)
   })
   it('should generate Plotly spec - bar', () => {
-    const view = utils.compileView(mockViews.simpleBar, mockDescriptor, mockDataPackageData)
+    const view = utils.compileView(mockViews.simpleBar, mockDescriptor)
     const plotlySpec = utils.simpleToPlotly(view)
     expect(plotlySpec).toEqual(plotlyExpected.simpleBar)
   })
@@ -214,7 +211,7 @@ describe('Data Package View utils - HandsOnTable ', () => {
       , resources: ['demo-resource']
       , specType: 'handsontable'
     }
-    const viewCompiled = utils.compileView(view, mockDescriptor, mockDataPackageData)
+    const viewCompiled = utils.compileView(view, mockDescriptor)
     const outSpec = utils.handsOnTableToHandsOnTable(viewCompiled)
     const expected = {
       data: [
@@ -408,15 +405,15 @@ describe('Basic view utility functions', () => {
       resources: [resourceId]
     }
     const resourceWithValues = Object.assign({ values: mockTable1 }, mockDescriptor.resources[0])
-    const expected = [resourceWithValues]
-    let out = utils.compileData(view, mockDescriptor, mockDataPackageData)
+    const expected = [ mockDescriptor.resources[0] ]
+    let out = utils.compileData(view, mockDescriptor)
     expect(out).toEqual(expected)
 
     // check it works with resource index as well
     view = {
       resources: [0]
     }
-    out = utils.compileData(view, mockDescriptor, mockDataPackageData)
+    out = utils.compileData(view, mockDescriptor)
     expect(out).toEqual(expected)
   })
 
@@ -431,9 +428,9 @@ describe('Basic view utility functions', () => {
   })
 
   it('compileView works', () => {
-    const out = utils.compileView(mockViews.simple, mockDescriptor, mockDataPackageData)
+    const out = utils.compileView(mockViews.simple, mockDescriptor)
     expect(out.resources[0].format).toEqual('csv')
-    expect(out.resources[0].values.length).toEqual(3)
+    expect(out.resources[0]._values.length).toEqual(3)
   })
 })
 
