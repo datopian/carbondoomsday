@@ -8,10 +8,11 @@ import DataPackageView from "./containers/DataPackageView"; // eslint-disable-li
 
 
 const store = configureStore()
+let DATA_PACKAGE = DATA_PACKAGE || {}
 
 ReactDOM.render(
   <Provider store={store}>
-    <DataPackageView packageName={packageName} publisherName={publisherName} />
+    <DataPackageView dataPackage={DATA_PACKAGE} dataPackageUrl={DATA_PACKAGE_URL} />
   </Provider>, document.getElementById('vis')
 )
 

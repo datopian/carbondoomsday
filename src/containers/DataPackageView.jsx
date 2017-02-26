@@ -1,76 +1,65 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import DataPackagePanel from '../components/dataPackageView/DataDisplayPanel'
+import _ from 'lodash'
+const Datapackage = require('datapackage').Datapackage
+
+
 import * as actions from '../actions/datapackageActions'
-import * as view from '../utils/view'
+import * as dputils from '../../src/utils/datapackage'
+import * as viewutils from '../utils/view'
+import HandsOnTable from '../components/dataPackageView/HandsOnTable'
+import PlotlyChart from '../components/dataPackageView/PlotlyChart'
+import VegaLiteChart from '../components/dataPackageView/VegaLiteChart'
 
-// This container component listens to updates in datapackage and resources from
-// the Redux Store. It then generates either Plotly or Vega-lite spec and renders
-// appropriate chart.
 export class DataPackageView extends React.Component {
-
-  static async getSpecsFromNextProps(datapackage, resources) {
-    const specs = {}
-
-    for (let i = 0; i < resources.length; i++) {
-      let graphType
-      const spec = {}
-      if (datapackage.views) {
-        graphType = datapackage.views[i].type
-      }
-      spec.htSpec = view.generateHandsontableSpec(resources[i])
-      if (graphType === 'vega-lite') {
-        const vlSpec = view.generateVegaLiteSpec(resources[i], datapackage.views[i])
-        spec.graphType = graphType
-        spec.vlSpec = vlSpec
-      } else {
-        const plotlySpec = view.generatePlotlySpec(datapackage.views[i], resources[i])
-        spec.graphType = graphType
-        spec.plotlySpec = plotlySpec
-      }
-      specs[i] = spec
-    }
-    return specs
-  }
-
   constructor(props) {
     super(props)
-
+    // TODO: what is the point of state? Why not just use props?
     this.state = {
-      specs: {}
+      // we stub some basic fields to ensure render works ...
+      dataPackage: Object.assign({resources: [], views: []}, this.props.dataPackage),
+      dataPackageUrl: this.props.dataPackageUrl
     }
   }
 
   componentDidMount() {
-    this.props.dataPackageActions.getDataPackage(this.props.publisherName, this.props.packageName)
-  }
-
-  async componentWillReceiveProps(nextProps) {
-    if (nextProps.descriptor.resources) {
-      // check if resources are received by comparing descriptor's resources and
-      // received data length
-      if (nextProps.descriptor.resources.length === nextProps.resources.length) {
-        const specs = await DataPackageView.getSpecsFromNextProps(nextProps.descriptor,
-          nextProps.resources)
-        this.setState({ specs })
-      }
+    // if current dataPackage is empty let's load it ...
+    // TODO: testing existence of name property is hacky way to check data
+    // package exists
+    if (!this.state.dataPackage.name) {
+      dputils.fetchDataPackageAndData(this.state.dataPackageUrl).then(dpObj => {
+        this.setState({
+          dataPackage: dpObj.descriptor,
+        })
+      });
     }
   }
 
   render() {
-    return (
-      <DataPackagePanel specs={this.state.specs} />
-    )
+    let dp = this.state.dataPackage
+    let viewComponents = dp.views.map((view, idx) => {
+      // first let's fix up recline views ...
+      if (view.type == 'Graph') { // it's a recline view
+        view = viewutils.convertReclineToSimple(view)
+      }
+      let compiledView = viewutils.compileView(view, dp)
+      switch (view.specType) {
+        case 'simple': // convert to plotly then render
+          let spec = viewutils.simpleToPlotly(compiledView)
+          return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} />
+      }
+    })
+    let resourceDisplayComponents = dp.resources.map((resource, idx) => {
+      let compiledViewSpec = {
+        resources: [resource],
+        specType: 'handsontable'
+      }
+      let spec = viewutils.handsOnTableToHandsOnTable(compiledViewSpec)
+      return <HandsOnTable spec={spec} idx={idx} key={idx} />
+    });
+    return <div>{viewComponents.concat(resourceDisplayComponents)}</div>
   }
-}
-
-DataPackageView.propTypes = {
-  packageName: PropTypes.string.isRequired
-  , publisherName: PropTypes.string.isRequired
-  , dataPackageActions: PropTypes.object
-  , readme: PropTypes.string
-  , descriptor: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
