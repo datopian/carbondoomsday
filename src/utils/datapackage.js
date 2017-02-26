@@ -6,9 +6,9 @@ export async function fetchDataPackageAndData(dataPackageIdentifier) {
   await Promise.all(dp.resources.map(async resource => {
     // we assume resource is tabular for now ...
     const table = await resource.table
-    // NOTE: returns rows as arrays. If want objects (keyed by headers) set
-    // first arg to true
-    resource.descriptor._values = await table.read()
+    // rows are simple arrays -- we can convert to objects elsewhere as needed
+    let rowsAsObjects = false 
+    resource.descriptor._values = await table.read(rowsAsObjects)
   }))
   return dp
 }

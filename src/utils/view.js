@@ -1,8 +1,17 @@
 // Utilities and classes for working with Data Package Views
-import { indexOf, find } from 'lodash'
+import { indexOf, find, zipObject } from 'lodash'
 
-function getResourceCachedValues(resource) {
-  return resource._values;
+export function getResourceCachedValues(resource, rowsAsObjects=false) {
+  if (rowsAsObjects) {
+    var fieldNames = resource.schema.fields.map(field => {
+      return field.name
+    })
+    return resource._values.map(row => {
+      return zipObject(fieldNames, row)
+    })
+  } else {
+    return resource._values;
+  }
 }
 
 /**
@@ -27,7 +36,8 @@ export function simpleToPlotly(view) {
       type: 'scatter'
     }
   }
-  const rows = getResourceCachedValues(view.resources[0])
+  const rowsAsObjects = true
+  const rows = getResourceCachedValues(view.resources[0], rowsAsObjects)
   const xValues = rows.map(row => row[view.spec.group])
   // generate the plotly series
   // { 'x': ..., 'y': ..., 'type': ...}

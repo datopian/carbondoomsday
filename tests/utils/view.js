@@ -1,9 +1,9 @@
 import * as utils from '../../src/utils/view'
 
 const mockTable1 = [
-  { Date: '2014-01-01', Open: 14.32, High: 14.59 }
-  , { Date: '2014-01-02', Open: 14.06, High: 14.22 }
-  , { Date: '2014-01-05', Open: 13.41, High: 14.00 }
+  ['2014-01-01', 14.32, 14.59]
+  , ['2014-01-02', 14.06, 14.22]
+  , ['2014-01-05', 13.41, 14.00]
 ]
 
 const mockDescriptor = {
@@ -215,21 +215,21 @@ describe('Data Package View utils - HandsOnTable ', () => {
     const outSpec = utils.handsOnTableToHandsOnTable(viewCompiled)
     const expected = {
       data: [
-        {
-          Date: '2014-01-01'
-          , Open: 14.32
-          , High: 14.59
-        }
-        , {
-          Date: '2014-01-02'
-          , Open: 14.06
-          , High: 14.22
-        }
-        , {
-          Date: '2014-01-05'
-          , Open: 13.41
-          , High: 14
-        }
+        [
+          '2014-01-01'
+          , 14.32
+          , 14.59
+        ]
+        , [
+          '2014-01-02'
+          , 14.06
+          , 14.22
+        ]
+        , [
+          '2014-01-05'
+          , 13.41
+          , 14
+        ]
       ]
       , colHeaders: [
         'Date'
@@ -404,7 +404,6 @@ describe('Basic view utility functions', () => {
     let view = {
       resources: [resourceId]
     }
-    const resourceWithValues = Object.assign({ values: mockTable1 }, mockDescriptor.resources[0])
     const expected = [ mockDescriptor.resources[0] ]
     let out = utils.compileData(view, mockDescriptor)
     expect(out).toEqual(expected)
