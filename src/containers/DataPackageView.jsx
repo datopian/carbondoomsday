@@ -1,11 +1,6 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import _ from 'lodash'
-const Datapackage = require('datapackage').Datapackage
 
-
-import * as actions from '../actions/datapackageActions'
 import * as dputils from '../../src/utils/datapackage'
 import * as viewutils from '../utils/view'
 import HandsOnTable from '../components/dataPackageView/HandsOnTable'
@@ -62,20 +57,5 @@ export class DataPackageView extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  const { descriptor, resources, readme } = state.dpr
+export default DataPackageView
 
-  return {
-    descriptor
-    , resources
-    , readme
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dataPackageActions: bindActionCreators(actions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DataPackageView)
