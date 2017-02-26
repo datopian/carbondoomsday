@@ -70,22 +70,3 @@ describe('fetch it all', () => {
   });
 });
 
-
-describe('getDataResource function', () => {
-  it('should load inline resource', async () => {
-    const descriptor = 'http://bit.do/datapackage-json'
-    const dp = await new Datapackage(descriptor)
-    const table = await dp.resources[0].table
-    const data = await table.read()
-    expect(data[0][0]).toEqual(180)
-  })
-
-  it('should load resource from URL', async () => {
-    const descriptor = 'https://dp-vix-resource-and-view.com/datapackage.json'
-    const dp = await new Datapackage(descriptor)
-    const table = await dp.resources[0].table
-    const data = await table.read()
-    expect(data[0][1]).toEqual(14.32)
-  })
-})
-

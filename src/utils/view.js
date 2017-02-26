@@ -14,6 +14,7 @@ export function getResourceCachedValues(resource, rowsAsObjects=false) {
   }
 }
 
+
 /**
  * Convert a view using a simple graph spec to plotly spec for rendering
  * @param {View} view descriptor with compiled in data
@@ -63,6 +64,11 @@ export function simpleToPlotly(view) {
 }
 
 
+/**
+ * Convert a [handson]table view to HandsOnTable spec
+ * @param {View} view descriptor with compiled in data
+ * @return {Object} HandsOnTable spec
+ */
 export function handsOnTableToHandsOnTable(view) {
   const headers = view.resources[0].schema.fields.map(field => field.name)
   const data = getResourceCachedValues(view.resources[0])
@@ -84,94 +90,21 @@ export function handsOnTableToHandsOnTable(view) {
   }
 }
 
-
-// Takes data and view, then generates vega-lite specific spec.
-export function generateVegaLiteSpec(data, view) {
-  const vlSpec = {
-    width: 900
-    , height: 400
-    , data: { values: [] }
-    , layers: []
-  }
-  const headers = data[0]
-  vlSpec.data.values = data.slice(1).map(values => headers.reduce((o, k, i) => {
-    o[k] = values[i]
-    return o
-  }, {}))
-  for (let i = 0; i < view.state.series.length; i++) {
-    const layer = {
-      mark: 'line'
-      , encoding: {
-        x: { field: '', type: 'temporal' }
-        , y: { field: '', type: 'quantitative' }
-      }
-    }
-    layer.encoding.x.field = view.state.group
-    layer.encoding.y.field = view.state.series[i]
-    vlSpec.layers.push(layer)
-  }
-  return vlSpec
-}
-
-// Takes a view spec and resource data (with headers re-inserted) and returns plotly spec
-// @return: Plotly graph spec
-export function generatePlotlySpec(viewSpec, dataTable) {
-  const headers = dataTable[0]
-  const rows = dataTable.slice(1)
-  const xIndex = indexOf(headers, viewSpec.state.group)
-  const xValues = rows.map(row => row[xIndex])
-  const data = viewSpec.state.series.map((serie) => {
-    const yColumn = indexOf(headers, serie)
-    return {
-      x: xValues
-      , y: rows.map(row => row[yColumn])
-      , mode: 'lines'
-      , name: serie
-    }
-  })
-
-  const plotlySpec = {
-    data
-    , layout: {
-      xaxis: {
-        title: viewSpec.state.group
-      }
-    }
-  }
-  return plotlySpec
-}
-
-// Takes a single resource and returns Handsontable spec
-export function generateHandsontableSpec(data) {
-  return {
-    data: data.slice(1) // excluding headers
-    , colHeaders: data[0] // selecting headers
-    , readOnly: true
-    , width: 1136
-    , height() {
-      if (data.length > 16) {
-        return 432
-      }
-    }
-    , colWidths: 47
-    , rowWidth: 27
-    , stretchH: 'all'
-    , columnSorting: true
-    , search: true
-  }
-}
-
-// make sure view spec is in "normal" form - i.e. has all the standard fields
-// in standard structure atm this just means adding the dataSource field if
-// absent
-// Changes the viewSpec in place
+/**
+ * Ensure view spec is in "normal" form - i.e. has all the standard fields (esp
+ * the resources attribute)
+ * @param {View} viewSpec (note: Changes the viewSpec in place)
+ */
 export function normalizeView(viewSpec) {
   if (!viewSpec.resources) {
     viewSpec.resources = [0]
   }
 }
 
-// convert old Recline "view" to DP View with simple graph spec
+/**
+ * convert old Recline "view" to DP View with simple graph spec
+ * @param {View} reclineViewSpec
+ */
 export function convertReclineToSimple(reclineViewSpec) {
   const graphTypeConvert = {
     lines: 'line'

@@ -40,13 +40,6 @@ const mockDescriptor = {
   , views: []
 }
 
-const mockData = [
-  ['Date', 'Open', 'High']
-  , ['2014-01-01', 14.32, 14.59]
-  , ['2014-01-02', 14.06, 14.22]
-  , ['2014-01-05', 13.41, 14.00]
-]
-
 const mockViews = {
   recline: {
     id: 'Graph'
@@ -247,124 +240,6 @@ describe('Data Package View utils - HandsOnTable ', () => {
     }
     // console.log(JSON.stringify(outSpec, null, 2));
     expect(outSpec).toEqual(expected)
-  })
-})
-
-
-describe('Old spec generation - to be removed soon', () => {
-  it('should generate spec for Plotly', () => {
-    const plotlySpec = utils.generatePlotlySpec(mockViews.recline, mockData)
-    const expected = {
-      data: [
-        {
-          x: [
-            '2014-01-01'
-            , '2014-01-02'
-            , '2014-01-05'
-          ]
-          , y: [
-            14.59
-            , 14.22
-            , 14
-          ]
-          , mode: 'lines'
-          , name: 'High'
-        }
-      ]
-      , layout: {
-        xaxis: {
-          title: 'Date'
-        }
-      }
-    }
-    // console.log(JSON.stringify(plotlySpec, null, 2));
-    expect(plotlySpec).toEqual(expected)
-  })
-
-  it('should generate vega-lite spec', () => {
-    const vlSpec = utils.generateVegaLiteSpec(mockData, mockViews.recline)
-    const expected = {
-      width: 900
-      , height: 400
-      , data: {
-        values: [
-          {
-            Date: '2014-01-01'
-            , Open: 14.32
-            , High: 14.59
-          }
-          , {
-            Date: '2014-01-02'
-            , Open: 14.06
-            , High: 14.22
-          }
-          , {
-            Date: '2014-01-05'
-            , Open: 13.41
-            , High: 14
-          }
-        ]
-      }
-      , layers: [
-        {
-          mark: 'line'
-          , encoding: {
-            x: {
-              field: 'Date'
-              , type: 'temporal'
-            }
-            , y: {
-              field: 'High'
-              , type: 'quantitative'
-            }
-          }
-        }
-      ]
-    }
-    expect(vlSpec).toEqual(expected)
-  })
-
-  it('should generate spec with data for HandsOnTable', () => {
-    const htSpec = utils.generateHandsontableSpec(mockData)
-    const expected = {
-      data: [
-        [
-          '2014-01-01'
-          , 14.32
-          , 14.59
-          , 14
-          , 14.23
-        ]
-        , [
-          '2014-01-02'
-          , 14.06
-          , 14.22
-          , 13.57
-          , 13.76
-        ]
-        , [
-          '2014-01-05'
-          , 13.41
-          , 14
-          , 13.22
-          , 13.55
-        ]
-      ]
-      , colHeaders: [
-        'Date'
-        , 'DEMOOpen'
-        , 'DEMOHigh'
-        , 'DEMOLow'
-        , 'DEMOClose'
-      ]
-      , readOnly: true
-      , width: 1136
-      , colWidths: 47
-      , rowWidth: 27
-      , stretchH: 'all'
-      , columnSorting: true
-      , search: true
-    }
   })
 })
 
