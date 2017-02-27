@@ -67,7 +67,7 @@ export default {
   , module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' }
-      , { test: /(\.css|\.scss)$/, loader: ExtractTextPlugin.extract('css?sourceMap!postcss!sass?sourceMap') }
+      , { test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap!postcss?sourceMap') }
       , { test: /\.json$/, loader: 'json' }
     ]
     , noParse: [path.join(__dirname, 'node_modules/handsontable/dist/handsontable.full.js')]
