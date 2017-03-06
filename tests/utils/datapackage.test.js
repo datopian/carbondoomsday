@@ -61,7 +61,7 @@ describe('fetch it all', () => {
     expect(data.length).toEqual(651)
     // console.log(JSON.stringify(data[0], null, 2))
     const expected = [
-      moment('2014-01-02').toISOString() // .format('YYYY-MM-DDTHH:mm:ss.SSS'), //tz('Europe/London').
+      moment('2014-01-02').toISOString()
       , 14.32
       , 14.59
       , '14.00'
