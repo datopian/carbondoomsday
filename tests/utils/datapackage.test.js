@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import jts from 'jsontableschema'
+import moment from 'moment-timezone'
 import nock from 'nock'
 
 import * as utils from '../../src/utils/datapackage'
@@ -60,13 +61,16 @@ describe('fetch it all', () => {
     expect(data.length).toEqual(651)
     // console.log(JSON.stringify(data[0], null, 2))
     const expected = [
-      new Date('2014-01-01T16:00:00.000Z'),
-      14.32,
-      14.59,
-      "14.00",
-      14.23
+      moment('2014-01-02').toISOString()
+      , 14.32
+      , 14.59
+      , '14.00'
+      , 14.23
     ]
-    expect(data[0]).toEqual(expected)
-  });
-});
+    expect(data[0][0].toISOString()).toEqual(expected[0])
+    for (let count = 1; count < expected.length; count += 1) {
+      expect(data[0][count]).toEqual(expected[count])
+    }
+  })
+})
 
