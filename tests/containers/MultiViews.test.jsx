@@ -3,7 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
-import { DataPackageView } from '../../src/containers/DataPackageView'
+import { MultiViews } from '../../src/containers/MultiViews'
 
 const mockDescriptor = {
   name: 'demo-package'
@@ -33,7 +33,7 @@ const mockDescriptor = {
         ]
         , primaryKey: 'Date'
       }
-      , _values: [ 
+      , _values: [
         ['2014-01-01', 14.32, 14.59]
         , ['2014-01-02', 14.06, 14.22]
         , ['2014-01-05', 13.41, 14.00]
@@ -63,12 +63,9 @@ const mockDescriptor = {
 }
 
 describe('Datapackage View Container', () => {
-  const wrapper = shallow(<DataPackageView dataPackage={mockDescriptor} dataPackageUrl={'abc'} />)
+  const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} dataPackageUrl={'abc'} />)
 
   it('should render data package panel component', () => {
     expect(toJson(wrapper)).toMatchSnapshot()
-    // should have at least one HandsOnTable since we have >= 1 resources ...
-    expect(wrapper.text()).toContain('<HandsOnTable />')
   })
 })
-
