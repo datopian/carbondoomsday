@@ -1,4 +1,6 @@
-exports[`Datapackage View Container should render data package panel component 1`] = `
+exports[`MultiViews Container should NOT render PlotlyChart if there is no views given 1`] = `<div />`;
+
+exports[`MultiViews Container should render PlotlyChart component 1`] = `
 <div>
   <PlotlyChart
     data={

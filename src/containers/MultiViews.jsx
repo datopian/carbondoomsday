@@ -17,18 +17,21 @@ export class MultiViews extends React.Component {
 
   render() {
     let dp = this.state.dataPackage
-    let viewComponents = dp.views.map((view, idx) => {
-      // first let's fix up recline views ...
-      if (view.type == 'Graph') { // it's a recline view
-        view = viewutils.convertReclineToSimple(view)
-      }
-      let compiledView = viewutils.compileView(view, dp)
-      switch (view.specType) {
-        case 'simple': // convert to plotly then render
-          let spec = viewutils.simpleToPlotly(compiledView)
-          return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} />
-      }
-    })
+    let viewComponents
+    if(dp.views) {
+      viewComponents = dp.views.map((view, idx) => {
+        // first let's fix up recline views ...
+        if (view.type == 'Graph') { // it's a recline view
+          view = viewutils.convertReclineToSimple(view)
+        }
+        let compiledView = viewutils.compileView(view, dp)
+        switch (view.specType) {
+          case 'simple': // convert to plotly then render
+            let spec = viewutils.simpleToPlotly(compiledView)
+            return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} />
+        }
+      })
+    }
     return <div>{viewComponents}</div>
   }
 }
