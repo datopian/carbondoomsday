@@ -8,8 +8,6 @@ import * as dputils from './utils/datapackage'
 import * as viewutils from './utils/view'
 
 
-let DATA_PACKAGE = DATA_PACKAGE || {}
-
 /**
  * From the back-end we expect a template to have div elements with specific
  * class, data-type and data-resource attributes:
@@ -24,24 +22,50 @@ let DATA_PACKAGE = DATA_PACKAGE || {}
  * - Also any properties can be passed from the back-end using data-* prefix.
  */
 
-dputils.fetchDataPackageAndData(DATA_PACKAGE_URL).then(dpObj => {
-  DATA_PACKAGE = dpObj.descriptor
+let dataPackage
 
-  document
-    .querySelectorAll('.react-me')
-    .forEach(renderComponentInElement)
-});
+dputils.fetchDataPackageOnly(DATA_PACKAGE_URL).then(async dpObj => {
+  dataPackage = dpObj.descriptor
+
+  let divElements = document.querySelectorAll('.react-me')
+  divElements.forEach(renderComponentInElement)
+
+  dpObj.resources.map(async (resource, idx) => {
+    resource.descriptor._values = await dputils.fetchDataOnly(resource)
+
+    // Only re-render MultiView if this resource is used in one of the views.
+    // We expect view object to have 'resources' attribute that is an array of
+    // indexes and each index refers to a resource. If not, this view refers to
+    // the first resource.
+    dataPackage.views.forEach(view => {
+      if(!view.resources && idx === 0) {
+        renderComponentInElement(divElements[0])
+      } else if(view.resources) {
+        view.resources.forEach(resourceIdx => {
+          if(resourceIdx === idx) {renderComponentInElement(divElements[0])}
+        })
+      }
+    })
+    // here we re-render a table for which data is loaded in this iteration
+    renderComponentInElement(divElements[idx+1])
+  })
+})
 
 
 function renderComponentInElement(el) {
-  const dp = Object.assign({}, DATA_PACKAGE)
+  const dp = Object.assign({}, dataPackage)
   if (el.dataset.type === 'resource-preview') {
     let idx = parseInt(el.dataset.resource)
     let resource = viewutils.findResourceByNameOrIndex(dp, idx)
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
     } else {
-      ReactDOM.render(<HandsOnTable resource={resource} idx={idx} />, el)
+      let compiledViewSpec = {
+        resources: [resource],
+        specType: 'handsontable'
+      }
+      let spec = viewutils.handsOnTableToHandsOnTable(compiledViewSpec)
+      ReactDOM.render(<HandsOnTable spec={spec} idx={idx} />, el);
     }
   } else if (el.dataset.type === 'data-views') {
     ReactDOM.render(<MultiViews dataPackage={dp} />, el)
