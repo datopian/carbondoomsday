@@ -1,6 +1,5 @@
 import React from 'react'
 import Leaf, { geoJSON } from 'leaflet'
-import { Map, GeoJSON, TileLayer } from 'react-leaflet'
 
 class LeafletMap extends React.Component {
 
