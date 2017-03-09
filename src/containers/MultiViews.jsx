@@ -27,8 +27,11 @@ export class MultiViews extends React.Component {
         let compiledView = viewutils.compileView(view, dp)
         switch (view.specType) {
           case 'simple': // convert to plotly then render
-            let spec = viewutils.simpleToPlotly(compiledView)
-            return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} />
+            let spec = {}
+            if(compiledView.resources[0]._values) {
+              spec = viewutils.simpleToPlotly(compiledView)
+            }
+            return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
         }
       })
     }
