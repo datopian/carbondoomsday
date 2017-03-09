@@ -33,11 +33,12 @@ dputils.fetchDataPackageAndData(DATA_PACKAGE_URL).then(dpObj => {
 
 
 function renderComponentInElement(el) {
+  const dp = Object.assign({}, DATA_PACKAGE)
   if (el.dataset.type === 'resource-preview') {
     let idx = parseInt(el.dataset.resource)
-    let resource = viewutils.findResourceByNameOrIndex(DATA_PACKAGE, idx)
+    let resource = viewutils.findResourceByNameOrIndex(dp, idx)
     ReactDOM.render(<HandsOnTable resource={resource} idx={idx} />, el);
   } else if (el.dataset.type === 'data-views') {
-    ReactDOM.render(<MultiViews dataPackage={DATA_PACKAGE} />, el);
+    ReactDOM.render(<MultiViews dataPackage={dp} />, el);
   }
 }
