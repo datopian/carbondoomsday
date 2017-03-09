@@ -64,41 +64,5 @@ exports[`Datapackage View Container should render data package panel component 1
         },
       }
     } />
-  <HandsOnTable
-    idx={0}
-    spec={
-      Object {
-        "colHeaders": Array [
-          "Date",
-          "Open",
-          "High",
-        ],
-        "colWidths": 47,
-        "columnSorting": true,
-        "data": Array [
-          Array [
-            "2014-01-01",
-            14.32,
-            14.59,
-          ],
-          Array [
-            "2014-01-02",
-            14.06,
-            14.22,
-          ],
-          Array [
-            "2014-01-05",
-            13.41,
-            14,
-          ],
-        ],
-        "height": null,
-        "readOnly": true,
-        "rowWidth": 27,
-        "search": true,
-        "stretchH": "all",
-        "width": 1136,
-      }
-    } />
 </div>
 `;
