@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import '../node_modules/handsontable/dist/handsontable.full.min.css'
 import MultiViews from "./containers/MultiViews"; // eslint-disable-line
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
+import LeafletMap from './components/dataPackageView/LeafletMap'
 import * as dputils from './utils/datapackage'
 import * as viewutils from './utils/view'
 
@@ -37,8 +38,12 @@ function renderComponentInElement(el) {
   if (el.dataset.type === 'resource-preview') {
     let idx = parseInt(el.dataset.resource)
     let resource = viewutils.findResourceByNameOrIndex(dp, idx)
-    ReactDOM.render(<HandsOnTable resource={resource} idx={idx} />, el);
+    if (resource.format === 'geojson') {
+      ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
+    } else {
+      ReactDOM.render(<HandsOnTable resource={resource} idx={idx} />, el)
+    }
   } else if (el.dataset.type === 'data-views') {
-    ReactDOM.render(<MultiViews dataPackage={dp} />, el);
+    ReactDOM.render(<MultiViews dataPackage={dp} />, el)
   }
 }

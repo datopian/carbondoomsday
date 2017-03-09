@@ -31,6 +31,13 @@ const mock3 = nock('http://schemas.datapackages.org')
               .get('/fiscal-data-package.json')
               .replyWithFile(200, './fixtures/schemas/fiscal-data-package.json')
 
+const mock4 = nock('https://geo-json-resource-and-view.com')
+              .persist()
+              .get('/datapackage.json')
+              .replyWithFile(200, './fixtures/example-geojson/datapackage.json')
+              .get('/data/example.geojson')
+              .replyWithFile(200, './fixtures/example-geojson/data/example.geojson')
+
 
 describe('get datapackage', () => {
   it('should load the datapackage.json', async () => {
@@ -70,6 +77,20 @@ describe('fetch it all', () => {
     expect(data[0][0].toISOString()).toEqual(expected[0])
     for (let count = 1; count < expected.length; count += 1) {
       expect(data[0][count]).toEqual(expected[count])
+    }
+  })
+
+  it('should get geojson data', async () => {
+    const dpUrl = 'https://geo-json-resource-and-view.com/datapackage.json'
+    const dp = await utils.fetchDataPackageAndData(dpUrl)
+    expect(dp.descriptor.title).toEqual('Example Geo (JSON) Data Package')
+    expect(dp.resources.length).toEqual(1)
+    const resource = dp.resources[0]
+    expect(resource.descriptor.format).toEqual('geojson')
+    const data = resource.descriptor._values
+    expect(data.type, 'FeatureCollection')
+    for (let count = 0; count < data.features.length; count += 1) {
+      expect(data.features[count].type, 'Feature')
     }
   })
 })
