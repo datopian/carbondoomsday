@@ -62,10 +62,50 @@ const mockDescriptor = {
   ]
 }
 
-describe('Datapackage View Container', () => {
-  const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} dataPackageUrl={'abc'} />)
+const mockDescriptorWithNoViews = {
+  name: 'demo-package'
+  , resources: [
+    {
+      name: 'demo-resource'
+      , path: 'data/demo-resource.csv'
+      , format: 'csv'
+      , mediatype: 'text/csv'
+      , schema: {
+        fields: [
+          {
+            name: 'Date'
+            , type: 'date'
+            , description: ''
+          }
+          , {
+            name: 'Open'
+            , type: 'number'
+            , description: ''
+          }
+          , {
+            name: 'High'
+            , type: 'number'
+            , description: ''
+          }
+        ]
+        , primaryKey: 'Date'
+      }
+      , _values: [
+        ['2014-01-01', 14.32, 14.59]
+        , ['2014-01-02', 14.06, 14.22]
+        , ['2014-01-05', 13.41, 14.00]
+      ]
+    }
+  ]
+}
 
-  it('should render data package panel component', () => {
+describe('MultiViews Container', () => {
+  it('should render PlotlyChart component', () => {
+    const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
+    expect(toJson(wrapper)).toMatchSnapshot()
+  })
+  it('should NOT render PlotlyChart if there is no views given', () => {
+    const wrapper = shallow(<MultiViews dataPackage={mockDescriptorWithNoViews} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 })
