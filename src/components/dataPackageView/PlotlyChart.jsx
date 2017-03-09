@@ -8,6 +8,12 @@ class PlotlyChart extends React.Component {
   }
 
   componentDidMount() {
+    // draw a plot with initial data and layout
+    Plotly.newPlot(`plotly${this.props.idx}`, this.props.data, this.props.layout)
+  }
+
+  componentWillUpdate() {
+    // update the plot with new props
     Plotly.newPlot(`plotly${this.props.idx}`, this.props.data, this.props.layout)
   }
 
