@@ -44,8 +44,6 @@ function renderComponentInElement(el) {
       ReactDOM.render(<HandsOnTable resource={resource} idx={idx} />, el)
     }
   } else if (el.dataset.type === 'data-views') {
-    if (dp.views !== undefined) {
-      ReactDOM.render(<MultiViews dataPackage={dp} />, el)
-    }
+    ReactDOM.render(<MultiViews dataPackage={dp} />, el)
   }
 }
