@@ -2,39 +2,22 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import HandsOnTable from '../../../src/components/dataPackageView/HandsOnTable'
 
-
-const mockResource = {
-  _values: [
-    [180, 18, "Tony"],
-    [192, 15, "Pavle"],
-    [160, 32, "Pero"],
-    [202, 23, "David"]
-  ],
-  name: "random",
-  schema: {
-    fields: [
-      {
-        name: "height",
-        type: "integer"
-      },
-      {
-        name: "age",
-        type: "integer"
-      },
-      {
-        name: "name",
-        type: "string"
-      }
-    ]
-  }
+const mockSpec = {
+  data: [
+    ['', 'Ford', 'Volvo', 'Toyota', 'Honda']
+    , ['2016', 10, 11, 12, 13]
+    , ['2017', 20, 11, 14, 13]
+    , ['2018', 30, 15, 12, 13]
+  ]
+  , colHeaders: true
 }
 
 describe('handsontable component', () => {
-  it('should receive a resource and convert into spec then store in local state', () => {
+  it('should receive correct props and render div with specific id', () => {
     const idx = 0
-    const wrapper = shallow(<HandsOnTable resource={mockResource} idx={idx} />)
-    expect(wrapper.state().idx).toEqual(0)
-    expect(wrapper.state().spec.data[0][2]).toEqual('Tony')
+    const wrapper = shallow(<HandsOnTable spec={mockSpec} idx={idx} />)
+    expect(wrapper.instance().props.idx).toEqual(0)
+    expect(wrapper.instance().props.spec.data[0][1]).toEqual('Ford')
     expect(wrapper.html()).toEqual(`<div id="hTable${idx}"></div>`)
   })
 })
