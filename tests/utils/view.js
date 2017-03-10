@@ -100,7 +100,8 @@ const plotlyExpected = {
       }
     ]
     , layout: {
-      xaxis: {
+      title: mockDescriptor.resources[0].name
+      , xaxis: {
         title: 'Date'
       }
     }
@@ -147,7 +148,8 @@ const plotlyExpected = {
       }
     ]
     , layout: {
-      xaxis: {
+      title: mockDescriptor.resources[0].name
+      , xaxis: {
         title: 'Date'
       }
     }
@@ -170,7 +172,8 @@ const plotlyExpected = {
       }
     ]
     , layout: {
-      xaxis: {
+      title: mockDescriptor.resources[0].name
+      , xaxis: {
         title: 'Date'
       }
     }
@@ -307,4 +310,3 @@ describe('Basic view utility functions', () => {
     expect(out.resources[0]._values.length).toEqual(3)
   })
 })
-
