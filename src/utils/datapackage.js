@@ -21,10 +21,6 @@ export async function fetchDataPackageAndData(dataPackageIdentifier) {
   return dp
 }
 
-export async function fetchDataPackageOnly(dataPackageIdentifier) {
-  return await new Datapackage(dataPackageIdentifier)
-}
-
 export async function fetchDataOnly(resource) {
   if (resource.descriptor.format === 'geojson') {
     const baseUrl = resource._basePath.replace('/datapackage.json', '')

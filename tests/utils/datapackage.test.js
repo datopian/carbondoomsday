@@ -95,3 +95,12 @@ describe('fetch it all', () => {
   })
 })
 
+describe('fetch data only', () => {
+  it('takes a resource and fetches data', async () => {
+    const descriptor = 'https://dp-vix-resource-and-view.com/datapackage.json'
+    const dp = await new Datapackage(descriptor)
+    const resource = dp.resources[0]
+    const values = await utils.fetchDataOnly(resource)
+    expect(values[0][1]).toEqual(14.32)
+  })
+})
