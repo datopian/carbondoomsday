@@ -29,6 +29,7 @@ exports[`MultiViews Container should render PlotlyChart component 1`] = `
     idx={0}
     layout={
       Object {
+        "title": "demo-resource",
         "xaxis": Object {
           "title": "Date",
         },
@@ -61,6 +62,7 @@ exports[`MultiViews Container should render PlotlyChart component 1`] = `
     idx={1}
     layout={
       Object {
+        "title": "demo-resource",
         "xaxis": Object {
           "title": "Date",
         },

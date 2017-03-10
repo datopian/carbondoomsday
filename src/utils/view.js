@@ -55,7 +55,8 @@ export function simpleToPlotly(view) {
   const plotlySpec = {
     data
     , layout: {
-      xaxis: {
+      title: view.resources[0].name
+      , xaxis: {
         title: view.spec.group
       }
     }
@@ -157,4 +158,3 @@ export function compileView(inView, dataPackage) {
   view.resources = compiledData
   return view
 }
-
