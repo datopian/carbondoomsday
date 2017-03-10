@@ -21,8 +21,8 @@
   "license": "ISC",
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/mocks/styleMock.js"
     },
     "transform": {
       ".*": "<rootDir>/node_modules/babel-jest"
@@ -36,9 +36,7 @@
     "verbose": true,
     "testRegex": "(/tests/.*).jsx?$",
     "globals": {
-      "DataPackageJsonUrl": "./fixtures/dp2/datapackage.json",
-      "remoteDpUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp2/datapackage.json",
-      "remoteCsvUrl": "https://raw.githubusercontent.com/frictionlessdata/dpr-js/gh-pages/fixtures/dp1/data.csv"
+      "DATA_PACKAGE_URL": ""
     },
     "unmockedModulePathPatterns": [
       "react",

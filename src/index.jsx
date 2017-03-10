@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+const Datapackage = require('datapackage').Datapackage
 import '../node_modules/handsontable/dist/handsontable.full.min.css'
 import MultiViews from "./containers/MultiViews"; // eslint-disable-line
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
@@ -24,13 +25,17 @@ import * as viewutils from './utils/view'
 
 let dataPackage
 
-dputils.fetchDataPackageOnly(DATA_PACKAGE_URL).then(async dpObj => {
+let divElements = document.querySelectorAll('.react-me')
+
+fetchDataPackageAndDataIncrementally(DATA_PACKAGE_URL, divElements)
+
+async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divElements) {
+  const dpObj = await new Datapackage(dataPackageIdentifier)
   dataPackage = dpObj.descriptor
 
-  let divElements = document.querySelectorAll('.react-me')
-  divElements.forEach(renderComponentInElement)
+  divElements.forEach(exports.renderComponentInElement)
 
-  dpObj.resources.map(async (resource, idx) => {
+  await Promise.all(dpObj.resources.map(async (resource, idx) => {
     resource.descriptor._values = await dputils.fetchDataOnly(resource)
 
     // Only re-render MultiView if this resource is used in one of the views.
@@ -39,17 +44,17 @@ dputils.fetchDataPackageOnly(DATA_PACKAGE_URL).then(async dpObj => {
     // the first resource.
     dataPackage.views.forEach(view => {
       if(!view.resources && idx === 0) {
-        renderComponentInElement(divElements[0])
+        exports.renderComponentInElement(divElements[0])
       } else if(view.resources) {
         view.resources.forEach(resourceIdx => {
-          if(resourceIdx === idx) {renderComponentInElement(divElements[0])}
+          if(resourceIdx === idx) {exports.renderComponentInElement(divElements[0])}
         })
       }
     })
     // here we re-render a table for which data is loaded in this iteration
-    renderComponentInElement(divElements[idx+1])
-  })
-})
+    exports.renderComponentInElement(divElements[idx+1])
+  }))
+}
 
 
 function renderComponentInElement(el) {
@@ -71,3 +76,6 @@ function renderComponentInElement(el) {
     ReactDOM.render(<MultiViews dataPackage={dp} />, el)
   }
 }
+
+exports.renderComponentInElement = renderComponentInElement
+exports.fetchDataPackageAndDataIncrementally = fetchDataPackageAndDataIncrementally
