@@ -61,6 +61,11 @@ export function simpleToPlotly(view) {
       }
     }
   }
+  if(view.spec.series.length === 1) {
+    plotlySpec.layout.yaxis = {
+      title: view.spec.series[0]
+    }
+  }
   return plotlySpec
 }
 
