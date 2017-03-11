@@ -21,3 +21,17 @@ export async function fetchDataPackageAndData(dataPackageIdentifier) {
   return dp
 }
 
+export async function fetchDataOnly(resource) {
+  if (resource.descriptor.format === 'geojson') {
+    const baseUrl = resource._basePath.replace('/datapackage.json', '')
+    const resourceUrl = `${baseUrl}/${resource._descriptor.path}`
+    const response = await fetch(resourceUrl)
+    return await response.json()
+  } else {
+    // we assume resource is tabular for now ...
+    const table = await resource.table
+    // rows are simple arrays -- we can convert to objects elsewhere as needed
+    const rowsAsObjects = false
+    return await table.read(rowsAsObjects)
+  }
+}

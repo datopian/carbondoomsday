@@ -40,6 +40,39 @@ const mockDescriptor = {
   , views: []
 }
 
+const mockDescriptorWithoutData =  {
+  name: 'demo-package'
+  , resources: [
+    {
+      name: 'demo-resource'
+      , path: 'data/demo-resource.csv'
+      , format: 'csv'
+      , mediatype: 'text/csv'
+      , schema: {
+        fields: [
+          {
+            name: 'Date'
+            , type: 'date'
+            , description: ''
+          }
+          , {
+            name: 'Open'
+            , type: 'number'
+            , description: ''
+          }
+          , {
+            name: 'High'
+            , type: 'number'
+            , description: ''
+          }
+        ]
+        , primaryKey: 'Date'
+      }
+    }
+  ]
+  , views: []
+}
+
 const mockViews = {
   recline: {
     id: 'Graph'
@@ -242,6 +275,33 @@ describe('Data Package View utils - HandsOnTable ', () => {
       , search: true
     }
     // console.log(JSON.stringify(outSpec, null, 2));
+    expect(outSpec).toEqual(expected)
+  })
+
+  it('should generate handsontable without data', () => {
+    const view = {
+      name: 'table-resource1'
+      , resources: ['demo-resource']
+      , specType: 'handsontable'
+    }
+    const viewCompiled = utils.compileView(view, mockDescriptorWithoutData)
+    const outSpec = utils.handsOnTableToHandsOnTable(viewCompiled)
+    const expected = {
+      data: undefined
+      , colHeaders: [
+        'Date'
+        , 'Open'
+        , 'High'
+      ]
+      , readOnly: true
+      , width: 1136
+      , height: null
+      , colWidths: 47
+      , rowWidth: 27
+      , stretchH: 'all'
+      , columnSorting: true
+      , search: true
+    }
     expect(outSpec).toEqual(expected)
   })
 })

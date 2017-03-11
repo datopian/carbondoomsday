@@ -70,3 +70,12 @@ exports[`MultiViews Container should render PlotlyChart component 1`] = `
     } />
 </div>
 `;
+
+exports[`MultiViews Container should render empty PlotlyChart if there is no data yet 1`] = `
+<div>
+  <PlotlyChart
+    idx={0} />
+  <PlotlyChart
+    idx={1} />
+</div>
+`;

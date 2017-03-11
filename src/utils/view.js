@@ -74,7 +74,7 @@ export function handsOnTableToHandsOnTable(view) {
   const headers = view.resources[0].schema.fields.map(field => field.name)
   const data = getResourceCachedValues(view.resources[0])
   let height = null
-  if (data.length > 16) {
+  if (data && data.length > 16) {
     height = 432
   }
   return {
