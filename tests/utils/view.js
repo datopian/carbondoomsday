@@ -137,6 +137,9 @@ const plotlyExpected = {
       , xaxis: {
         title: 'Date'
       }
+      , yaxis: {
+        title: 'High'
+      }
     }
   }
   , simple2: {
@@ -208,6 +211,9 @@ const plotlyExpected = {
       title: mockDescriptor.resources[0].name
       , xaxis: {
         title: 'Date'
+      }
+      , yaxis: {
+        title: 'High'
       }
     }
   }
