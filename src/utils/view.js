@@ -93,6 +93,7 @@ export function handsOnTableToHandsOnTable(view) {
     , stretchH: 'all'
     , columnSorting: true
     , search: true
+    , manualColumnResize: true
   }
 }
 

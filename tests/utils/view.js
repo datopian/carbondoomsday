@@ -279,6 +279,7 @@ describe('Data Package View utils - HandsOnTable ', () => {
       , stretchH: 'all'
       , columnSorting: true
       , search: true
+      , manualColumnResize: true
     }
     // console.log(JSON.stringify(outSpec, null, 2));
     expect(outSpec).toEqual(expected)
@@ -307,6 +308,7 @@ describe('Data Package View utils - HandsOnTable ', () => {
       , stretchH: 'all'
       , columnSorting: true
       , search: true
+      , manualColumnResize: true
     }
     expect(outSpec).toEqual(expected)
   })
