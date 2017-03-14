@@ -134,6 +134,7 @@ const plotlyExpected = {
     ]
     , layout: {
       title: mockDescriptor.resources[0].name
+      , height: 450
       , xaxis: {
         title: 'Date'
       }
@@ -185,6 +186,7 @@ const plotlyExpected = {
     ]
     , layout: {
       title: mockDescriptor.resources[0].name
+      , height: 450
       , xaxis: {
         title: 'Date'
       }
@@ -209,6 +211,7 @@ const plotlyExpected = {
     ]
     , layout: {
       title: mockDescriptor.resources[0].name
+      , height: 450
       , xaxis: {
         title: 'Date'
       }
