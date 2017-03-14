@@ -23,6 +23,6 @@ describe('plotly chart module', () => {
     expect(wrapper.instance().props.data).toEqual(mockData)
     expect(wrapper.instance().props.layout).toEqual(mockLayout)
 
-    expect(wrapper.html()).toEqual(`<div id="plotly${idx}"></div>`)
+    expect(wrapper.html()).toEqual(`<div id="plotly${idx}" class="PlotlyGraph"></div>`)
   })
 })
