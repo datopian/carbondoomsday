@@ -56,6 +56,7 @@ export function simpleToPlotly(view) {
     data
     , layout: {
       title: view.resources[0].name
+      , height: 450
       , xaxis: {
         title: view.spec.group
       }
