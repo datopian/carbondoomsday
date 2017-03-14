@@ -47,7 +47,9 @@ async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divEl
         exports.renderComponentInElement(divElements[0])
       } else if(view.resources) {
         view.resources.forEach(resourceIdx => {
-          if(resourceIdx === idx) {exports.renderComponentInElement(divElements[0])}
+          if(resourceIdx === idx) {
+            exports.renderComponentInElement(divElements[0])
+          }
         })
       }
     })
