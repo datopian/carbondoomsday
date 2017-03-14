@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import Handsontable from 'handsontable'
+const Spinner = require('react-spinkit')
 
 class HandsOnTable extends React.Component {
 
@@ -20,7 +21,9 @@ class HandsOnTable extends React.Component {
   render() {
     const divId = `hTable${this.props.idx}`
     return (
-      <div id={divId} />
+      <div id={divId} className="handsontable">
+        { !this.props.spec.data && <Spinner spinnerName="rotating-plane"/> }
+      </div>
     )
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Plotly from 'plotly.js/lib/core'
+const Spinner = require('react-spinkit')
 
 class PlotlyChart extends React.Component {
 
@@ -20,7 +21,9 @@ class PlotlyChart extends React.Component {
   render() {
     const divId = `plotly${this.props.idx}`
     return (
-      <div id={divId} />
+      <div id={divId} className="PlotlyGraph">
+        { !this.props.data && <Spinner spinnerName="rotating-plane" /> }
+      </div>
     )
   }
 
