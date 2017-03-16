@@ -42,17 +42,19 @@ async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divEl
     // We expect view object to have 'resources' attribute that is an array of
     // indexes and each index refers to a resource. If not, this view refers to
     // the first resource.
-    dataPackage.views.forEach(view => {
-      if(!view.resources && idx === 0) {
-        exports.renderComponentInElement(divElements[0])
-      } else if(view.resources) {
-        view.resources.forEach(resourceIdx => {
-          if(resourceIdx === idx) {
-            exports.renderComponentInElement(divElements[0])
-          }
-        })
-      }
-    })
+    if (dataPackage.views !== undefined){
+      dataPackage.views.forEach(view => {
+        if(!view.resources && idx === 0) {
+          exports.renderComponentInElement(divElements[0])
+        } else if(view.resources) {
+          view.resources.forEach(resourceIdx => {
+            if(resourceIdx === idx) {
+              exports.renderComponentInElement(divElements[0])
+            }
+          })
+        }
+      })
+    }
     // here we re-render a table for which data is loaded in this iteration
     exports.renderComponentInElement(divElements[idx+1])
   }))

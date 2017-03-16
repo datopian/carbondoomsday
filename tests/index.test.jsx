@@ -15,6 +15,13 @@ const mock = nock('https://dp-vix-resource-and-view.com')
               .get('/data/demo-resource.csv')
               .replyWithFile(200, './fixtures/dp-vix-resource-and-view/data/demo-resource.csv')
 
+const mock1 = nock('https://example-geojson.com')
+                .persist()
+                .get('/datapackage.json')
+                .replyWithFile(200, './fixtures/example-geojson/datapackage.json')
+                .get('/data/example.geojson')
+                .replyWithFile(200, './fixtures/example-geojson/data/example.geojson')
+
 
 describe('how renderComponentInElement method works', () => {
   ReactDOM.render = jest.fn()
@@ -67,5 +74,20 @@ describe('how incrementally loading happens', () => {
     expect(index.renderComponentInElement.mock.calls[1][0]).toEqual(divForResourcePreview)
     expect(index.renderComponentInElement.mock.calls[2][0]).toEqual(divForDataView)
     expect(index.renderComponentInElement.mock.calls[3][0]).toEqual(divForResourcePreview)
+  })
+})
+
+describe('render page for geojson data package', () => {
+  it('should render if no view component in datapackage', async () => {
+    index.renderComponentInElement = jest.fn()
+    const dpUrl = 'https://example-geojson.com/datapackage.json'
+    const divForDataView = {dataset: {type: "view"}}
+    const divForResourcePreview = {dataset: {type: "resource"}}
+    await index.fetchDataPackageAndDataIncrementally(dpUrl, [divForDataView, divForResourcePreview])
+    // there are only 1 resource - this one renders twice and render blank view div once
+    expect(index.renderComponentInElement.mock.calls.length).toEqual(3)
+    expect(index.renderComponentInElement.mock.calls[0][0]).toEqual(divForDataView)
+    expect(index.renderComponentInElement.mock.calls[1][0]).toEqual(divForResourcePreview)
+    expect(index.renderComponentInElement.mock.calls[2][0]).toEqual(divForResourcePreview)
   })
 })
