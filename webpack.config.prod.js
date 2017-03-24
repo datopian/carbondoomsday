@@ -15,7 +15,7 @@ const GLOBALS = {
   , __DEV__: false
 }
 
-const SCRIPTS_PATH = '../app/static/react'
+const SCRIPTS_PATH = 'dist'
 
 export default {
   resolve: {
@@ -34,7 +34,7 @@ export default {
   , target: 'web' // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   , output: {
     path: path.resolve(__dirname, SCRIPTS_PATH)
-    , publicPath: '/static/react'
+    , publicPath: '/static/dpr-js/dist'
     , pathInfo: true
     , filename: 'bundle.js'
   }
@@ -50,13 +50,6 @@ export default {
 
     // Generate an external css file with a hash in the filename
     , new ExtractTextPlugin('[name].css')
-
-    // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
-    , new HtmlWebpackPlugin({
-      template: 'index.html'
-      , inject: true
-      , filename: path.resolve(__dirname, 'app/index.html')
-    })
 
     // Eliminate duplicate packages when generating bundle
     , new webpack.optimize.DedupePlugin()

@@ -26,7 +26,7 @@ export default {
   , output: {
     path: path.resolve(__dirname, 'app') // Note: Physical files are only output by the production build task `npm run build`.
     , publicPath: '/'
-    , filename: 'static/react/bundle.js'
+    , filename: 'static/dpr-js/dist/bundle.js'
   }
   , plugins: [
     new webpack.DefinePlugin({

@@ -3,6 +3,9 @@ logs
 *.log
 npm-debug.log*
 
+# dist file we don't want committed
+dist/bundle.js.map
+
 # Runtime data
 pids
 *.pid
