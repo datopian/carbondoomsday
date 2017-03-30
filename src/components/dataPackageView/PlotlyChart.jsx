@@ -2,6 +2,10 @@ import React from 'react'
 import Plotly from 'plotly.js/lib/core'
 const Spinner = require('react-spinkit')
 
+Plotly.register([
+    require('plotly.js/lib/bar')
+])
+
 class PlotlyChart extends React.Component {
 
   constructor(props) {
