@@ -1,6 +1,6 @@
-exports[`MultiViews Container should NOT render PlotlyChart if there is no views given 1`] = `<div />`;
+exports[`MultiViews Container should NOT render PlotlyChart / VegaChart if there is no views given 1`] = `<div />`;
 
-exports[`MultiViews Container should render PlotlyChart component 1`] = `
+exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaChart component 1`] = `
 <div>
   <PlotlyChart
     data={
@@ -76,14 +76,64 @@ exports[`MultiViews Container should render PlotlyChart component 1`] = `
         },
       }
     } />
+  <VegaChart
+    idx={2}
+    spec={
+      Object {
+        "axes": Array [],
+        "data": Array [
+          Object {
+            "name": "demo-resource",
+            "values": Array [
+              Object {
+                "Date": "2014-01-01",
+                "High": 14.59,
+                "Open": 14.32,
+              },
+              Object {
+                "Date": "2014-01-02",
+                "High": 14.22,
+                "Open": 14.06,
+              },
+              Object {
+                "Date": "2014-01-05",
+                "High": 14,
+                "Open": 13.41,
+              },
+            ],
+          },
+        ],
+        "height": 200,
+        "marks": Array [],
+        "scales": Array [],
+        "width": 400,
+      }
+    } />
 </div>
 `;
 
-exports[`MultiViews Container should render empty PlotlyChart if there is no data yet 1`] = `
+exports[`MultiViews Container should render empty PlotlyChart / VegaChart if there is no data yet 1`] = `
 <div>
   <PlotlyChart
     idx={0} />
   <PlotlyChart
     idx={1} />
+  <VegaChart
+    idx={2}
+    spec={
+      Object {
+        "axes": Array [],
+        "data": Array [
+          Object {
+            "name": "demo-resource",
+            "values": undefined,
+          },
+        ],
+        "height": 200,
+        "marks": Array [],
+        "scales": Array [],
+        "width": 400,
+      }
+    } />
 </div>
 `;

@@ -59,22 +59,33 @@ const mockDescriptor = {
         , series: ['High']
       }
     }
+    , {
+      name: 'vega-graph'
+      , specType: 'vega'
+      , spec: {
+        width: 400
+        , height: 200
+        , scales: []
+        , axes: []
+        , marks: []
+      }
+    }
   ]
 }
 
 describe('MultiViews Container', () => {
-  it('should render PlotlyChart component', () => {
+  it('should render 2 PlotlyChart components and 1 VegaChart component', () => {
     const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 
-  it('should render empty PlotlyChart if there is no data yet', () => {
+  it('should render empty PlotlyChart / VegaChart if there is no data yet', () => {
     delete mockDescriptor.resources[0]._values
     const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 
-  it('should NOT render PlotlyChart if there is no views given', () => {
+  it('should NOT render PlotlyChart / VegaChart if there is no views given', () => {
     delete mockDescriptor.views
     const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
     expect(toJson(wrapper)).toMatchSnapshot()

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 
 import * as viewutils from '../utils/view'
 import PlotlyChart from '../components/dataPackageView/PlotlyChart'
-import VegaLiteChart from '../components/dataPackageView/VegaLiteChart'
+import VegaChart from '../components/dataPackageView/VegaChart'
 
 export class MultiViews extends React.Component {
   constructor(props) {
@@ -32,6 +32,17 @@ export class MultiViews extends React.Component {
               spec = viewutils.simpleToPlotly(compiledView)
             }
             return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
+          case 'vega': // do not convert spec as it is already Vega so we render VegaChart
+            let data
+            if(compiledView.resources[0]._values) {
+              let rowsAsObjects = true // vega requires data rows to be as objects
+              data = viewutils.getResourceCachedValues(compiledView.resources[0], rowsAsObjects)
+            }
+            view.spec.data = [{
+              name: compiledView.resources[0].name,
+              values: data
+            }]
+            return <VegaChart spec={view.spec} idx={idx} key={idx} />
         }
       })
     }
