@@ -6,16 +6,24 @@ class HandsOnTable extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      hot: null
+    }
   }
 
   componentDidMount() {
     // Create and bind Handsontable when the container component triggers update
-    new Handsontable(document.getElementById(`hTable${this.props.idx}`), this.props.spec)
+    let hot = new Handsontable(document.getElementById(`hTable${this.props.idx}`), this.props.spec)
+    this.setState({
+      hot: hot
+    })
   }
 
   componentWillUpdate(nextProps) {
     // Update Handsontable when new props are received
-    new Handsontable(document.getElementById(`hTable${nextProps.idx}`), nextProps.spec)
+    if(this.state.hot) {
+      this.state.hot.updateSettings(nextProps.spec)
+    }
   }
 
   render() {
