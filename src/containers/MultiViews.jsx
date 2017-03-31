@@ -33,16 +33,12 @@ export class MultiViews extends React.Component {
             }
             return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
           case 'vega': // do not convert spec as it is already Vega so we render VegaChart
-            let data
-            if(compiledView.resources[0]._values) {
-              let rowsAsObjects = true // vega requires data rows to be as objects
-              data = viewutils.getResourceCachedValues(compiledView.resources[0], rowsAsObjects)
-            }
-            view.spec.data = [{
-              name: compiledView.resources[0].name,
-              values: data
-            }]
-            return <VegaChart spec={view.spec} idx={idx} key={idx} />
+            let data = viewutils.getVegaData(compiledView)
+            if(data) {
+              view.spec.data = data
+              return <VegaChart spec={view.spec} idx={idx} key={idx} />
+            }                   
+            return <VegaChart spec={undefined} idx={idx} key={idx} />
         }
       })
     }

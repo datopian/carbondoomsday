@@ -165,3 +165,53 @@ export function compileView(inView, dataPackage) {
   view.resources = compiledData
   return view
 }
+
+/**
+ * Check if all resources for the view are loaded
+ */
+export function allResourcesLoaded(resources) {
+  let length = 0
+  resources.forEach(resource => {
+    if(resource._values) {
+      length += 1
+    }
+  })
+  if (length === resources.length) {
+    return true
+  }
+}
+
+/**
+ * Prepare Vega spec
+ * Fields that are dates should be specified so
+ */
+export function getVegaData(view) {
+  let data = []
+  let loaded = allResourcesLoaded(view.resources)
+  if(loaded) {
+    view.resources.forEach(resource => {
+      let dateField = {}
+      let rowsAsObjects = true
+      let values = getResourceCachedValues(resource, rowsAsObjects)
+
+      resource.schema.fields.forEach(field => {
+        if(field.type === "date") {
+          dateField = {
+            [field.name]: field.type
+          }
+        }
+      })
+
+      data.push(
+        {
+          name: resource.name,
+          format: {"parse": dateField},
+          values: values
+        }
+      )
+    })
+
+    return data
+  }
+  return false
+}

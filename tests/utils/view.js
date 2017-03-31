@@ -380,4 +380,20 @@ describe('Basic view utility functions', () => {
     expect(out.resources[0].format).toEqual('csv')
     expect(out.resources[0]._values.length).toEqual(3)
   })
+
+  it('allResourcesLoaded works', () => {
+    const out = utils.allResourcesLoaded(mockDescriptorWithoutData.resources)
+    expect(out).toBeFalsy()
+    const out2 = utils.allResourcesLoaded(mockDescriptor.resources)
+    expect(out2).toBeTruthy()
+  })
+})
+
+describe('getVegaData', () => {
+  it('getVegaData works', () => {
+    const out = utils.getVegaData(mockDescriptor)
+    expect(out[0].name).toEqual('demo-resource')
+    expect(out[0].format).toEqual({"parse": {"Date": "date"}})
+    expect(out[0].values[0].High).toEqual(14.59)
+  })
 })
