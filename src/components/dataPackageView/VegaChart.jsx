@@ -10,25 +10,29 @@ class VegaChart extends React.Component {
 
   componentDidMount() {
     // draw a vega chart with initial data and spec
-    vg.parse.spec(this.props.spec, (error, chart) => {
-        chart({el: `#vega${this.props.idx}`}).update()
-      }
-    )
+    if(this.props.spec) {
+      vg.parse.spec(this.props.spec, (error, chart) => {
+          chart({el: `#vega${this.props.idx}`}).update()
+        }
+      )
+    }
   }
 
   componentDidUpdate() {
     // update the vega chart with new props
-    vg.parse.spec(this.props.spec, (error, chart) => {
-        chart({el: `#vega${this.props.idx}`}).update()
-      }
-    )
+    if(this.props.spec) {
+      vg.parse.spec(this.props.spec, (error, chart) => {
+          chart({el: `#vega${this.props.idx}`}).update()
+        }
+      )
+    }
   }
 
   render() {
     const divId = `vega${this.props.idx}`
     return (
       <div id={divId} className="PlotlyGraph">
-        { !this.props.spec.data[0].values && <Spinner spinnerName="rotating-plane" /> }
+        { !this.props.spec && <Spinner spinnerName="rotating-plane" /> }
       </div>
     )
   }

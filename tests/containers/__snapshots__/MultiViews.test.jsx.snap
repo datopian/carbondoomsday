@@ -83,6 +83,11 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
         "axes": Array [],
         "data": Array [
           Object {
+            "format": Object {
+              "parse": Object {
+                "Date": "date",
+              },
+            },
             "name": "demo-resource",
             "values": Array [
               Object {
@@ -119,21 +124,6 @@ exports[`MultiViews Container should render empty PlotlyChart / VegaChart if the
   <PlotlyChart
     idx={1} />
   <VegaChart
-    idx={2}
-    spec={
-      Object {
-        "axes": Array [],
-        "data": Array [
-          Object {
-            "name": "demo-resource",
-            "values": undefined,
-          },
-        ],
-        "height": 200,
-        "marks": Array [],
-        "scales": Array [],
-        "width": 400,
-      }
-    } />
+    idx={2} />
 </div>
 `;
