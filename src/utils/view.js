@@ -167,16 +167,22 @@ export function compileView(inView, dataPackage) {
 }
 
 /**
- * Check if all resources for the view are loaded
+ * Check if all resources for the view are loaded - vega specific
  */
-export function allResourcesLoaded(resources) {
+export function allResourcesLoaded(vegaData, dp) {
   let length = 0
-  resources.forEach(resource => {
-    if(resource._values) {
+  vegaData.forEach(dataItem => {
+    if(dataItem.values) {
       length += 1
+    } else {
+      let resource = findResourceByNameOrIndex(dp, dataItem.source)
+      if(resource._values) {
+        length += 1
+      }
     }
   })
-  if (length === resources.length) {
+
+  if (length === vegaData.length) {
     return true
   }
 }
@@ -185,33 +191,32 @@ export function allResourcesLoaded(resources) {
  * Prepare Vega spec
  * Fields that are dates should be specified so
  */
-export function getVegaData(view) {
-  let data = []
-  let loaded = allResourcesLoaded(view.resources)
-  if(loaded) {
-    view.resources.forEach(resource => {
-      let dateField = {}
-      let rowsAsObjects = true
-      let values = getResourceCachedValues(resource, rowsAsObjects)
-
-      resource.schema.fields.forEach(field => {
-        if(field.type === "date") {
-          dateField = {
-            [field.name]: field.type
-          }
-        }
+export function getVegaSpec(vegaSpec, dp) {
+  let loaded
+  if(vegaSpec.data) {
+    loaded = allResourcesLoaded(vegaSpec.data, dp)
+  } else {
+    vegaSpec.data = []
+    dp.resources.forEach(resource => {
+      vegaSpec.data.push({
+        name: resource.name,
+        source: resource.name
       })
-
-      data.push(
-        {
-          name: resource.name,
-          format: {"parse": dateField},
-          values: values
-        }
-      )
     })
-
-    return data
+    loaded = allResourcesLoaded(vegaSpec.data, dp)
   }
-  return false
+
+  if(loaded) {
+    vegaSpec.data.forEach(dataItem => {
+      if(!dataItem.values) {
+        let resource = findResourceByNameOrIndex(dp, dataItem.source)
+        let rowsAsObjects = !(resource.format === "topojson")
+        let values = getResourceCachedValues(resource, rowsAsObjects)
+        dataItem.values = values
+      }
+    })
+    return vegaSpec
+  } else {
+    return
+  }
 }

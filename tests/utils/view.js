@@ -110,6 +110,43 @@ const mockViews = {
       , series: ['High']
     }
   }
+  , vega1: {
+    name: 'vega1'
+    , specType: 'vega'
+    , spec: {
+      scale: [],
+      axes: []
+    }
+  }
+  , vega2: {
+    name: 'vega2'
+    , specType: 'vega'
+    , spec: {
+      data: [
+        {
+          name: 'data1'
+          , source: 'demo-resource'
+          , transform: [{type: 'test'}]
+        }
+      ]
+    }
+  }
+  , vega3: {
+    name: 'vega3'
+    , specType: 'vega'
+    , spec: {
+      data: [
+        {
+          name: 'data1'
+          , values: [{x:1,y:0}, {x:2,y:5}]
+        }
+        , {
+          name: 'data2'
+          , source: 'demo-resource'
+        }
+      ]
+    }
+  }
 }
 
 const plotlyExpected = {
@@ -382,18 +419,32 @@ describe('Basic view utility functions', () => {
   })
 
   it('allResourcesLoaded works', () => {
-    const out = utils.allResourcesLoaded(mockDescriptorWithoutData.resources)
+    const out = utils.allResourcesLoaded(mockViews.vega3.spec.data, mockDescriptorWithoutData)
     expect(out).toBeFalsy()
-    const out2 = utils.allResourcesLoaded(mockDescriptor.resources)
+    const out2 = utils.allResourcesLoaded(mockViews.vega3.spec.data, mockDescriptor)
     expect(out2).toBeTruthy()
   })
 })
 
-describe('getVegaData', () => {
-  it('getVegaData works', () => {
-    const out = utils.getVegaData(mockDescriptor)
-    expect(out[0].name).toEqual('demo-resource')
-    expect(out[0].format).toEqual({"parse": {"Date": "date"}})
-    expect(out[0].values[0].High).toEqual(14.59)
+describe('getVegaSpec', () => {
+  it('getVegaSpec works - vega spec without data property', () => {
+    const out = utils.getVegaSpec(mockViews.vega1.spec, mockDescriptor)
+    expect(out.data.length).toEqual(mockDescriptor.resources.length)
+    expect(out.data[0].name).toEqual('demo-resource')
+    expect(out.data[0].source).toEqual('demo-resource')
+    expect(out.data[0].values[0].High).toEqual(14.59)
+  })
+
+  it('getVegaSpec works - vega spec with data property', () => {
+    const out = utils.getVegaSpec(mockViews.vega2.spec, mockDescriptor)
+    expect(out.data.length).toEqual(mockViews.vega2.spec.data.length)
+    expect(out.data[0].values[0].High).toEqual(14.59)
+    expect(out.data[0].transform).toEqual(mockViews.vega2.spec.data[0].transform)
+  })
+
+  it('getVegaSpec works - with one inlined and one not inlined data', () => {
+    const out = utils.getVegaSpec(mockViews.vega3.spec, mockDescriptor)
+    expect(out.data[0]).toEqual(mockViews.vega3.spec.data[0])
+    expect(out.data[1].values[0].High).toEqual(14.59)
   })
 })
