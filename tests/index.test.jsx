@@ -59,6 +59,16 @@ describe('how renderComponentInElement method works', () => {
     expect(ReactDOM.render.mock.calls[2][0].props).toEqual({featureCollection: 'values', idx: 0})
     expect(ReactDOM.render.mock.calls[2][1]).toEqual(divForResourcePreview)
   })
+
+  it('should not render LeafletMap and HandsOnTable if data-type=resource-preview and format=topojson', () => {
+    viewutils.findResourceByNameOrIndex = jest.fn(() => {
+      return {format: 'topojson', _values: 'values'}
+    })
+    const divForResourcePreview = {dataset: {type: "resource-preview", resource: "0"}}
+    index.renderComponentInElement(divForResourcePreview)
+    // ReactDOM.render was not called - length is still 3
+    expect(ReactDOM.render.mock.calls.length).toEqual(3)
+  })
 })
 
 describe('how incrementally loading happens', () => {
@@ -85,9 +95,10 @@ describe('render page for geojson data package', () => {
     const divForResourcePreview = {dataset: {type: "resource"}}
     await index.fetchDataPackageAndDataIncrementally(dpUrl, [divForDataView, divForResourcePreview])
     // there are only 1 resource - this one renders twice and render blank view div once
-    expect(index.renderComponentInElement.mock.calls.length).toEqual(3)
+    expect(index.renderComponentInElement.mock.calls.length).toEqual(4)
     expect(index.renderComponentInElement.mock.calls[0][0]).toEqual(divForDataView)
     expect(index.renderComponentInElement.mock.calls[1][0]).toEqual(divForResourcePreview)
-    expect(index.renderComponentInElement.mock.calls[2][0]).toEqual(divForResourcePreview)
+    expect(index.renderComponentInElement.mock.calls[2][0]).toEqual(divForDataView)
+    expect(index.renderComponentInElement.mock.calls[3][0]).toEqual(divForResourcePreview)
   })
 })

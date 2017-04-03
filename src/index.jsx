@@ -37,27 +37,9 @@ async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divEl
 
   await Promise.all(dpObj.resources.map(async (resource, idx) => {
     resource.descriptor._values = await dputils.fetchDataOnly(resource)
-
-    // Only re-render MultiView if this resource is used in one of the views.
-    // We expect view object to have 'resources' attribute that is an array of
-    // indexes and each index refers to a resource. If not, this view refers to
-    // the first resource.
-    if (dataPackage.views !== undefined){
-      dataPackage.views.forEach(view => {
-        if(!view.resources && idx === 0) {
-          exports.renderComponentInElement(divElements[0])
-        } else if(view.resources) {
-          view.resources.forEach(resourceIdx => {
-            if(resourceIdx === idx) {
-              exports.renderComponentInElement(divElements[0])
-            }
-          })
-        }
-      })
-    }
-    // here we re-render a table for which data is loaded in this iteration
-    exports.renderComponentInElement(divElements[idx+1])
+    divElements.forEach(exports.renderComponentInElement)
   }))
+  
 }
 
 
@@ -68,7 +50,7 @@ function renderComponentInElement(el) {
     let resource = viewutils.findResourceByNameOrIndex(dp, idx)
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
-    } else {
+    } else if (resource.format !== 'topojson') {
       let compiledViewSpec = {
         resources: [resource],
         specType: 'handsontable'
