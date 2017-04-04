@@ -38,6 +38,13 @@ const mock4 = nock('https://geo-json-resource-and-view.com')
               .get('/data/example.geojson')
               .replyWithFile(200, './fixtures/example-geojson/data/example.geojson')
 
+const mock5 = nock('https://topo-json-resource-and-view.com')
+              .persist()
+              .get('/datapackage.json')
+              .replyWithFile(200, './fixtures/example-topojson/datapackage.json')
+              .get('/data/example.json')
+              .replyWithFile(200, './fixtures/example-topojson/data/example.json')
+
 
 describe('get datapackage', () => {
   it('should load the datapackage.json', async () => {
@@ -102,5 +109,15 @@ describe('fetch data only', () => {
     const resource = dp.resources[0]
     const values = await utils.fetchDataOnly(resource)
     expect(values[0][1]).toEqual(14.32)
+  })
+
+  it('should get topojson data', async () => {
+    const dpUrl = 'https://topo-json-resource-and-view.com/datapackage.json'
+    const dp = await new Datapackage(dpUrl)
+    const resource = dp.resources[0]
+    const values = await utils.fetchDataOnly(resource)
+    expect(dp.descriptor.title).toEqual('Example TopoJSON Data Package')
+    expect(dp.resources.length).toEqual(1)
+    expect(values.type).toEqual("Topology")
   })
 })

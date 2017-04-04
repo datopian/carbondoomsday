@@ -22,7 +22,7 @@ export async function fetchDataPackageAndData(dataPackageIdentifier) {
 }
 
 export async function fetchDataOnly(resource) {
-  if (resource.descriptor.format === 'geojson') {
+  if (resource.descriptor.format === 'geojson' || resource.descriptor.format === 'topojson') {
     const baseUrl = resource._basePath.replace('/datapackage.json', '')
     const resourceUrl = `${baseUrl}/${resource._descriptor.path}`
     const response = await fetch(resourceUrl)
