@@ -109,6 +109,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "datapackage": "^0.8.1",
+    "datapackage-render": "git+https://github.com/frictionlessdata/datapackage-render-js.git",
     "handsontable": "^0.29.2",
     "isomorphic-fetch": "2.2.1",
     "leaflet": "1.0.3 ",

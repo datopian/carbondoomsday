@@ -30,7 +30,7 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
     layout={
       Object {
         "height": 450,
-        "title": "demo-resource",
+        "title": "",
         "xaxis": Object {
           "title": "Date",
         },
@@ -67,7 +67,7 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
     layout={
       Object {
         "height": 450,
-        "title": "demo-resource",
+        "title": "",
         "xaxis": Object {
           "title": "Date",
         },
@@ -84,7 +84,6 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
         "data": Array [
           Object {
             "name": "demo-resource",
-            "source": "demo-resource",
             "values": Array [
               Object {
                 "Date": "2014-01-01",
@@ -120,38 +119,6 @@ exports[`MultiViews Container should render empty PlotlyChart / VegaChart if the
   <PlotlyChart
     idx={1} />
   <VegaChart
-    idx={2}
-    spec={
-      Object {
-        "axes": Array [],
-        "data": Array [
-          Object {
-            "name": "demo-resource",
-            "source": "demo-resource",
-            "values": Array [
-              Object {
-                "Date": "2014-01-01",
-                "High": 14.59,
-                "Open": 14.32,
-              },
-              Object {
-                "Date": "2014-01-02",
-                "High": 14.22,
-                "Open": 14.06,
-              },
-              Object {
-                "Date": "2014-01-05",
-                "High": 14,
-                "Open": 13.41,
-              },
-            ],
-          },
-        ],
-        "height": 200,
-        "marks": Array [],
-        "scales": Array [],
-        "width": 400,
-      }
-    } />
+    idx={2} />
 </div>
 `;

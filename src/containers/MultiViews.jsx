@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-import * as viewutils from '../utils/view'
+import * as dprender from 'datapackage-render'
 import PlotlyChart from '../components/dataPackageView/PlotlyChart'
 import VegaChart from '../components/dataPackageView/VegaChart'
 
@@ -22,18 +22,18 @@ export class MultiViews extends React.Component {
       viewComponents = dp.views.map((view, idx) => {
         // first let's fix up recline views ...
         if (view.type == 'Graph') { // it's a recline view
-          view = viewutils.convertReclineToSimple(view)
+          view = dprender.convertReclineToSimple(view)
         }
+        let compiledView = dprender.compileView(view, dp)
         switch (view.specType) {
           case 'simple': // convert to plotly then render
-            let compiledView = viewutils.compileView(view, dp)
             let spec = {}
             if(compiledView.resources[0]._values) {
-              spec = viewutils.simpleToPlotly(compiledView)
+              spec = dprender.simpleToPlotly(compiledView)
             }
             return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
           case 'vega': // render VegaChart
-            let vegaSpec = viewutils.getVegaSpec(view.spec, dp)
+            let vegaSpec = dprender.vegaToVega(compiledView)
             return <VegaChart spec={vegaSpec} idx={idx} key={idx} />
         }
       })

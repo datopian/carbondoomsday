@@ -5,7 +5,7 @@ import MultiViews from '../src/containers/MultiViews'
 import HandsOnTable from '../src/components/dataPackageView/HandsOnTable'
 import LeafletMap from '../src/components/dataPackageView/LeafletMap'
 import nock from 'nock'
-import * as viewutils from '../src/utils/view'
+import * as dprender from 'datapackage-render'
 
 
 const mock = nock('https://dp-vix-resource-and-view.com')
@@ -36,10 +36,10 @@ describe('how renderComponentInElement method works', () => {
   })
 
   it('should render HandsOnTable if element data-type = resource-preview', () => {
-    viewutils.findResourceByNameOrIndex = jest.fn(() => {
+    dprender.findResourceByNameOrIndex = jest.fn(() => {
       return {format: 'csv'}
     })
-    viewutils.handsOnTableToHandsOnTable = jest.fn(() => 'hTspec')
+    dprender.handsOnTableToHandsOnTable = jest.fn(() => 'hTspec')
     const divForResourcePreview = {dataset: {type: "resource-preview", resource: "0"}}
     index.renderComponentInElement(divForResourcePreview)
     expect(ReactDOM.render.mock.calls.length).toEqual(2)
@@ -49,7 +49,7 @@ describe('how renderComponentInElement method works', () => {
   })
 
   it('should render LeafletMap if element data-type=resource-preview and format=geojson', () => {
-    viewutils.findResourceByNameOrIndex = jest.fn(() => {
+    dprender.findResourceByNameOrIndex = jest.fn(() => {
       return {format: 'geojson', _values: 'values'}
     })
     const divForResourcePreview = {dataset: {type: "resource-preview", resource: "0"}}
@@ -61,7 +61,7 @@ describe('how renderComponentInElement method works', () => {
   })
 
   it('should not render LeafletMap and HandsOnTable if data-type=resource-preview and format=topojson', () => {
-    viewutils.findResourceByNameOrIndex = jest.fn(() => {
+    dprender.findResourceByNameOrIndex = jest.fn(() => {
       return {format: 'topojson', _values: 'values'}
     })
     const divForResourcePreview = {dataset: {type: "resource-preview", resource: "0"}}

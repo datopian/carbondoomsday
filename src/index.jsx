@@ -6,7 +6,7 @@ import MultiViews from "./containers/MultiViews"; // eslint-disable-line
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
 import LeafletMap from './components/dataPackageView/LeafletMap'
 import * as dputils from './utils/datapackage'
-import * as viewutils from './utils/view'
+import * as dprender from 'datapackage-render'
 
 
 /**
@@ -39,7 +39,7 @@ async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divEl
     resource.descriptor._values = await dputils.fetchDataOnly(resource)
     divElements.forEach(exports.renderComponentInElement)
   }))
-  
+
 }
 
 
@@ -47,7 +47,7 @@ function renderComponentInElement(el) {
   const dp = Object.assign({}, dataPackage)
   if (el.dataset.type === 'resource-preview') {
     let idx = parseInt(el.dataset.resource)
-    let resource = viewutils.findResourceByNameOrIndex(dp, idx)
+    let resource = dprender.findResourceByNameOrIndex(dp, idx)
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
     } else if (resource.format !== 'topojson') {
@@ -55,7 +55,7 @@ function renderComponentInElement(el) {
         resources: [resource],
         specType: 'handsontable'
       }
-      let spec = viewutils.handsOnTableToHandsOnTable(compiledViewSpec)
+      let spec = dprender.handsOnTableToHandsOnTable(compiledViewSpec)
       ReactDOM.render(<HandsOnTable spec={spec} idx={idx} />, el);
     }
   } else if (el.dataset.type === 'data-views') {
