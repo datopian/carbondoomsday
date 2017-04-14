@@ -1,0 +1,113 @@
+exports[`ReactVirtualized component should match the snapshot - with data 1`] = `
+<Table
+  className="table"
+  disableHeader={false}
+  estimatedRowSize={30}
+  headerClassName="rv-header"
+  headerHeight={20}
+  headerRowRenderer={[Function]}
+  headerStyle={Object {}}
+  height={110}
+  noRowsRenderer={[Function]}
+  onRowsRendered={[Function]}
+  onScroll={[Function]}
+  overscanIndicesGetter={[Function]}
+  overscanRowCount={10}
+  rowCount={3}
+  rowGetter={[Function]}
+  rowHeight={30}
+  rowRenderer={[Function]}
+  rowStyle={Object {}}
+  scrollToAlignment="auto"
+  scrollToIndex={-1}
+  style={Object {}}
+  width={1136}>
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="Date"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="Date"
+    style={Object {}}
+    width={378.6666666666667} />
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="Open"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="Open"
+    style={Object {}}
+    width={378.6666666666667} />
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="High"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="High"
+    style={Object {}}
+    width={378.6666666666667} />
+</Table>
+`;
+
+exports[`ReactVirtualized component should match the snapshot - without data 1`] = `
+<Table
+  className="table"
+  disableHeader={false}
+  estimatedRowSize={30}
+  headerClassName="rv-header"
+  headerHeight={20}
+  headerRowRenderer={[Function]}
+  headerStyle={Object {}}
+  height={20}
+  noRowsRenderer={[Function]}
+  onRowsRendered={[Function]}
+  onScroll={[Function]}
+  overscanIndicesGetter={[Function]}
+  overscanRowCount={10}
+  rowCount={0}
+  rowGetter={[Function]}
+  rowHeight={30}
+  rowRenderer={[Function]}
+  rowStyle={Object {}}
+  scrollToAlignment="auto"
+  scrollToIndex={-1}
+  style={Object {}}
+  width={1136}>
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="Date"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="Date"
+    style={Object {}}
+    width={378.6666666666667} />
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="Open"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="Open"
+    style={Object {}}
+    width={378.6666666666667} />
+  <Column
+    cellDataGetter={[Function]}
+    cellRenderer={[Function]}
+    dataKey="High"
+    flexGrow={0}
+    flexShrink={1}
+    headerRenderer={[Function]}
+    label="High"
+    style={Object {}}
+    width={378.6666666666667} />
+</Table>
+`;
