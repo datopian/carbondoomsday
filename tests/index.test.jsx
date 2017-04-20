@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import index from '../src/index'
 import ReactDOM from 'react-dom'
 import MultiViews from '../src/containers/MultiViews'
-import ReactVirtualized from '../src/components/dataPackageView/ReactVirtualized'
+import HandsOnTable from '../src/components/dataPackageView/HandsOnTable'
 import LeafletMap from '../src/components/dataPackageView/LeafletMap'
 import nock from 'nock'
 import * as dprender from 'datapackage-render'
@@ -35,16 +35,16 @@ describe('how renderComponentInElement method works', () => {
     expect(ReactDOM.render.mock.calls[0][1]).toEqual(divForDataView)
   })
 
-  it('should render ReactVirtualized if element data-type = resource-preview', () => {
+  it('should render HandsOnTable if element data-type = resource-preview', () => {
     dprender.findResourceByNameOrIndex = jest.fn(() => {
       return {format: 'csv'}
     })
-    dprender.reactVirtualizedToReactVirtualized = jest.fn(() => 'RVSpec')
+    dprender.handsOnTableToHandsOnTable = jest.fn(() => 'hTspec')
     const divForResourcePreview = {dataset: {type: "resource-preview", resource: "0"}}
     index.renderComponentInElement(divForResourcePreview)
     expect(ReactDOM.render.mock.calls.length).toEqual(2)
-    expect(ReactDOM.render.mock.calls[1][0].type).toEqual(ReactVirtualized)
-    expect(ReactDOM.render.mock.calls[1][0].props).toEqual({spec: 'RVSpec', idx: 0})
+    expect(ReactDOM.render.mock.calls[1][0].type).toEqual(HandsOnTable)
+    expect(ReactDOM.render.mock.calls[1][0].props).toEqual({spec: 'hTspec', idx: 0})
     expect(ReactDOM.render.mock.calls[1][1]).toEqual(divForResourcePreview)
   })
 
@@ -60,7 +60,7 @@ describe('how renderComponentInElement method works', () => {
     expect(ReactDOM.render.mock.calls[2][1]).toEqual(divForResourcePreview)
   })
 
-  it('should not render LeafletMap and ReactVirtualized if data-type=resource-preview and format=topojson', () => {
+  it('should not render LeafletMap and HandsOnTable if data-type=resource-preview and format=topojson', () => {
     dprender.findResourceByNameOrIndex = jest.fn(() => {
       return {format: 'topojson', _values: 'values'}
     })

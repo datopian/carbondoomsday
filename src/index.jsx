@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 const Datapackage = require('datapackage').Datapackage
+import '../node_modules/handsontable/dist/handsontable.full.min.css'
+import HandsOnTable from './components/dataPackageView/HandsOnTable'
 import MultiViews from "./containers/MultiViews"; // eslint-disable-line
-import ReactVirtualized from './components/dataPackageView/ReactVirtualized'
 import LeafletMap from './components/dataPackageView/LeafletMap'
 import * as dputils from './utils/datapackage'
 import * as dprender from 'datapackage-render'
@@ -52,10 +53,10 @@ function renderComponentInElement(el) {
     } else if (resource.format !== 'topojson') {
       let compiledViewSpec = {
         resources: [resource],
-        specType: 'react-virtualized'
+        specType: 'handsontable'
       }
-      let spec = dprender.reactVirtualizedToReactVirtualized(compiledViewSpec)
-      ReactDOM.render(<ReactVirtualized spec={spec} idx={idx} />, el);
+      let spec = dprender.handsOnTableToHandsOnTable(compiledViewSpec)
+      ReactDOM.render(<HandsOnTable spec={spec} idx={idx} />, el);
     }
   } else if (el.dataset.type === 'data-views') {
     ReactDOM.render(<MultiViews dataPackage={dp} />, el)
