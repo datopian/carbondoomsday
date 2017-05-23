@@ -112,6 +112,153 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
 </div>
 `;
 
+exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
+<div>
+  <PlotlyChart
+    data={
+      Array [
+        Object {
+          "line": Object {
+            "shape": "spline",
+            "width": 2,
+          },
+          "mode": "lines",
+          "name": "High",
+          "type": "scatter",
+          "x": Array [
+            "2014-01-01",
+            "2014-01-02",
+            "2014-01-05",
+          ],
+          "y": Array [
+            14.59,
+            14.22,
+            14,
+          ],
+        },
+      ]
+    }
+    idx={0}
+    layout={
+      Object {
+        "height": 450,
+        "title": "",
+        "xaxis": Object {
+          "title": "Date",
+        },
+        "yaxis": Object {
+          "title": "High",
+        },
+      }
+    } />
+  <PlotlyChart
+    data={
+      Array [
+        Object {
+          "line": Object {
+            "shape": "spline",
+            "width": 2,
+          },
+          "mode": "lines",
+          "name": "High",
+          "type": "scatter",
+          "x": Array [
+            "2014-01-01",
+            "2014-01-02",
+            "2014-01-05",
+          ],
+          "y": Array [
+            14.59,
+            14.22,
+            14,
+          ],
+        },
+      ]
+    }
+    idx={1}
+    layout={
+      Object {
+        "height": 450,
+        "title": "",
+        "xaxis": Object {
+          "title": "Date",
+        },
+        "yaxis": Object {
+          "title": "High",
+        },
+      }
+    } />
+  <VegaChart
+    idx={2}
+    spec={
+      Object {
+        "axes": Array [],
+        "data": Array [
+          Object {
+            "name": "demo-resource",
+            "values": Array [
+              Object {
+                "Date": "2014-01-01",
+                "High": 14.59,
+                "Open": 14.32,
+              },
+              Object {
+                "Date": "2014-01-02",
+                "High": 14.22,
+                "Open": 14.06,
+              },
+              Object {
+                "Date": "2014-01-05",
+                "High": 14,
+                "Open": 13.41,
+              },
+            ],
+          },
+        ],
+        "height": 200,
+        "marks": Array [],
+        "scales": Array [],
+        "width": 400,
+      }
+    } />
+  <HandsOnTable
+    idx={3}
+    spec={
+      Object {
+        "colHeaders": Array [
+          "Date",
+          "Open",
+          "High",
+        ],
+        "colWidths": 47,
+        "columnSorting": true,
+        "data": Array [
+          Array [
+            "2014-01-01",
+            14.32,
+            14.59,
+          ],
+          Array [
+            "2014-01-02",
+            14.06,
+            14.22,
+          ],
+          Array [
+            "2014-01-05",
+            13.41,
+            14,
+          ],
+        ],
+        "manualColumnResize": true,
+        "readOnly": true,
+        "rowWidth": 27,
+        "search": true,
+        "stretchH": "all",
+      }
+    } />
+</div>
+`;
+
 exports[`MultiViews Container should render empty PlotlyChart / VegaChart if there is no data yet 1`] = `
 <div>
   <PlotlyChart

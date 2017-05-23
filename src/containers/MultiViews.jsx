@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react'
 import * as dprender from 'datapackage-render'
 import PlotlyChart from '../components/dataPackageView/PlotlyChart'
 import VegaChart from '../components/dataPackageView/VegaChart'
+import HandsOnTable from '../components/dataPackageView/HandsOnTable'
 
 export class MultiViews extends React.Component {
   constructor(props) {
@@ -35,6 +36,9 @@ export class MultiViews extends React.Component {
           case 'vega': // render VegaChart
             let vegaSpec = dprender.vegaToVega(compiledView)
             return <VegaChart spec={vegaSpec} idx={idx} key={idx} />
+          case 'table': // render handsontable
+            let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
+            return <HandsOnTable spec={htSpec} idx={idx} key={idx} />
         }
       })
     }

@@ -70,11 +70,21 @@ const mockDescriptor = {
         , marks: []
       }
     }
+    , {
+      name: 'table'
+      , specType: 'table'
+    }
   ]
 }
 
 describe('MultiViews Container', () => {
+  it('should render 3 charts + 1 table', () => {
+    const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
+    expect(toJson(wrapper)).toMatchSnapshot()
+  })
+
   it('should render 2 PlotlyChart components and 1 VegaChart component', () => {
+    mockDescriptor.views.splice(-1, 1)
     const wrapper = shallow(<MultiViews dataPackage={mockDescriptor} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
