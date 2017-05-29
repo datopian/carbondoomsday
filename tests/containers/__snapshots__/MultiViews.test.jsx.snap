@@ -222,7 +222,7 @@ exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
       }
     } />
   <HandsOnTable
-    idx={3}
+    idx="3v"
     spec={
       Object {
         "colHeaders": Array [

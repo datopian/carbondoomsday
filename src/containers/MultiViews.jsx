@@ -38,7 +38,7 @@ export class MultiViews extends React.Component {
             return <VegaChart spec={vegaSpec} idx={idx} key={idx} />
           case 'table': // render handsontable
             let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
-            return <HandsOnTable spec={htSpec} idx={idx} key={idx} />
+            return <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
         }
       })
     }
