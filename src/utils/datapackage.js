@@ -5,9 +5,9 @@ const Datapackage = require('datapackage').Datapackage
 export async function fetchDataPackageAndData(dataPackageIdentifier) {
   const dp = await new Datapackage(dataPackageIdentifier)
   await Promise.all(dp.resources.map(async (resource) => {
+    resource._basePath += '/'
     if (resource.descriptor.format === 'geojson') {
-      const baseUrl = resource._basePath.replace('/datapackage.json', '')
-      const resourceUrl = `${baseUrl}/${resource._descriptor.path}`
+      const resourceUrl = resource._basePath + resource._descriptor.path
       const response = await fetch(resourceUrl)
       resource.descriptor._values = await response.json()
     } else {
@@ -22,9 +22,10 @@ export async function fetchDataPackageAndData(dataPackageIdentifier) {
 }
 
 export async function fetchDataOnly(resource) {
+  resource._basePath += '/'
   if (resource.descriptor.format === 'geojson' || resource.descriptor.format === 'topojson') {
-    const baseUrl = resource._basePath.replace('/datapackage.json', '')
-    const resourceUrl = `${baseUrl}/${resource._descriptor.path}`
+    //const baseUrl = resource._basePath.replace('/datapackage.json', '')
+    const resourceUrl = resource._basePath + resource._descriptor.path
     const response = await fetch(resourceUrl)
     return await response.json()
   } else {
