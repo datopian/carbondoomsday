@@ -4,7 +4,10 @@ import autoprefixer from 'autoprefixer'
 import path from 'path'
 
 export default {
-  resolve: {
+  resolveLoader: {
+    root: path.join(__dirname, 'node_modules')
+  }
+  , resolve: {
     extensions: ['', '.js', '.jsx', '.json']
     , alias: {
       handsontable: path.join(__dirname, 'node_modules/handsontable/dist/handsontable.full.js')
