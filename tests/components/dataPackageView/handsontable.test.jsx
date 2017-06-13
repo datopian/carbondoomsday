@@ -18,6 +18,6 @@ describe('handsontable component', () => {
     const wrapper = shallow(<HandsOnTable spec={mockSpec} idx={idx} />)
     expect(wrapper.instance().props.idx).toEqual(0)
     expect(wrapper.instance().props.spec.data[0][1]).toEqual('Ford')
-    expect(wrapper.html()).toEqual(`<div id="hTable${idx}" class="handsontable"></div>`)
+    expect(wrapper.html()).toEqual(`<div><div id="hTable${idx}" class="handsontable"></div></div>`)
   })
 })
