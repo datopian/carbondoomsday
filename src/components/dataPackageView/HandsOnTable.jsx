@@ -29,8 +29,11 @@ class HandsOnTable extends React.Component {
   render() {
     const divId = `hTable${this.props.idx}`
     return (
-      <div id={divId} className="handsontable">
-        { !this.props.spec.data && <Spinner spinnerName="rotating-plane"/> }
+      <div>
+        { this.props.spec.viewTitle && <h3>{this.props.spec.viewTitle}</h3> }
+        <div id={divId} className="handsontable">
+          { !this.props.spec.data && <Spinner spinnerName="rotating-plane"/> }
+        </div>
       </div>
     )
   }
