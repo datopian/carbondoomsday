@@ -45,6 +45,13 @@ const mock5 = nock('https://topo-json-resource-and-view.com/_v/latest')
               .get('/data/example.json')
               .replyWithFile(200, './fixtures/example-topojson/data/example.json')
 
+const mock6 = nock('https://dp-resource-with-no-format.com/_v/latest')
+              .persist()
+              .get('')
+              .replyWithFile(200, './fixtures/example-no-format/datapackage.json')
+              .get('/data/cities-month.csv')
+              .replyWithFile(200, './fixtures/example-no-format/data/cities-month.csv')
+
 
 describe('get datapackage', () => {
   it('should load the datapackage.json', async () => {
@@ -119,5 +126,13 @@ describe('fetch data only', () => {
     expect(dp.descriptor.title).toEqual('Example TopoJSON Data Package')
     expect(dp.resources.length).toEqual(1)
     expect(values.type).toEqual("Topology")
+  })
+
+  it('if there is no format it should assume it is a tabular data', async () => {
+    const descriptor = 'https://dp-resource-with-no-format.com/_v/latest'
+    const dp = await new Datapackage(descriptor)
+    const resource = dp.resources[0]
+    const values = await utils.fetchDataOnly(resource)
+    expect(dp.resources[0]._descriptor.schema.fields.length).toEqual(24)
   })
 })

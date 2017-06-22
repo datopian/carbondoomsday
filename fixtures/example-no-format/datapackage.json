@@ -1,0 +1,138 @@
+{
+  "name": "house-prices-us",
+  "title": "US House Price Index (Case-Shiller)",
+  "licenses": [
+    {
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/",
+      "name": "Public Domain Dedication and License"
+    }
+  ],
+  "sources": [{
+    "name": "Standard and Poors Case-Shiller Indices",
+    "web": "http://www.spindices.com/indices/real-estate/sp-case-shiller-us-national-home-price-index"
+  }],
+  "keywords": ["Indicator", "House Prices", "US"],
+  "resources": [
+    {
+      "name": "cities",
+      "path": "data/cities-month.csv",
+      "description": "Case-Shiller US home price index levels at national and city level. Monthly.",
+      "periodicity": "month",
+      "sources": [{
+        "name": "Home Price Index Levels",
+        "web": "http://www.spindices.com/documents/additionalinfo/20140826-107542/107542_cshomeprice-history-0826.xls?force_download=true"
+      }],
+      "schema": {
+        "fields": [
+          {
+            "name": "Date",
+            "type": "date"
+          },
+          {
+            "name": "AZ-Phoenix",
+            "type": "number"
+          },
+          {
+            "name": "CA-Los Angeles",
+            "type": "number"
+          },
+          {
+            "name": "CA-San Diego",
+            "type": "number"
+          },
+          {
+            "name": "CA-San Francisco",
+            "type": "number"
+          },
+          {
+            "name": "CO-Denver",
+            "type": "number"
+          },
+          {
+            "name": "DC-Washington",
+            "type": "number"
+          },
+          {
+            "name": "FL-Miami",
+            "type": "number"
+          },
+          {
+            "name": "FL-Tampa",
+            "type": "number"
+          },
+          {
+            "name": "GA-Atlanta",
+            "type": "number"
+          },
+          {
+            "name": "IL-Chicago",
+            "type": "number"
+          },
+          {
+            "name": "MA-Boston",
+            "type": "number"
+          },
+          {
+            "name": "MI-Detroit",
+            "type": "number"
+          },
+          {
+            "name": "MN-Minneapolis",
+            "type": "number"
+          },
+          {
+            "name": "NC-Charlotte",
+            "type": "number"
+          },
+          {
+            "name": "NV-Las Vegas",
+            "type": "number"
+          },
+          {
+            "name": "NY-New York",
+            "type": "number"
+          },
+          {
+            "name": "OH-Cleveland",
+            "type": "number"
+          },
+          {
+            "name": "OR-Portland",
+            "type": "number"
+          },
+          {
+            "name": "TX-Dallas",
+            "type": "number"
+          },
+          {
+            "name": "WA-Seattle",
+            "type": "number"
+          },
+          {
+            "name": "Composite-10",
+            "type": "number"
+          },
+          {
+            "name": "Composite-20",
+            "type": "number"
+          },
+          {
+            "name": "National-US",
+            "type": "number"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "id": "Graph",
+      "type": "Graph",
+      "state": {
+        "graphType": "lines-and-points",
+        "group": "Date",
+        "series": [ "National-US" ]
+      }
+    }
+  ]
+}
