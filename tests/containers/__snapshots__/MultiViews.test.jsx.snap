@@ -254,6 +254,7 @@ exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
         "rowWidth": 27,
         "search": true,
         "stretchH": "all",
+        "viewTitle": undefined,
       }
     } />
 </div>
