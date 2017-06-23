@@ -10,14 +10,14 @@ import * as dprender from 'datapackage-render'
 
 const mock = nock('https://dp-vix-resource-and-view.com/_v/latest')
               .persist()
-              .get('')
+              .get('/datapackage.json')
               .replyWithFile(200, './fixtures/dp-vix-resource-and-view/datapackage.json')
               .get('/data/demo-resource.csv')
               .replyWithFile(200, './fixtures/dp-vix-resource-and-view/data/demo-resource.csv')
 
 const mock1 = nock('https://example-geojson.com/_v/latest')
                 .persist()
-                .get('')
+                .get('/datapackage.json')
                 .replyWithFile(200, './fixtures/example-geojson/datapackage.json')
                 .get('/data/example.geojson')
                 .replyWithFile(200, './fixtures/example-geojson/data/example.geojson')
@@ -74,7 +74,7 @@ describe('how renderComponentInElement method works', () => {
 describe('how incrementally loading happens', () => {
   it('should render first time after dp is fetched and second time when data is fetched', async () => {
     index.renderComponentInElement = jest.fn()
-    const dpUrl = 'https://dp-vix-resource-and-view.com/_v/latest'
+    const dpUrl = 'https://dp-vix-resource-and-view.com/_v/latest/datapackage.json'
     const divForDataView = {dataset: {type: "view"}}
     const divForResourcePreview = {dataset: {type: "resource"}}
     await index.fetchDataPackageAndDataIncrementally(dpUrl, [divForDataView, divForResourcePreview])
@@ -90,7 +90,7 @@ describe('how incrementally loading happens', () => {
 describe('render page for geojson data package', () => {
   it('should render if no view component in datapackage', async () => {
     index.renderComponentInElement = jest.fn()
-    const dpUrl = 'https://example-geojson.com/_v/latest'
+    const dpUrl = 'https://example-geojson.com/_v/latest/datapackage.json'
     const divForDataView = {dataset: {type: "view"}}
     const divForResourcePreview = {dataset: {type: "resource"}}
     await index.fetchDataPackageAndDataIncrementally(dpUrl, [divForDataView, divForResourcePreview])

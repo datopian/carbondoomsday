@@ -13,9 +13,9 @@ const mock1 = nock('http://bit.do/datapackage-json')
               .get('')
               .replyWithFile(200, './fixtures/dp-inline-data/datapackage.json')
 
-const mock2 = nock('https://dp-vix-resource-and-view.com/_v/latest')
+const mock2 = nock('https://dp-vix-resource-and-view.com')
               .persist()
-              .get('')
+              .get('/datapackage.json')
               .replyWithFile(200, './fixtures/dp-vix-resource-and-view/datapackage.json')
               .get('/data/demo-resource.csv')
               .replyWithFile(200, './fixtures/dp-vix-resource-and-view/data/demo-resource.csv')
@@ -31,23 +31,23 @@ const mock3 = nock('http://schemas.datapackages.org')
               .get('/fiscal-data-package.json')
               .replyWithFile(200, './fixtures/schemas/fiscal-data-package.json')
 
-const mock4 = nock('https://geo-json-resource-and-view.com/_v/latest')
+const mock4 = nock('https://geo-json-resource-and-view.com')
               .persist()
-              .get('')
+              .get('/datapackage.json')
               .replyWithFile(200, './fixtures/example-geojson/datapackage.json')
               .get('/data/example.geojson')
               .replyWithFile(200, './fixtures/example-geojson/data/example.geojson')
 
-const mock5 = nock('https://topo-json-resource-and-view.com/_v/latest')
+const mock5 = nock('https://topo-json-resource-and-view.com')
               .persist()
-              .get('')
+              .get('/datapackage.json')
               .replyWithFile(200, './fixtures/example-topojson/datapackage.json')
               .get('/data/example.json')
               .replyWithFile(200, './fixtures/example-topojson/data/example.json')
 
-const mock6 = nock('https://dp-resource-with-no-format.com/_v/latest')
+const mock6 = nock('https://dp-resource-with-no-format.com')
               .persist()
-              .get('')
+              .get('/datapackage.json')
               .replyWithFile(200, './fixtures/example-no-format/datapackage.json')
               .get('/data/cities-month.csv')
               .replyWithFile(200, './fixtures/example-no-format/data/cities-month.csv')
@@ -55,7 +55,7 @@ const mock6 = nock('https://dp-resource-with-no-format.com/_v/latest')
 
 describe('get datapackage', () => {
   it('should load the datapackage.json', async () => {
-    const descriptor = 'https://dp-vix-resource-and-view.com/_v/latest'
+    const descriptor = 'https://dp-vix-resource-and-view.com/datapackage.json'
     const dp = await new Datapackage(descriptor)
 
     expect(dp.valid).toBe(true)
@@ -69,7 +69,7 @@ describe('get datapackage', () => {
 
 describe('fetch it all', () => {
   it('should fetchDataPackageAndData', async () => {
-    const dpUrl = 'https://dp-vix-resource-and-view.com/_v/latest'
+    const dpUrl = 'https://dp-vix-resource-and-view.com/datapackage.json'
     const dp = await utils.fetchDataPackageAndData(dpUrl)
 
     expect(dp.descriptor.title).toEqual('DEMO - CBOE Volatility Index')
@@ -95,7 +95,7 @@ describe('fetch it all', () => {
   })
 
   it('should get geojson data', async () => {
-    const dpUrl = 'https://geo-json-resource-and-view.com/_v/latest'
+    const dpUrl = 'https://geo-json-resource-and-view.com/datapackage.json'
     const dp = await utils.fetchDataPackageAndData(dpUrl)
     expect(dp.descriptor.title).toEqual('Example Geo (JSON) Data Package')
     expect(dp.resources.length).toEqual(1)
@@ -111,7 +111,7 @@ describe('fetch it all', () => {
 
 describe('fetch data only', () => {
   it('takes a resource and fetches data', async () => {
-    const descriptor = 'https://dp-vix-resource-and-view.com/_v/latest'
+    const descriptor = 'https://dp-vix-resource-and-view.com/datapackage.json'
     const dp = await new Datapackage(descriptor)
     const resource = dp.resources[0]
     const values = await utils.fetchDataOnly(resource)
@@ -119,7 +119,7 @@ describe('fetch data only', () => {
   })
 
   it('should get topojson data', async () => {
-    const dpUrl = 'https://topo-json-resource-and-view.com/_v/latest'
+    const dpUrl = 'https://topo-json-resource-and-view.com/datapackage.json'
     const dp = await new Datapackage(dpUrl)
     const resource = dp.resources[0]
     const values = await utils.fetchDataOnly(resource)
@@ -129,7 +129,7 @@ describe('fetch data only', () => {
   })
 
   it('if there is no format it should assume it is a tabular data', async () => {
-    const descriptor = 'https://dp-resource-with-no-format.com/_v/latest'
+    const descriptor = 'https://dp-resource-with-no-format.com/datapackage.json'
     const dp = await new Datapackage(descriptor)
     const resource = dp.resources[0]
     const values = await utils.fetchDataOnly(resource)
