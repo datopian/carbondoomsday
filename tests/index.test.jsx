@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import index from '../src/index'
 import ReactDOM from 'react-dom'
 import MultiViews from '../src/containers/MultiViews'

@@ -1,5 +1,7 @@
-import fetch from 'isomorphic-fetch';
+import url from 'url'
+import fetch from 'isomorphic-fetch'
 const Datapackage = require('datapackage').Datapackage
+import {Table} from 'tableschema'
 
 // NOTE: currently unused and deprecated because its functionality moved into src/index.jsv
 export async function fetchDataPackageAndData(dataPackageIdentifier) {
@@ -16,9 +18,8 @@ export async function fetchDataOnly(resource) {
     return await response.json()
   } else {
     // we assume resource is tabular for now ...
-    const table = await resource.table
-    // rows are simple arrays -- we can convert to objects elsewhere as needed
-    const rowsAsObjects = false
-    return await table.read(rowsAsObjects)
+    const source = url.resolve(resource._basePath, resource.descriptor.path)
+    const table = await Table.load(source, {schema: resource.descriptor.schema})
+    return table.read()
   }
 }

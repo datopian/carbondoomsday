@@ -1,5 +1,3 @@
-import 'babel-polyfill'
-import jts from 'jsontableschema'
 import moment from 'moment-timezone'
 import nock from 'nock'
 
