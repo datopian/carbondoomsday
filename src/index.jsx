@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-const Datapackage = require('datapackage').Datapackage
+import {DataPackage, Resource} from 'datapackage'
 import '../node_modules/handsontable/dist/handsontable.full.min.css'
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
 import MultiViews from "./containers/MultiViews"; // eslint-disable-line
@@ -23,15 +23,22 @@ import * as dprender from 'datapackage-render'
  * - Also any properties can be passed from the back-end using data-* prefix.
  */
 
-let dataPackage
+let dataPackage, dpObj
 
 let divElements = document.querySelectorAll('.react-me')
 
 fetchDataPackageAndDataIncrementally(DATA_PACKAGE_URL, divElements)
 
 async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divElements) {
-  const dpObj = await new Datapackage(dataPackageIdentifier)
-  dataPackage = dpObj.descriptor
+  const basePath = dataPackageIdentifier.replace('datapackage.json', '')
+  dpObj = await DataPackage.load(dataPackageIdentifier, {basePath, strict: false})
+
+  await Promise.all(dpObj.descriptor.resources.map(async resource => {
+    const resourceObj = await Resource.load(resource, {basePath})
+    dpObj.resources.push(resourceObj)
+  }))
+
+  dpObj.descriptor.resources = dpObj.resources.map(resource => resource.descriptor)
 
   divElements.forEach(exports.renderComponentInElement)
 
@@ -44,13 +51,13 @@ async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divEl
 
 
 function renderComponentInElement(el) {
-  const dp = Object.assign({}, dataPackage)
+  const dp = Object.assign({}, dpObj.descriptor)
   if (el.dataset.type === 'resource-preview') {
     let idx = parseInt(el.dataset.resource)
     let resource = dprender.findResourceByNameOrIndex(dp, idx)
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
-    } else if (resource.format !== 'topojson') {
+    } else if (!resource.format.includes('json')) {
       let compiledViewSpec = {
         resources: [resource],
         specType: 'handsontable'

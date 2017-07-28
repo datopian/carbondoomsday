@@ -1,4 +1,3 @@
-import url from 'url'
 import fetch from 'isomorphic-fetch'
 const Datapackage = require('datapackage').Datapackage
 import {Table} from 'tableschema'
@@ -18,8 +17,7 @@ export async function fetchDataOnly(resource) {
     return await response.json()
   } else {
     // we assume resource is tabular for now ...
-    const source = url.resolve(resource._basePath, resource.descriptor.path)
-    const table = await Table.load(source, {schema: resource.descriptor.schema})
+    const table = await Table.load(resource.source, {schema: resource.descriptor.schema})
     return table.read()
   }
 }
