@@ -57,7 +57,7 @@ function renderComponentInElement(el) {
     let resource = dprender.findResourceByNameOrIndex(dp, idx)
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
-    } else if (!resource.format.includes('json')) {
+    } else if (!resource.format || !resource.format.includes('json')) {
       let compiledViewSpec = {
         resources: [resource],
         specType: 'handsontable'
