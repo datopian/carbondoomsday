@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import lodash from 'lodash'
 import {DataPackage, Resource} from 'datapackage'
 import '../node_modules/handsontable/dist/handsontable.full.min.css'
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
@@ -27,10 +28,15 @@ let dataPackage, dpObj
 
 let divElements = document.querySelectorAll('.react-me')
 
-fetchDataPackageAndDataIncrementally(DATA_PACKAGE_URL, divElements)
+fetchDataPackageAndDataIncrementally(DP_ID, divElements)
 
 async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divElements) {
-  const basePath = dataPackageIdentifier.replace('datapackage.json', '')
+  let basePath
+  if (lodash.isString(dataPackageIdentifier)) {
+    basePath = dataPackageIdentifier.replace('datapackage.json', '')
+  } else if (lodash.isPlainObject(dataPackageIdentifier)) {
+    basePath = dataPackageIdentifier.path
+  }
   dpObj = await DataPackage.load(dataPackageIdentifier, {basePath, strict: false})
 
   await Promise.all(dpObj.descriptor.resources.map(async resource => {

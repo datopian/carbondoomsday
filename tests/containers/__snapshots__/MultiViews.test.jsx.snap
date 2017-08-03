@@ -240,6 +240,17 @@ exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
         ],
         "colWidths": 47,
         "columnSorting": true,
+        "columns": Array [
+          Object {
+            "className": "htLeft",
+          },
+          Object {
+            "className": "htRight",
+          },
+          Object {
+            "className": "htRight",
+          },
+        ],
         "data": Array [
           Array [
             "2014-01-01",

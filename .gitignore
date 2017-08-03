@@ -44,7 +44,7 @@ jspm_packages
 npm-debug.log
 .idea/
 .dist/
+jest_0/
 
 # sandbox
 sandbox/*
-
