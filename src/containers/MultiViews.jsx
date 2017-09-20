@@ -21,24 +21,27 @@ export class MultiViews extends React.Component {
     let viewComponents
     if(dp.views) {
       viewComponents = dp.views.map((view, idx) => {
-        // first let's fix up recline views ...
-        if (view.type == 'Graph') { // it's a recline view
-          view = dprender.convertReclineToSimple(view)
-        }
-        let compiledView = dprender.compileView(view, dp)
-        switch (view.specType) {
-          case 'simple': // convert to plotly then render
-            let spec = {}
-            if(compiledView.resources[0]._values) {
-              spec = dprender.simpleToPlotly(compiledView)
-            }
-            return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
-          case 'vega': // render VegaChart
-            let vegaSpec = dprender.vegaToVega(compiledView)
-            return <VegaChart spec={vegaSpec} idx={idx} key={idx} />
-          case 'table': // render handsontable
-            let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
-            return <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
+        // check if the view is not a preview
+        if (!view.datahub || !(view.datahub.type === 'preview')) {
+          // first let's fix up recline views ...
+          if (view.type == 'Graph') { // it's a recline view
+            view = dprender.convertReclineToSimple(view)
+          }
+          let compiledView = dprender.compileView(view, dp)
+          switch (view.specType) {
+            case 'simple': // convert to plotly then render
+              let spec = {}
+              if(compiledView.resources[0]._values) {
+                spec = dprender.simpleToPlotly(compiledView)
+              }
+              return <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
+            case 'vega': // render VegaChart
+              let vegaSpec = dprender.vegaToVega(compiledView)
+              return <VegaChart spec={vegaSpec} idx={idx} key={idx} />
+            case 'table': // render handsontable
+              let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
+              return <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
+          }
         }
       })
     }

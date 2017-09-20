@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import {DataPackage, Resource} from 'datapackage'
+import {Package, Resource} from 'datapackage'
 import '../node_modules/handsontable/dist/handsontable.full.min.css'
 import HandsOnTable from './components/dataPackageView/HandsOnTable'
 import MultiViews from "./containers/MultiViews"; // eslint-disable-line
@@ -24,46 +24,86 @@ import * as dprender from 'datapackage-render'
  * - Also any properties can be passed from the back-end using data-* prefix.
  */
 
-let dataPackage, dpObj
+let dpObj
 
 let divElements = document.querySelectorAll('.react-me')
 
-fetchDataPackageAndDataIncrementally(DP_ID, divElements)
+fetchDpAndResourcesAndRenderViews(DP_ID, divElements)
 
-async function fetchDataPackageAndDataIncrementally(dataPackageIdentifier, divElements) {
+async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divElements) {
   let basePath
   if (lodash.isString(dataPackageIdentifier)) {
     basePath = dataPackageIdentifier.replace('datapackage.json', '')
   } else if (lodash.isPlainObject(dataPackageIdentifier)) {
     basePath = dataPackageIdentifier.path
   }
-  dpObj = await DataPackage.load(dataPackageIdentifier, {basePath, strict: false})
-
-  await Promise.all(dpObj.descriptor.resources.map(async resource => {
-    const resourceObj = await Resource.load(resource, {basePath})
-    dpObj.resources.push(resourceObj)
-  }))
+  dpObj = await Package.load(dataPackageIdentifier, {basePath, strict: false})
 
   dpObj.descriptor.resources = dpObj.resources.map(resource => resource.descriptor)
-
-  divElements.forEach(exports.renderComponentInElement)
-
-  await Promise.all(dpObj.resources.map(async (resource, idx) => {
-    resource.descriptor._values = await dputils.fetchDataOnly(resource)
-    divElements.forEach(exports.renderComponentInElement)
+  // Split out normal and preview views
+  const normalViews = []
+  const previewViews = []
+  dpObj.descriptor.views.forEach(view => {
+    if (!view.datahub) {
+      normalViews.push(view)
+    } else if (view.datahub.type === 'preview') {
+      previewViews.push(view)
+    }
+  })
+  // Identify which resources are needed for normal views
+  const resourcesForNormalViews = []
+  const resourcesForPreviewViews = []
+  normalViews.forEach(view => {
+    if (view.resources) {
+      view.resources.forEach(res => {
+        const resourceForView = dprender.findResourceByNameOrIndex(dpObj.descriptor, res)
+        const idx = dpObj.descriptor.resources.indexOf(resourceForView)
+        resourcesForNormalViews.push(idx)
+      })
+    } else {
+      resourcesForNormalViews.push(0)
+    }
+  })
+  // Render preview views for which derived/preview versions exist.
+  // If not exist then identify corresponding normal resource.
+  previewViews.forEach(view => {
+    let previewResourceFound = false
+    const resourceForPreview = dprender.findResourceByNameOrIndex(dpObj.descriptor, view.resources[0])
+    const idx = dpObj.descriptor.resources.indexOf(resourceForPreview)
+    resourceForPreview.alternates.forEach(async res => {
+      if (res.datahub.type === 'derived/preview') {
+        previewResourceFound = true
+        res = await Resource.load(res)
+        res.descriptor._values = await dputils.fetchDataOnly(res)
+        renderView(view, res.descriptor, idx+1, dpObj.descriptor)
+      }
+    })
+    if (!previewResourceFound) {
+      resourcesForPreviewViews.push(idx)
+    }
+  })
+  // Concatinate required resources for normal and preview views.
+  // Get only unique values.
+  let requiredResources = resourcesForNormalViews.concat(resourcesForPreviewViews)
+  requiredResources = [...new Set(requiredResources)] // Unique values
+  // Load required resources and render views
+  await Promise.all(requiredResources.map(async idx => {
+    dpObj.resources[idx].descriptor._values = await dputils.fetchDataOnly(dpObj.resources[idx])
+    if (resourcesForNormalViews.includes(idx)) {
+      renderView(normalViews[0], dpObj.resources[idx].descriptor, null, dpObj.descriptor)
+    }
+    if (resourcesForPreviewViews.includes(idx)) {
+      renderView(previewViews[idx], dpObj.resources[idx].descriptor, idx+1, dpObj.descriptor)
+    }
   }))
-
 }
 
-
-function renderComponentInElement(el) {
-  const dp = Object.assign({}, dpObj.descriptor)
-  if (el.dataset.type === 'resource-preview') {
-    let idx = parseInt(el.dataset.resource)
-    let resource = dprender.findResourceByNameOrIndex(dp, idx)
+function renderView (view, resource, idx, dp) {
+  if (view.datahub && view.datahub.type === 'preview') {
+    const el = divElements[idx]
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
-    } else if (!resource.format || !resource.format.includes('json')) {
+    } else if (resource.format !== 'topojson') {
       let compiledViewSpec = {
         resources: [resource],
         specType: 'handsontable'
@@ -71,10 +111,10 @@ function renderComponentInElement(el) {
       let spec = dprender.handsOnTableToHandsOnTable(compiledViewSpec)
       ReactDOM.render(<HandsOnTable spec={spec} idx={idx} />, el);
     }
-  } else if (el.dataset.type === 'data-views') {
-    ReactDOM.render(<MultiViews dataPackage={dp} />, el)
+  } else {
+    ReactDOM.render(<MultiViews dataPackage={dp} />, divElements[0])
   }
 }
 
-exports.renderComponentInElement = renderComponentInElement
-exports.fetchDataPackageAndDataIncrementally = fetchDataPackageAndDataIncrementally
+exports.renderView = renderView
+exports.fetchDpAndResourcesAndRenderViews = fetchDpAndResourcesAndRenderViews
