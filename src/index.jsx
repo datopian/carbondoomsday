@@ -90,16 +90,16 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
   await Promise.all(requiredResources.map(async idx => {
     dpObj.resources[idx].descriptor._values = await dputils.fetchDataOnly(dpObj.resources[idx])
     if (resourcesForNormalViews.includes(idx)) {
-      renderView(normalViews[0], dpObj.resources[idx].descriptor, null, dpObj.descriptor)
+      renderView('view', dpObj.resources[idx].descriptor, null, dpObj.descriptor)
     }
     if (resourcesForPreviewViews.includes(idx)) {
-      renderView(previewViews[idx], dpObj.resources[idx].descriptor, idx+1, dpObj.descriptor)
+      renderView('preview', dpObj.resources[idx].descriptor, idx+1, dpObj.descriptor)
     }
   }))
 }
 
 function renderView (view, resource, idx, dp) {
-  if (view.datahub && view.datahub.type === 'preview') {
+  if (view === 'preview' || (view.datahub && view.datahub.type === 'preview')) {
     const el = divElements[idx]
     if (resource.format === 'geojson') {
       ReactDOM.render(<LeafletMap featureCollection={resource._values} idx={idx} />, el)
