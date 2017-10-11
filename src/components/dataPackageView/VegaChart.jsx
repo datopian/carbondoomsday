@@ -1,5 +1,5 @@
 import React from 'react'
-import vg from 'vega'
+const vega = require('vega')
 const Spinner = require('react-spinkit')
 
 class VegaChart extends React.Component {
@@ -11,20 +11,26 @@ class VegaChart extends React.Component {
   componentDidMount() {
     // draw a vega chart with initial data and spec
     if(this.props.spec) {
-      vg.parse.spec(this.props.spec, (error, chart) => {
-          chart({el: `#vega${this.props.idx}`}).update()
-        }
-      )
+      const runtime = vega.parse(this.props.spec)
+      const view = new vega.View(runtime)
+        .logLevel(vega.Warn)
+        .initialize(document.querySelector(`#vega${this.props.idx}`))
+        .renderer('svg')
+        .hover()
+        .run()
     }
   }
 
   componentDidUpdate() {
     // update the vega chart with new props
     if(this.props.spec) {
-      vg.parse.spec(this.props.spec, (error, chart) => {
-          chart({el: `#vega${this.props.idx}`}).update()
-        }
-      )
+      const runtime = vega.parse(this.props.spec)
+      const view = new vega.View(runtime)
+        .logLevel(vega.Warn)
+        .initialize(document.querySelector(`#vega${this.props.idx}`))
+        .renderer('svg')
+        .hover()
+        .run()
     }
   }
 
