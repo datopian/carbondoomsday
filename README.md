@@ -1,10 +1,10 @@
 # DPR-JS
-[![Build Status](https://travis-ci.org/frictionlessdata/dpr-js.svg?branch=gh-pages)](https://travis-ci.org/frictionlessdata/dpr-js)
+[![Build Status](https://travis-ci.org/data-hq/frontend-showcase-js.svg?branch=gh-pages)](https://travis-ci.org/data-hq/frontend-showcase-js)
 
-Requirements: 
+Requirements:
 
 ```
-node: ^6.2.1 
+node: ^6.2.1
 npm: ^3.10.6
 ```
 
@@ -41,4 +41,3 @@ To run a particular test:
 ```
 $ npm test nameOfTest
 ```
-

@@ -34,7 +34,9 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
         "height": 450,
         "title": "",
         "xaxis": Object {
+          "tickformat": "%e %b %Y",
           "title": "Date",
+          "type": "date",
         },
         "yaxis": Object {
           "title": "High",
@@ -72,7 +74,9 @@ exports[`MultiViews Container should render 2 PlotlyChart components and 1 VegaC
         "height": 450,
         "title": "",
         "xaxis": Object {
+          "tickformat": "%e %b %Y",
           "title": "Date",
+          "type": "date",
         },
         "yaxis": Object {
           "title": "High",
@@ -149,7 +153,9 @@ exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
         "height": 450,
         "title": "",
         "xaxis": Object {
+          "tickformat": "%e %b %Y",
           "title": "Date",
+          "type": "date",
         },
         "yaxis": Object {
           "title": "High",
@@ -187,7 +193,9 @@ exports[`MultiViews Container should render 3 charts + 1 table 1`] = `
         "height": 450,
         "title": "",
         "xaxis": Object {
+          "tickformat": "%e %b %Y",
           "title": "Date",
+          "type": "date",
         },
         "yaxis": Object {
           "title": "High",
