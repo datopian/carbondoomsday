@@ -75,14 +75,16 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
     let previewResourceFound = false
     const resourceForPreview = dprender.findResourceByNameOrIndex(dpObj.descriptor, view.resources[0])
     const idx = dpObj.descriptor.resources.indexOf(resourceForPreview)
-    resourceForPreview.alternates.forEach(async res => {
-      if (res.datahub.type === 'derived/preview') {
-        previewResourceFound = true
-        res = await Resource.load(res)
-        res.descriptor._values = await dputils.fetchDataOnly(res)
-        renderView(view, res.descriptor, idx+1, dpObj.descriptor)
-      }
-    })
+    if (resourceForPreview.alternates) {
+      resourceForPreview.alternates.forEach(async res => {
+        if (res.datahub.type === 'derived/preview') {
+          previewResourceFound = true
+          res = await Resource.load(res)
+          res.descriptor._values = await dputils.fetchDataOnly(res)
+          renderView(view, res.descriptor, idx+1, dpObj.descriptor)
+        }
+      })
+    }
     if (!previewResourceFound) {
       resourcesForPreviewViews.push(idx)
     }
