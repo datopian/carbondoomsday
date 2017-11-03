@@ -56,13 +56,16 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
   normalViews.forEach(view => {
     if (view.resources) {
       view.resources.forEach(res => {
-        let resourceForView
+        let resourceForView, idx
         if (lodash.isString(res)) {
           resourceForView = dprender.findResourceByNameOrIndex(dpObj.descriptor, res)
-        } else {
+          idx = dpObj.descriptor.resources.indexOf(resourceForView)
+        } else if (lodash.isPlainObject(res)) {
           resourceForView = dprender.findResourceByNameOrIndex(dpObj.descriptor, res.name)
+          idx = dpObj.descriptor.resources.indexOf(resourceForView)
+        } else if (lodash.isNumber(res)) {
+          idx = res
         }
-        const idx = dpObj.descriptor.resources.indexOf(resourceForView)
         resourcesForNormalViews.push(idx)
       })
     } else {
