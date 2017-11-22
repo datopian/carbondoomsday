@@ -5,13 +5,17 @@ const {Table} = require('tableschema')
 
 export async function fetchDataOnly(resource) {
   if (resource.descriptor.format && resource.descriptor.format.includes('json')) {
-    const response = await fetch(resource.source)
-    return await response.json()
+    if (resource.inline) {
+      return resource.descriptor.data
+    } else {
+      const response = await fetch(resource.source)
+      return await response.json()
+    }
   } else {
     // Check if data is inlined - this helps us to resolve unavailable in browser functions
     let source
-    if (resource.data) {
-      source = resource.data
+    if (resource.inline) {
+      source = resource.descriptor.data
     } else {
       source = resource.source
     }
