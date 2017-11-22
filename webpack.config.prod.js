@@ -59,7 +59,7 @@ export default {
   ]
   , module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' }
+      { test: /\.jsx?$/, include: [/node_modules\/(data.js)/, path.resolve(__dirname, './src')], loader: 'babel' }
       , { test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap!postcss?sourceMap') }
       , { test: /\.json$/, loader: 'json' }
     ]

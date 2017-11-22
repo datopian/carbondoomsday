@@ -49,7 +49,15 @@ export default {
   ]
   , module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel'] }
+      { test: /\.jsx?$/, include: [
+        /node_modules\/(data.js)/,
+        path.resolve(__dirname, './src'),
+        path.resolve(__dirname, './tools'),
+        path.resolve(__dirname, './vendor'),
+        path.resolve(__dirname, './tests'),
+        path.resolve(__dirname, './fixtures'),
+        path.resolve(__dirname, './mocks')
+      ], loaders: ['babel'] }
       , { test: /\.css$/, loaders: ['style', 'css?sourceMap', 'postcss'] }
       , { test: /\.json$/, loader: 'json' }
     ]
