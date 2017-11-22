@@ -108,7 +108,6 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "data.js": "^0.9.11",
     "datapackage": "^1.0.0",
     "datapackage-render": "git+https://github.com/frictionlessdata/datapackage-render-js.git",
     "handsontable": "^0.29.2",
