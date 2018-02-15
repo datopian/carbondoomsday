@@ -2531,7 +2531,7 @@ datalib@~1.7.2:
 
 "datapackage-render@git+https://github.com/frictionlessdata/datapackage-render-js.git":
   version "0.3.1"
-  resolved "git+https://github.com/frictionlessdata/datapackage-render-js.git#8368e26d6ca48c1dcb5cc083ab84d27590d396e2"
+  resolved "git+https://github.com/frictionlessdata/datapackage-render-js.git#66f873d1918def5c46a230795f1a31ad62204d70"
   dependencies:
     lodash "^4.0.0"
 
