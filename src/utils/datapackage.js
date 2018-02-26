@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 const Datapackage = require('datapackage').Datapackage
 const {Table} = require('tableschema')
+const {cloneDeep} = require('lodash')
 
 
 export async function fetchDataOnly(resource) {
@@ -20,7 +21,17 @@ export async function fetchDataOnly(resource) {
       source = resource.source
     }
     // Instantiate table object and return rows as arrays
-    const table = await Table.load(source, {schema: resource.descriptor.schema})
+    // Don't cast values for 'array', 'object' and 'yearmonth' types because
+    // we want to render them as raw values + casted values rendered incorrectly:
+    const tempSchema = cloneDeep(resource.descriptor.schema)
+    tempSchema.fields.map(field => {
+      const dateType = ['array', 'object', 'yearmonth']
+      if (dateType.includes(field.type)) {
+        field.type = 'string'
+      }
+      return field
+    })
+    const table = await Table.load(source, {schema: tempSchema})
     return await table.read()
   }
 }
