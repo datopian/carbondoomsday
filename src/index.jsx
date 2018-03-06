@@ -43,13 +43,15 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
   // Split out normal and preview views
   const normalViews = []
   const previewViews = []
-  dpObj.descriptor.views.forEach(view => {
-    if (!view.datahub) {
-      normalViews.push(view)
-    } else if (view.datahub.type === 'preview') {
-      previewViews.push(view)
-    }
-  })
+  if (dpObj.descriptor.views) {
+    dpObj.descriptor.views.forEach(view => {
+      if (!view.datahub) {
+        normalViews.push(view)
+      } else if (view.datahub.type === 'preview') {
+        previewViews.push(view)
+      }
+    })
+  }
   // Identify which resources are needed for normal views
   const resourcesForNormalViews = []
   const resourcesForPreviewViews = []
@@ -84,7 +86,7 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
           previewResourceFound = true
           res = await Resource.load(res)
           res.descriptor._values = await dputils.fetchDataOnly(res)
-          renderView(view, res.descriptor, idx+1, dpObj.descriptor)
+          renderView(view, res.descriptor, idx+1, dpObj.descriptor) // We're using "idx+1" as "divElements" object contains all "react-me" elements
         }
       })
     }
@@ -92,7 +94,13 @@ async function fetchDpAndResourcesAndRenderViews(dataPackageIdentifier, divEleme
       resourcesForPreviewViews.push(idx)
     }
   })
-  // Concatinate required resources for normal and preview views.
+  // Also add resources that have 'geojson' format to 'resourcesForPreviewViews' list:
+  dpObj.descriptor.resources.forEach((res, idx) => {
+    if (res.format === 'geojson') {
+      resourcesForPreviewViews.push(idx)
+    }
+  })
+  // Concatenate required resources for normal and preview views.
   // Get only unique values.
   let requiredResources = resourcesForNormalViews.concat(resourcesForPreviewViews)
   requiredResources = [...new Set(requiredResources)] // Unique values
