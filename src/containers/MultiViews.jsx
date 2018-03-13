@@ -46,15 +46,13 @@ export class MultiViews extends React.Component {
               break
             case 'table': // render handsontable
               let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
-              readyView = <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
-              break
+              return <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
           }
           let baseUrl = window.location.href
           baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
           const viewPath = `view/${idx}`
           const sharedUrl = urllib.resolve(baseUrl, viewPath)
           const iframe = `<iframe src="${sharedUrl}" width="100%" height="100%" frameborder="0"></iframe>`
-          const embedableId = `embed${idx}`
           return (
             <div>
               {readyView}
