@@ -39,6 +39,7 @@ class LeafletMap extends React.Component {
     const viewPath = `r/${this.props.idx - 1}.html`
     const sharedUrl = urllib.resolve(baseUrl, viewPath)
     const iframe = `<iframe src="${sharedUrl}" width="100%" height="100%" frameborder="0"></iframe>`
+    const tracker = `watermark-${baseUrl}`
     return (
       <div>
         <div className="share-and-embed">
@@ -59,7 +60,11 @@ class LeafletMap extends React.Component {
         <div id={divId} style={{ width: '100%', height: '300px' }} />
         <div className="datahub-meta">
           <span className="meta-text">Powered by ❒ </span>
-          <a className="datahub-home" href="https://datahub.io">DataHub</a>
+          <a className="datahub-home" href="https://datahub.io" onClick={() => {
+              trackOutboundLink(tracker)
+            }}
+            target="_blank">DataHub
+          </a>
         </div>
       </div>
     )

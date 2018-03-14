@@ -54,13 +54,22 @@ export class MultiViews extends React.Component {
           const sharedUrl = urllib.resolve(baseUrl, viewPath)
           const iframe = `<iframe src="${sharedUrl}" width="100%" height="475px" frameborder="0"></iframe>`
           const pathToDataset = dp.datahub ? `https://datahub.io/${dp.datahub.owner}/${dp.name}` : 'https://datahub.io'
+          const tracker = `watermark-${baseUrl}`
           return (
             <div>
               {readyView}
               <div className="datahub-meta">
-                <a className="dataset-name" href={pathToDataset}>{dp.name}</a>
+                <a className="dataset-name" href={pathToDataset} onClick={(e) => {
+                    trackOutboundLink(tracker)
+                  }}
+                  target="_blank">{dp.name}
+                </a>
                 <span className="meta-text"> powered by ❒ </span>
-                <a className="datahub-home" href="https://datahub.io">DataHub</a>
+                <a className="datahub-home" href="https://datahub.io" onClick={(e) => {
+                    trackOutboundLink(tracker)}
+                  }
+                  target="_blank">DataHub
+                </a>
               </div>
               <div className="share-and-embed">
                 <span className="copy-text">Share:</span>
