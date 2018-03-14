@@ -57,6 +57,10 @@ class HandsOnTable extends React.Component {
         <div id={divId} className="handsontable">
           { !this.props.spec.data && <Spinner spinnerName="rotating-plane"/> }
         </div>
+        <div className="datahub-meta">
+          <span className="meta-text">Powered by ❒ </span>
+          <a className="datahub-home" href="https://datahub.io">DataHub</a>
+        </div>
       </div>
     )
   }

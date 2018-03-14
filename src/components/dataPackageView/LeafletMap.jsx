@@ -57,6 +57,10 @@ class LeafletMap extends React.Component {
           </CopyToClipboard>
         </div>
         <div id={divId} style={{ width: '100%', height: '300px' }} />
+        <div className="datahub-meta">
+          <span className="meta-text">Powered by ❒ </span>
+          <a className="datahub-home" href="https://datahub.io">DataHub</a>
+        </div>
       </div>
     )
   }
