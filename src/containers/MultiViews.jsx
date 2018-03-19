@@ -2,6 +2,7 @@ import urllib from 'url'
 
 import React, { PropTypes } from 'react'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
+import ReactHover from 'react-hover'
 
 import * as dprender from 'datapackage-render'
 import PlotlyChart from '../components/dataPackageView/PlotlyChart'
@@ -14,8 +15,20 @@ export class MultiViews extends React.Component {
     // TODO: what is the point of state? Why not just use props?
     this.state = {
       // we stub some basic fields to ensure render works ...
-      dataPackage: this.props.dataPackage
+      dataPackage: this.props.dataPackage,
+      hoverText: 'Copy to clipboard'
     }
+  }
+
+  copied() {
+    this.setState({
+      hoverText: 'Copied!'
+    })
+    setTimeout(() => {
+      this.setState({
+        hoverText: 'Copy to clipboard'
+      })
+    }, 1500)
   }
 
 
@@ -55,6 +68,12 @@ export class MultiViews extends React.Component {
           const iframe = `<iframe src="${sharedUrl}" width="100%" height="475px" frameborder="0"></iframe>`
           const pathToDataset = dp.datahub ? `https://datahub.io/${dp.datahub.owner}/${dp.name}` : 'https://datahub.io'
           const tracker = `watermark-${baseUrl}`
+          const optionsCursorTrueWithMargin = {
+            followCursor: true,
+            shiftX: -5,
+            shiftY: 20
+          }
+
           return (
             <div>
               {readyView}
@@ -72,19 +91,39 @@ export class MultiViews extends React.Component {
                 </a>
               </div>
               <div className="share-and-embed">
+
                 <span className="copy-text">Share:</span>
                 <input value={sharedUrl} className="copy-input" />
-                  <CopyToClipboard text={sharedUrl}
-                    onCopy={() => console.log('Copied to clipboard')}>
-                    <button className="copy-button">Copy</button>
-                  </CopyToClipboard>
+                <ReactHover options={optionsCursorTrueWithMargin}>
+                  <ReactHover.Trigger type='trigger'>
+                    <CopyToClipboard text={sharedUrl}
+                      onCopy={() => this.copied()}>
+                        <button className="copy-button">
+                          <i class="fa fa-clipboard" aria-hidden="true"></i>
+                        </button>
+                    </CopyToClipboard>
+                  </ReactHover.Trigger>
+                  <ReactHover.Hover type='hover'>
+                    <span className="hover-text">{this.state.hoverText}</span>
+                  </ReactHover.Hover>
+                </ReactHover>
 
                 <span className="copy-text">Embed:</span>
                 <input value={iframe} className="copy-input" />
-                <CopyToClipboard text={iframe}
-                  onCopy={() => console.log('Copied to clipboard')}>
-                  <button className="copy-button">Copy</button>
-                </CopyToClipboard>
+                <ReactHover options={optionsCursorTrueWithMargin}>
+                  <ReactHover.Trigger type='trigger'>
+                    <CopyToClipboard text={iframe}
+                      onCopy={() => this.copied()}>
+                        <button className="copy-button">
+                          <i class="fa fa-clipboard" aria-hidden="true"></i>
+                        </button>
+                    </CopyToClipboard>
+                  </ReactHover.Trigger>
+                  <ReactHover.Hover type='hover'>
+                    <span className="hover-text">{this.state.hoverText}</span>
+                  </ReactHover.Hover>
+                </ReactHover>
+
               </div>
             </div>
           )

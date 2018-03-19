@@ -3,6 +3,7 @@ import urllib from 'url'
 import React from 'react'
 import Leaf, { geoJSON } from 'leaflet'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
+import ReactHover from 'react-hover'
 
 class LeafletMap extends React.Component {
 
@@ -32,6 +33,17 @@ class LeafletMap extends React.Component {
     }
   }
 
+  copied() {
+    this.setState({
+      hoverText: 'Copied!'
+    })
+    setTimeout(() => {
+      this.setState({
+        hoverText: 'Copy to clipboard'
+      })
+    }, 1500)
+  }
+
   render() {
     const divId = `leaflet${this.props.idx}`
     let baseUrl = window.location.href
@@ -40,22 +52,48 @@ class LeafletMap extends React.Component {
     const sharedUrl = urllib.resolve(baseUrl, viewPath)
     const iframe = `<iframe src="${sharedUrl}" width="100%" height="100%" frameborder="0"></iframe>`
     const tracker = `watermark-${baseUrl}`
+    const optionsCursorTrueWithMargin = {
+      followCursor: true,
+      shiftX: -5,
+      shiftY: 20
+    }
+
     return (
       <div>
         <div className="share-and-embed">
+          
           <span className="copy-text">Share:</span>
           <input value={sharedUrl} className="copy-input" />
-            <CopyToClipboard text={sharedUrl}
-              onCopy={() => console.log('Copied to clipboard')}>
-              <button className="copy-button">Copy</button>
-            </CopyToClipboard>
+          <ReactHover options={optionsCursorTrueWithMargin}>
+            <ReactHover.Trigger type='trigger'>
+              <CopyToClipboard text={sharedUrl}
+                onCopy={() => this.copied()}>
+                  <button className="copy-button">
+                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                  </button>
+              </CopyToClipboard>
+            </ReactHover.Trigger>
+            <ReactHover.Hover type='hover'>
+              <span className="hover-text">{this.state.hoverText}</span>
+            </ReactHover.Hover>
+          </ReactHover>
 
           <span className="copy-text">Embed:</span>
           <input value={iframe} className="copy-input" />
-          <CopyToClipboard text={iframe}
-            onCopy={() => console.log('Copied to clipboard')}>
-            <button className="copy-button">Copy</button>
-          </CopyToClipboard>
+          <ReactHover options={optionsCursorTrueWithMargin}>
+            <ReactHover.Trigger type='trigger'>
+              <CopyToClipboard text={iframe}
+                onCopy={() => this.copied()}>
+                  <button className="copy-button">
+                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                  </button>
+              </CopyToClipboard>
+            </ReactHover.Trigger>
+            <ReactHover.Hover type='hover'>
+              <span className="hover-text">{this.state.hoverText}</span>
+            </ReactHover.Hover>
+          </ReactHover>
+
         </div>
         <div id={divId} style={{ width: '100%', height: '300px' }} />
         <div className="datahub-meta">

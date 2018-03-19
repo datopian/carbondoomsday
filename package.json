@@ -118,6 +118,7 @@
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.0.0",
+    "react-hover": "^1.3.2",
     "react-redux": "^5.0.2",
     "react-spinkit": "^2.1.1",
     "react-virtualized": "^9.7.3",
