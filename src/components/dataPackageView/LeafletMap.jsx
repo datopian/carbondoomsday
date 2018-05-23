@@ -46,10 +46,17 @@ class LeafletMap extends React.Component {
 
   render() {
     const divId = `leaflet${this.props.idx}`
-    let baseUrl = window.location.href
-    baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
+    const windowHref = window.location.href
+    const windowHrefParts = urllib.parse(windowHref)
+    const baseUrl = windowHrefParts.protocol + '//' + windowHrefParts.host
+      + windowHrefParts.path.split('/').slice(0,3).join('/') + '/'
     const viewPath = `r/${this.props.idx - 1}.html`
-    const sharedUrl = urllib.resolve(baseUrl, viewPath)
+    let sharedUrl = urllib.resolve(baseUrl, viewPath)
+    // If base url is a full URL (with /v/ revision number) then convert it to params:
+    if (windowHref.match(/\/[^/]+\/[^/]+\/v\/[0-9]+/)) {
+      const revision = parseInt(windowHrefParts.path.split('/')[4])
+      sharedUrl += `?v=${revision}`
+    }
     const iframe = `<iframe src="${sharedUrl}" width="100%" height="100%" frameborder="0"></iframe>`
     const tracker = `watermark-${baseUrl}`
     const optionsCursorTrueWithMargin = {
@@ -61,7 +68,7 @@ class LeafletMap extends React.Component {
     return (
       <div>
         <div className="share-and-embed">
-          
+
           <span className="copy-text">Share:</span>
           <input value={sharedUrl} className="copy-input" />
           <ReactHover options={optionsCursorTrueWithMargin}>

@@ -61,10 +61,17 @@ export class MultiViews extends React.Component {
               let htSpec = dprender.handsOnTableToHandsOnTable(compiledView)
               return <HandsOnTable spec={htSpec} idx={idx + 'v'} key={idx} />
           }
-          let baseUrl = window.location.href
-          baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
+          const windowHref = window.location.href
+          const windowHrefParts = urllib.parse(windowHref)
+          const baseUrl = windowHrefParts.protocol + '//' + windowHrefParts.host
+            + windowHrefParts.path.split('/').slice(0,3).join('/') + '/'
           const viewPath = `view/${idx}`
-          const sharedUrl = urllib.resolve(baseUrl, viewPath)
+          let sharedUrl = urllib.resolve(baseUrl, viewPath)
+          // If base url is a full URL (with /v/ revision number) then convert it to params:
+          if (windowHref.match(/\/[^/]+\/[^/]+\/v\/[0-9]+/)) {
+            const revision = parseInt(windowHrefParts.path.split('/')[4])
+            sharedUrl += `?v=${revision}`
+          }
           const iframe = `<iframe src="${sharedUrl}" width="100%" height="475px" frameborder="0"></iframe>`
           const pathToDataset = dp.datahub ? `https://datahub.io/${dp.datahub.owner}/${dp.name}` : 'https://datahub.io'
           const tracker = `watermark-${baseUrl}`
