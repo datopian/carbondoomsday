@@ -59,6 +59,7 @@ class LeafletMap extends React.Component {
     }
     const iframe = `<iframe src="${sharedUrl}" width="100%" height="100%" frameborder="0"></iframe>`
     const tracker = `watermark-${baseUrl}`
+    const homePagePath = `https://datahub.io?source=${tracker}`
     const optionsCursorTrueWithMargin = {
       followCursor: true,
       shiftX: -5,
@@ -105,10 +106,8 @@ class LeafletMap extends React.Component {
         <div id={divId} style={{ width: '100%', height: '300px' }} />
         <div className="datahub-meta">
           <span className="meta-text">Powered by ❒ </span>
-          <a className="datahub-home" href="https://datahub.io" onClick={() => {
-              trackOutboundLink(tracker)
-            }}
-            target="_blank">DataHub
+          <a className="datahub-home" href={homePagePath} target="_blank">
+            DataHub
           </a>
         </div>
       </div>

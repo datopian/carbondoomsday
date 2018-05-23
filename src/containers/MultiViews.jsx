@@ -73,8 +73,10 @@ export class MultiViews extends React.Component {
             sharedUrl += `?v=${revision}`
           }
           const iframe = `<iframe src="${sharedUrl}" width="100%" height="475px" frameborder="0"></iframe>`
-          const pathToDataset = dp.datahub ? `https://datahub.io/${dp.datahub.owner}/${dp.name}` : 'https://datahub.io'
+          let pathToDataset = dp.datahub ? `https://datahub.io/${dp.datahub.owner}/${dp.name}` : 'https://datahub.io'
           const tracker = `watermark-${baseUrl}`
+          pathToDataset += `?source=${tracker}`
+          const homePagePath = `https://datahub.io?source=${tracker}`
           const optionsCursorTrueWithMargin = {
             followCursor: true,
             shiftX: -5,
@@ -85,16 +87,12 @@ export class MultiViews extends React.Component {
             <div>
               {readyView}
               <div className="datahub-meta">
-                <a className="dataset-name" href={pathToDataset} onClick={(e) => {
-                    trackOutboundLink(tracker)
-                  }}
-                  target="_blank">{dp.name}
+                <a className="dataset-name" href={pathToDataset} target="_blank">
+                  {dp.name}
                 </a>
                 <span className="meta-text"> powered by ❒ </span>
-                <a className="datahub-home" href="https://datahub.io" onClick={(e) => {
-                    trackOutboundLink(tracker)}
-                  }
-                  target="_blank">DataHub
+                <a className="datahub-home" href={homePagePath} target="_blank">
+                  DataHub
                 </a>
               </div>
               <div className="share-and-embed">
