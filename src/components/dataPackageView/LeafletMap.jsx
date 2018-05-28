@@ -76,8 +76,8 @@ class LeafletMap extends React.Component {
             <ReactHover.Trigger type='trigger'>
               <CopyToClipboard text={sharedUrl}
                 onCopy={() => this.copied()}>
-                  <button className="copy-button">
-                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                  <button className={'copy-button trigger shared-' + sharedUrl}>
+                    <i className={'fa fa-clipboard trigger shared-' + sharedUrl} aria-hidden="true"></i>
                   </button>
               </CopyToClipboard>
             </ReactHover.Trigger>
@@ -92,8 +92,8 @@ class LeafletMap extends React.Component {
             <ReactHover.Trigger type='trigger'>
               <CopyToClipboard text={iframe}
                 onCopy={() => this.copied()}>
-                  <button className="copy-button">
-                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                  <button className={'copy-button trigger embed-' + sharedUrl}>
+                    <i className={'fa fa-clipboard trigger embed-' + sharedUrl} aria-hidden="true"></i>
                   </button>
               </CopyToClipboard>
             </ReactHover.Trigger>
