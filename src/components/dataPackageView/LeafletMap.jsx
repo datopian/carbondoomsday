@@ -7,6 +7,13 @@ import ReactHover from 'react-hover'
 
 class LeafletMap extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      hoverText: 'Copy to clipboard'
+    }
+  }
+
   componentWillUpdate(nextProps) {
     // update the plot with new props
     this.render_map(nextProps.featureCollection)
