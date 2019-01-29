@@ -44,12 +44,14 @@ export class MultiViews extends React.Component {
             view = dprender.convertReclineToSimple(view)
           }
           let compiledView = dprender.compileView(view, dp)
-          let readyView
+          let readyView, firstValue, lastValue
           switch (view.specType) {
             case 'simple': // convert to plotly then render
               let spec = {}
               if(compiledView.resources[0]._values) {
                 spec = dprender.simpleToPlotly(compiledView)
+                firstValue = compiledView.resources[0]._values[0]
+                lastValue = compiledView.resources[0]._values[compiledView.resources[0]._values.length-1]
               }
               readyView = <PlotlyChart data={spec.data} layout={spec.layout} idx={idx} key={idx} />
               break
@@ -85,6 +87,11 @@ export class MultiViews extends React.Component {
 
           return (
             <div>
+              <div className="highlights" style={{display: "none"}}>
+                {
+                  [JSON.stringify(firstValue), JSON.stringify(lastValue)]
+                }
+              </div>
               {readyView}
               <div className="datahub-meta">
                 <a className="dataset-name" href={pathToDataset} target="_blank">
