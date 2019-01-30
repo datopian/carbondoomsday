@@ -11,7 +11,7 @@
     "test": "node_modules/.bin/jest",
     "test:travis": "npm run test && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "test:watch": "npm run test -- --watch",
-    "start": "npm-run-all --parallel open:src lint:watch"
+    "start": "npm-run-all --parallel open:src"
   },
   "repository": {
     "type": "git",
@@ -90,7 +90,6 @@
     "json-loader": "^0.5.4",
     "moment-timezone": "0.5.11",
     "nock": "^9.0.2",
-    "npm-run-all": "3.1.2",
     "postcss-loader": "1.2.1",
     "react-addons-test-utils": "^15.4.1",
     "react-test-renderer": "^15.4.1",
@@ -104,6 +103,7 @@
     "webpack-md5-hash": "0.0.5"
   },
   "dependencies": {
+    "npm-run-all": "3.1.2",
     "datapackage": "^1.1.0",
     "datapackage-render": "git+https://github.com/frictionlessdata/datapackage-render-js.git",
     "handsontable": "^0.29.2",
