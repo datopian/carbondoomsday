@@ -87,10 +87,10 @@ export class MultiViews extends React.Component {
 
           return (
             <div>
-              <div className="highlights" style={{display: "none"}}>
-                {
-                  [JSON.stringify(firstValue), JSON.stringify(lastValue)]
-                }
+              <div className="highlights">
+                <div className="global">{"GLOBAL CO₂ LEVEL: " + lastValue.value}</div>
+                <div className="change">{"Change: " + (firstValue.value - lastValue.value)}</div>
+                <div className="change-in-percentage">{"Change (%): " + ((firstValue.value - lastValue.value)/firstValue.value)}</div>
               </div>
               {readyView}
               <div className="datahub-meta">
