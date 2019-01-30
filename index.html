@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
   <style>
     .datahub-meta {
       display: none;
@@ -13,6 +18,196 @@
   </style>
 </head>
 <body>
+
+<!-- Main Section-->
+<div class="main">
+    <!-- Start Container-->
+   <div class="container-fluid">
+      <!-- Start of Page Header -->
+      <div class="page-header">
+        <div class="row">
+            <div class="col-xs-1 nopadding-right">
+                <img class="logo" width="75" src="img/logo.png">
+            </div>
+            <div class="col-xs-11 nopadding-left">
+                <h2 class="main-title">CARBON DOOMSDAY</h2>
+            </div>
+        </div>
+      </div>
+      <!-- End of Page Header -->
+
+      
+      
+      <div class="tab-section">
+            <div class="card">
+                <!-- Start tab Section-->
+                <div class="row">
+                  <div class="col-sm-2 pull-right">
+                      <select onchange="selectPeriod(this)" class="form-control">
+                        <option value="week">1 week</option>
+                        <option value="month">1 month</option>
+                        <option value="year">1 year</option>
+                        <option value="fiveYears">5 years</option>
+                        <option value="all">All</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="tab-border">
+                    <div class="row ">
+                        <div class="col-sm-4  text-center">
+                            <h2>0 PPM</h2>
+                            <h4>GLOBAL CO₂ LEVEL</h4>
+                        </div>
+                        <div class="col-sm-4  text-center">
+                            <h2>0.00 PPM</h2>
+                            <h4>IN THE PAST WEEK</h4>
+                        </div>
+                        <div class="col-sm-4  text-center">
+                            <h2>0 %</h2>
+                            <h4>IN THE PAST WEEK (%)</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart">
+                    <div class="react-me" data-type="data-views"></div>
+                    <div class="react-me" data-type="resource-preview" data-resource="0"></div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End tab Section-->
+
+       <!-- Start About tab Section-->
+       <section class="about">
+           <div class="section-title">
+               <span class="main-title">
+                   CARBON ABOUT
+               </span>
+           </div>
+           <div class="row">
+               <div class="col-sm-4">
+                   <div class="card">
+                       <div class="row">
+                           <div class="col-xs-2">
+                               <i class="fa fa-github" aria-hidden="true"></i>
+                           </div>
+                           <div class="col-xs-10">
+                               <a href="https://github.com/datahq/carbondoomsday" class="card-title">Give us a star on GitHub</a>
+                               <p>TAKES 5 SECONDS</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-sm-4">
+                   <div class="card">
+                       <div class="row">
+                           <div class="col-xs-2">
+                               <i class="fa fa-twitter" aria-hidden="true"></i>
+                           </div>
+                           <div class="col-xs-10">
+                               <a href="https://twitter.com/datopian" class="card-title">Tweet</a>
+                               <p>TAKES 5 SECONDS</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-sm-4">
+                   <div class="card">
+                       <div class="row">
+                           <div class="col-xs-2">
+                                   <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                           </div>
+                           <div class="col-xs-10">
+                               <a href="https://datopian.com/#contact" class="card-title">Submit an Idea</a>
+                               <p>TAKES 2 MINUTES</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="row">
+               <div class="col-sm-4">
+                   <div class="card">
+                       <div class="row">
+                           <div class="col-xs-2">
+                                   <i class="fa fa-code" aria-hidden="true"></i>
+                           </div>
+                           <div class="col-xs-10">
+                               <a href="#" class="card-title">Embed this chart</a>
+                               <p>TAKES 2 MINUTES</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-sm-4">
+                   <div class="card">
+                       <div class="row">
+                           <div class="col-xs-2">
+                                   <i class="fa fa-cog" aria-hidden="true"></i>
+                           </div>
+                           <div class="col-xs-10">
+                               <a href="#" class="card-title">Check out our API</a>
+                               <p>TAKES 10 MINUTES</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+       </section>
+       <!-- End About-Page Section-->
+       <!-- Start Project Section-->
+       <section class="about project">
+           <div class="section-title">
+               <span class="main-title">
+                   ABOUT THE PROJECT
+                   <!--Padding is optional-->
+               </span>
+           </div>
+
+           <div class="row">
+               <div class="col-sm-4">
+                   <div class="card">
+                       <h3>MISSION</h3>
+                       <p>What if tracking climate change was as easy as checking the price of Bitcoin?
+                           <br/>
+                           <br> Every day, NOAA scientists carefully measure the carbon dioxide in the atmosphere from Mauna
+                           Loa, Hawaii. This important data is public but hard to digest. We want to empower everyone
+                           around the world to use it.
+                           <br/>
+                           <br> So we built Carbon Doomsday to chart carbon dioxide levels.
+                           <br/>
+                           <br> Our chart is powered by the worlds first open API for climate change. This enables anyone
+                           to enhance NOAAs carbon dioxide data by building charts, sensor networks, and more.
+                           <br/>
+                           <br> Our code is open source on Github. We are a growing team of 8 people, including programmers,
+                           designers and marketers from the USA, Ireland, Australia and Germany.</p>
+                   </div>
+               </div>
+               <div class="col-sm-4">
+                   <div class="card">
+                       <h3>DATA SOURCES</h3>
+                       <p>All of our data is thanks to the work of scientists at NOAA's ESRL who have painstakingly measured carbon dioxide every day since 1958. Their data is free and public.<br><br>
+                               
+                               <strong>Their release notes say:release notes say:</strong> <br>
+                               "This data is made freely available to the public and the scientific community in the belief that their wide dissemination will lead to greater understanding and new scientific insights."<br><br>
+                               
+                               This data needs to be more accessible. And that's where Carbon Doomsday comes in. We've built a web API and real-time chart of carbon dioxide data.<br><br>
+                               
+                               You can see our most up to date list of sources <a href="https://github.com/datahq/carbondoomsday">on our Github.</a><br><br>
+
+                       </p>
+                   </div>
+               </div>
+           </div>
+           </section>
+   </div>
+    <!--End Of Container-->
+</div>
+<!-- End Main Section-->
+
+<!--
 <div class="container">
   <div class="page-header">
   </div>
@@ -27,7 +222,7 @@
   </div>
   <div class="react-me" data-type="data-views"></div>
   <div class="react-me" data-type="resource-preview" data-resource="0"></div>
-</div>
+</div>-->
   <script type="text/javascript">
     function selectPeriod(mySelect) {
       switch (mySelect.value) {

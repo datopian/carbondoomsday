@@ -1,0 +1,175 @@
+body
+{
+    
+    background: #6f7886;
+    font-family: 'Lato', sans-serif;
+}
+p,h1,h2,h3,h4,h5,h6,ul,li 
+{
+    padding:0px;
+    margin:0px;
+}
+.main
+{
+margin-top:30px;
+}
+.main img
+{
+    margin-left:10px;
+}
+.main h2
+{
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ffffff;
+    padding-top:20px
+}
+
+.nopadding-right {
+    padding-right: 0 !important;
+ }
+ .nopadding-left {
+    padding-left: 0 !important;
+ }
+ .main tab-section
+ {
+    background-color: #ffffff;
+    text-align: center;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 5px;
+ }
+ .main .about .about-title
+ {
+    display: flex;
+ }
+ 
+ .main .about .about-title span
+ {
+    white-space: nowrap;
+    padding: 0 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-top:10px;
+ }
+.main .card
+{
+    background-color: #ffffff;
+    color: #7a92a4;
+    border-radius: 5px;
+    margin: 15px;
+    padding:25px;
+}
+.main .card i
+{
+    font-size:50px;
+    padding-right:10px;
+}
+.main .card .card-title
+{
+    font-size: 18px;
+    color: #1ba69c;
+    font-weight:600;
+    text-decoration:underline;
+}
+.main .project .card h3
+{
+margin-top:0px;
+color:#d59a94;
+font-size:20px;
+font-weight:bold;
+margin-bottom:13px;
+}
+.wrapper .project .card
+{
+    padding:40px;
+}
+.main .tab-section .card h2
+{
+    color:#365c73;
+    margin-bottom:15px;
+}
+.tab-border
+{
+    border-top:1px solid #eee;
+    margin:30px 40px 30px 30px;
+    padding-top: 40px;
+    padding-bottom:65px;
+    border-bottom:1px solid #eee;
+}
+#chart
+{
+    height:500px;
+    width:100%;
+}
+.main .card a
+{
+    text-decoration:underline;
+}
+.section-title
+{
+    width: 100%;
+    height: 20px;
+    border-bottom: 1px solid #fff; 
+    text-align: center;
+}
+.main-title
+{
+    font-size: 18px;
+    background-color:#6f7886; 
+    padding: 0 10px;
+    color:#fff;
+    position: relative;
+    top:8px;
+}
+.about
+{
+    padding: 20px;
+
+}
+
+.section-title
+{
+    margin-top:30px;
+    margin-bottom:50px;
+}
+.main .about  .card
+{
+    padding-bottom:60px;
+}
+.main  .project
+{
+    padding:20px;
+}
+
+.page-header {
+    border-bottom:0;
+    margin:30px 0 40px 0;
+    padding:0;   
+}
+
+/* Mobile Responsive Media Query */
+@media only screen and (max-width:768px) {
+    .logo {
+        width:55px;
+        margin-top:15px;
+    }
+    .main .card i
+    {
+        font-size:30px;
+    }
+    .main .card .card-title
+    {
+        font-size:15px;
+    }
+    .main .main-title
+    {
+        margin-left: 51px;
+        font-size: 20px; 
+        letter-spacing:5px;
+
+    }
+  }
+  
