@@ -34,14 +34,14 @@
             <div class="card">
                 <!-- Start tab Section-->
                 <div class="row">
-                  <div class="col-sm-2 pull-right">
-                      <select onchange="selectPeriod(this)" class="form-control">
-                        <option value="year">Last year</option>
-                        <option value="threeYears">3 years</option>
-                        <option value="fiveYears">5 years</option>
-                        <option value="tenYears">10 years</option>
-                        <option value="all">All</option>
-                      </select>
+                  <div class="col-sm-6 pull-right">
+                        <ul class="range-tabs pull-right">
+                            <li><a href="/?period=year" id="year">Last Year</a></li>
+                            <li><a href="/?period=threeYears" id="threeYears">3 Years</a></li>
+                            <li><a href="/?period=fiveYears"  id="fiveYears">5 Years</a></li>
+                            <li><a href="/?period=tenYears"  id="tenYears">10 Years</a></li>
+                            <li><a href="/?period=all"  id="all">All</a></li>
+                        </ul>
                   </div>
                 </div>
                 <div id="chart">
@@ -233,18 +233,21 @@
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2018"
         };
+        document.getElementById("all").classList.add("year");
         break;
       case 'threeYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2016"
         };
+        document.getElementById("threeYears").classList.add("active");
         break;
       case 'fiveYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2014"
         };
+        document.getElementById("fiveYears").classList.add("active");
         break;
       case '':
       case undefined:
@@ -253,9 +256,11 @@
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2009"
         };
+        document.getElementById("tenYears").classList.add("active");
         break;
       case 'all':
         DP_ID.views[0].resources[0].transform = [];
+        document.getElementById("all").classList.add("active");
         break;
     };
   </script>
