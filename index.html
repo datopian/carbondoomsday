@@ -36,10 +36,10 @@
                 <div class="row">
                   <div class="col-sm-2 pull-right">
                       <select onchange="selectPeriod(this)" class="form-control">
-                        <option value="week">1 week</option>
-                        <option value="month">1 month</option>
-                        <option value="year">1 year</option>
+                        <option value="year">Last year</option>
+                        <option value="threeYears">3 years</option>
                         <option value="fiveYears">5 years</option>
+                        <option value="tenYears">10 years</option>
                         <option value="all">All</option>
                       </select>
                   </div>
@@ -188,17 +188,17 @@
   <script type="text/javascript">
     function selectPeriod(mySelect) {
       switch (mySelect.value) {
-        case 'week':
-          window.location.href = '/?period=week';
-          break;
-        case 'month':
-          window.location.href = '/?period=month';
-          break;
         case 'year':
           window.location.href = '/?period=year';
           break;
+        case 'threeYears':
+          window.location.href = '/?period=threeYears';
+          break;
         case 'fiveYears':
           window.location.href = '/?period=fiveYears';
+          break;
+        case 'tenYears':
+          window.location.href = '/?period=tenYears';
           break;
         case 'all':
           window.location.href = '/?period=all';
@@ -228,30 +228,30 @@
     ];
 
     switch (window.location.href.split('?period=')[1]) {
-      case 'week':
+      case 'year':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
-          "expression": "(new Date(data['date'])).getFullYear() >= 2017"
+          "expression": "(new Date(data['date'])).getFullYear() >= 2018"
         };
         break;
-      case 'month':
+      case 'threeYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2016"
         };
         break;
-      case 'year':
-        DP_ID.views[0].resources[0].transform[0] = {
-          "type": "filter",
-          "expression": "(new Date(data['date'])).getFullYear() >= 2015"
-        };
-        break;
-      case '':
-      case undefined:
       case 'fiveYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2014"
+        };
+        break;
+      case '':
+      case undefined:
+      case 'tenYears':
+        DP_ID.views[0].resources[0].transform[0] = {
+          "type": "filter",
+          "expression": "(new Date(data['date'])).getFullYear() >= 2009"
         };
         break;
       case 'all':
