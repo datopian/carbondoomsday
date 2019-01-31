@@ -93,6 +93,7 @@ margin-bottom:13px;
 }
 .tab-border
 {
+    display: block !important;
     border-top:1px solid #eee;
     margin:30px 40px 30px 30px;
     padding-top: 40px;
