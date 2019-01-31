@@ -57,15 +57,15 @@
                 <div class="tab-border">
                     <div class="row ">
                         <div class="col-sm-4  text-center">
-                            <h2>0 PPM</h2>
+                            <h2>N/A</h2>
                             <h4>GLOBAL CO₂ LEVEL</h4>
                         </div>
                         <div class="col-sm-4  text-center">
-                            <h2>0.00 PPM</h2>
+                            <h2>N/A</h2>
                             <h4>IN THE PAST WEEK</h4>
                         </div>
                         <div class="col-sm-4  text-center">
-                            <h2>0 %</h2>
+                            <h2>N/A</h2>
                             <h4>IN THE PAST WEEK (%)</h4>
                         </div>
                     </div>
@@ -209,39 +209,23 @@
 </div>
 <!-- End Main Section-->
 
-<!--
-<div class="container">
-  <div class="page-header">
-  </div>
-  <div>
-    <select onchange="selectPeriod(this)">
-      <option value="week">1 week</option>
-      <option value="month">1 month</option>
-      <option value="year">1 year</option>
-      <option value="fiveYears">5 years</option>
-      <option value="all">All</option>
-    </select>
-  </div>
-  <div class="react-me" data-type="data-views"></div>
-  <div class="react-me" data-type="resource-preview" data-resource="0"></div>
-</div>-->
   <script type="text/javascript">
     function selectPeriod(mySelect) {
       switch (mySelect.value) {
         case 'week':
-          window.location.href = '/week';
+          window.location.href = '/?period=week';
           break;
         case 'month':
-          window.location.href = '/month';
+          window.location.href = '/?period=month';
           break;
         case 'year':
-          window.location.href = '/year';
+          window.location.href = '/?period=year';
           break;
         case 'fiveYears':
-          window.location.href = '/fiveYears';
+          window.location.href = '/?period=fiveYears';
           break;
         case 'all':
-          window.location.href = '/all';
+          window.location.href = '/?period=all';
           break;
       }
     };
@@ -267,7 +251,7 @@
       }
     ];
 
-    switch (window.location.href.split('/')[3]) {
+    switch (window.location.href.split('?period=')[1]) {
       case 'week':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
