@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="img/skull-blue.png">
-  <title>Carbon Doomsday</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="img/carbon-blue.png">
+    <title>State of Carbon</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -24,7 +24,7 @@
                 <img class="logo" width="75" src="img/logo.png">
             </div>
             <div class="col-xs-11 nopadding-left">
-                <h2 class="main-title">CARBON DOOMSDAY</h2>
+                <h2 class="main-title">State of Carbon</h2>
             </div>
         </div>
       </div>
@@ -34,14 +34,14 @@
             <div class="card">
                 <!-- Start tab Section-->
                 <div class="row">
-                  <div class="col-sm-2 pull-right">
-                      <select onchange="selectPeriod(this)" class="form-control">
-                        <option value="year">Last year</option>
-                        <option value="threeYears">3 years</option>
-                        <option value="fiveYears">5 years</option>
-                        <option value="tenYears">10 years</option>
-                        <option value="all">All</option>
-                      </select>
+                  <div class="col-sm-6 pull-right">
+                        <ul class="range-tabs pull-right">
+                            <li><a href="/?period=year" id="year">Last Year</a></li>
+                            <li><a href="/?period=threeYears" id="threeYears">3 Years</a></li>
+                            <li><a href="/?period=fiveYears"  id="fiveYears">5 Years</a></li>
+                            <li><a href="/?period=tenYears"  id="tenYears">10 Years</a></li>
+                            <li><a href="/?period=all"  id="all">All</a></li>
+                        </ul>
                   </div>
                 </div>
                 <div id="chart">
@@ -83,7 +83,7 @@
                                <i class="fa fa-twitter" aria-hidden="true"></i>
                            </div>
                            <div class="col-xs-10">
-                               <a href="https://twitter.com/datopian" class="card-title">Tweet</a>
+                               <a href="https://twitter.com/carbondoomsday" class="card-title">Tweet</a>
                                <p>TAKES 5 SECONDS</p>
                            </div>
                        </div>
@@ -96,7 +96,7 @@
                                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
                            </div>
                            <div class="col-xs-10">
-                               <a href="https://datopian.com/#contact" class="card-title">Submit an Idea</a>
+                               <a href="https://gitter.im/datahubio/chat" class="card-title">Submit an Idea</a>
                                <p>TAKES 2 MINUTES</p>
                            </div>
                        </div>
@@ -154,7 +154,7 @@
                            Loa, Hawaii. This important data is public but hard to digest. We want to empower everyone
                            around the world to use it.
                            <br/>
-                           <br> So we built Carbon Doomsday to chart carbon dioxide levels.
+                           <br> So we built State of Carbon to chart carbon dioxide levels.
                            <br/>
                            <br> Our chart is powered by the worlds first open API for climate change. This enables anyone
                            to enhance NOAAs carbon dioxide data by building charts, sensor networks, and more.
@@ -171,7 +171,7 @@
                                <strong>Their release notes say:release notes say:</strong> <br>
                                "This data is made freely available to the public and the scientific community in the belief that their wide dissemination will lead to greater understanding and new scientific insights."<br><br>
                                
-                               This data needs to be more accessible. And that's where Carbon Doomsday comes in. We've built a web API and real-time chart of carbon dioxide data.<br><br>
+                               This data needs to be more accessible. And that's where State of Carbon comes in. We've built a web API and real-time chart of carbon dioxide data.<br><br>
                                
                                You can see our most up to date list of sources <a href="https://github.com/datahq/carbondoomsday">on our Github.</a><br><br>
 
@@ -233,18 +233,21 @@
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2018"
         };
+        document.getElementById("all").classList.add("year");
         break;
       case 'threeYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2016"
         };
+        document.getElementById("threeYears").classList.add("active");
         break;
       case 'fiveYears':
         DP_ID.views[0].resources[0].transform[0] = {
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2014"
         };
+        document.getElementById("fiveYears").classList.add("active");
         break;
       case '':
       case undefined:
@@ -253,9 +256,11 @@
           "type": "filter",
           "expression": "(new Date(data['date'])).getFullYear() >= 2009"
         };
+        document.getElementById("tenYears").classList.add("active");
         break;
       case 'all':
         DP_ID.views[0].resources[0].transform = [];
+        document.getElementById("all").classList.add("active");
         break;
     };
   </script>
