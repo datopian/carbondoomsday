@@ -10,14 +10,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <style>
-    .datahub-meta {
-      display: none;
-    }
-    .share-and-embed {
-      display: none;
-    }
-  </style>
 </head>
 <body>
 
@@ -53,7 +45,9 @@
                   </div>
                 </div>
                 <div id="chart">
-                    <div class="react-me" data-type="data-views"></div>
+                    <div class="react-me" data-type="data-views">
+                      <div class="loader">Loading...</div>
+                    </div>
                     <div class="react-me" data-type="resource-preview" data-resource="0"></div>
                 </div>
             </div>
