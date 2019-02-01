@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="img/carbon-blue.png">
     <title>State of Carbon</title>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -167,12 +167,12 @@
                    <div class="card">
                        <h3>DATA SOURCES</h3>
                        <p>All of our data is thanks to the work of scientists at NOAA's ESRL who have painstakingly measured carbon dioxide every day since 1958. Their data is free and public.<br><br>
-                               
+
                                <strong>Their release notes say:release notes say:</strong> <br>
                                "This data is made freely available to the public and the scientific community in the belief that their wide dissemination will lead to greater understanding and new scientific insights."<br><br>
-                               
+
                                This data needs to be more accessible. And that's where State of Carbon comes in. We've built a web API and real-time chart of carbon dioxide data.<br><br>
-                               
+
                                You can see our most up to date list of sources <a href="https://github.com/datahq/carbondoomsday">on our Github.</a><br><br>
 
                        </p>
@@ -220,12 +220,127 @@
     }
 
     var DP_ID = JSON.parse(resp);
-    DP_ID.views[0].resources = [
+    DP_ID.views = DP_ID.views = [
       {
-        "name": "co2-ppm-daily",
-        "transform": []
+        "specType": "vega",
+        "resources": [
+          {
+            "name": "co2-ppm-daily",
+            "transform": []
+          }
+        ],
+        "spec": {
+          "$schema": "https://vega.github.io/schema/vega/v3.json",
+          "width": 900,
+          "height": 400,
+          "padding": 30,
+          "data": [
+            {
+              "name": "co2-ppm-daily",
+              "format": {"parse": {"date": "date"}},
+              "transform": [
+                {"type": "extent", "field": "value", "signal": "extent"}
+              ]
+            }
+          ],
+
+          "scales": [
+            {
+              "name": "xscale",
+              "type": "utc",
+              "range": "width",
+              "domain": {"data": "co2-ppm-daily", "field": "date"}
+            },
+            {
+              "name": "yscale",
+              "type": "linear",
+              "range": "height",
+              "nice": true,
+              "zero": false,
+              "domain": {"data": "co2-ppm-daily", "field": "value"}
+            }
+          ],
+
+          "axes": [
+            {"orient": "bottom", "scale": "xscale", "labelFont": "Lato", "labelOpacity": 0.4, "format": "%b %Y"}
+          ],
+
+          "marks": [
+            {
+              "type": "area",
+              "from": {"data": "co2-ppm-daily"},
+              "encode": {
+                "enter": {
+                  "x": {"scale": "xscale", "field": "date"},
+                  "y": {"scale": "yscale", "field": "value"},
+                  "y2": {"scale": "yscale", "signal": "extent[0]"},
+                  "fill": {"value": "#FBE7E8"},
+                  "stroke": {"value": "#E3B3BD"}
+                }
+              }
+            },
+            {
+              "type": "text",
+              "encode": {
+                "enter": {
+                  "text": {"signal": "extent[0] + ' PPM'"}
+                },
+                "update": {
+                  "x": {"value": -90},
+                  "font": {"value": "Lato"},
+                  "fontSize": {"value": 16},
+                  "opacity": {"value": 0.4}
+                }
+              }
+            },
+            {
+              "type": "text",
+              "encode": {
+                "enter": {
+                  "text": {"signal": "extent[0] + ' PPM'"}
+                },
+                "update": {
+                  "x": {"value": -90},
+                  "y": {"value": 360},
+                  "font": {"value": "Lato"},
+                  "fontSize": {"value": 16},
+                  "opacity": {"value": 0.4}
+                }
+              }
+            },
+            {
+              "type": "text",
+              "encode": {
+                "enter": {
+                  "text": {"signal": "extent[1] + ' PPM'"}
+                },
+                "update": {
+                  "x": {"value": 960},
+                  "font": {"value": "Lato"},
+                  "fontSize": {"value": 16},
+                  "opacity": {"value": 0.4}
+                }
+              }
+            },
+            {
+              "type": "text",
+              "encode": {
+                "enter": {
+                  "text": {"signal": "extent[1] + ' PPM'"}
+                },
+                "update": {
+                  "x": {"value": 960},
+                  "y": {"value": 360},
+                  "font": {"value": "Lato"},
+                  "fontSize": {"value": 16},
+                  "opacity": {"value": 0.4}
+                }
+              }
+            }
+          ]
+        }
       }
-    ];
+    ]
 
     switch (window.location.href.split('?period=')[1]) {
       case 'year':
@@ -264,5 +379,5 @@
         break;
     };
   </script>
-  <script type="text/javascript" src="/frontend-showcase-js/dist/bundle.js"></script>
+  <script type="text/javascript" src="frontend-showcase-js/dist/bundle.js"></script>
 </body>
