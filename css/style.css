@@ -2,7 +2,7 @@ body
 {
 
     background: #6f7886;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .datahub-meta {
@@ -27,10 +27,10 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 }
 .main h2
 {
-    font-size: 30px;
+    font-size: 36px;
     text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: #ffffff;
     padding-top:10px
 }
@@ -94,19 +94,36 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 {
     padding:40px;
 }
+
+.main .tab-section .card .col-sm-4 {
+    padding-top: 17px;
+    padding-bottom: 17px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.main .tab-section .card .col-sm-4:nth-child(1),.main .tab-section .card .col-sm-4:nth-child(2)  {
+    border-right:1px solid #d0d0d5;
+}
+
 .main .tab-section .card h2
 {
     color:#365c73;
-    margin-bottom:15px;
+    margin-bottom:25px;
+    font-size:40px;
+    font-family: 'Lato', sans-serif;
+}
+
+.main .tab-section .card h4{
+    color: #7a92a4;
+    font-weight: 400;
+    font-size: 14px;
 }
 .tab-border
 {
     display: block !important;
-    border-top:1px solid #eee;
-    margin:0px 40px 30px 30px;
-    padding-top: 40px;
-    padding-bottom:65px;
-    border-bottom:1px solid #eee;
+    border-top:1px solid #d0d0d5;
+    margin:0px;
+    border-bottom:1px dashed #d0d0d5;
 }
 #chart
 {
@@ -128,15 +145,17 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 {
     font-size: 18px;
     background-color:#6f7886; 
-    padding: 0 10px;
     color:#fff;
-    position: relative;
-    top:8px;
+    font-family: 'Lato', sans-serif;
 }
+.sub-title {
+    color:#fff;
+    font-weight:600;
+}
+
 .about
 {
     padding: 20px;
-
 }
 
 .section-title
@@ -155,14 +174,14 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 
 .page-header {
     border-bottom:0;
-    margin:30px 0 40px 0;
+    margin:17px 0 40px 0;
     padding:0;   
 }
 
 .range-tabs {
     list-style: none;
     padding-bottom: 10px;
-    padding-right: 30px;
+    padding-right: 0px;
 }
 
 .range-tabs li {
@@ -172,15 +191,20 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 
 .range-tabs li a {
     text-decoration:none !important;
-    font-size: 16px;
-    color: #a2a2a2;
-    padding-bottom: 10px;
+    font-size: 13px;
+    color: #bcc8d1;
+    text-transform: uppercase;
+    padding-bottom: 11px;
 }
 
-.range-tabs li a.active{
-    font-weight: 800;
+.range-tabs li a:hover {
     color: #5f5f5f;
-    border-bottom: 2px solid #00d8af;
+    border-bottom: 1px solid #00d8af;
+}
+.range-tabs li a.active{
+    font-weight: 600;
+    color: #5f5f5f;
+    border-bottom: 1px solid #00d8af;
 }
 /* Mobile Responsive Media Query */
 @media only screen and (max-width:768px) {
@@ -217,6 +241,10 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 
     .about,.main .project {
         padding:0;
+    }
+
+    .main .tab-section .card .col-sm-4:nth-child(1),.main .tab-section .card .col-sm-4:nth-child(2)  {
+        border-right:0px solid #d0d0d5;
     }
   }
 
