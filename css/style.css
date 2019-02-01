@@ -242,9 +242,65 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 }
 .info-card p{
     color:#101010;
-    font-size:14px !important;
+    font-size:13.5px !important;
     padding-bottom:15px;
 }
+
+.team-content {
+    color: #46494e;
+    font-size: 14px;
+}
+
+.team-content p {
+    padding-bottom:0;
+}
+.team-name {
+    font-weight: bold;
+    margin: 0;
+}
+.team-location {
+    font-style: italic;
+    margin: 0;
+}
+.team-position {
+    margin: 0;
+}
+.team-image {
+    border-radius: 100px;
+    margin: 10px 10px 10px 0 !important;
+    width: 55px;
+    height: 55px;
+}
+.team-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-align: center;
+        align-items: center;
+    padding: 2px 0 2px 0;
+}
+
+.team-div {
+    max-height: 490px;
+    overflow: auto;
+}
+
+.contact-div {
+    padding-top: 10px;
+    border-top: 1px solid #d0d0d5;
+    margin-top: 10px;
+}
+
+.contact-div i {
+    font-size:35px;
+}
+
+.contact-div a {
+    position: relative;
+    top: 5px;
+}
+
 /* Mobile Responsive Media Query */
 @media only screen and (max-width:768px) {
     .logo {
