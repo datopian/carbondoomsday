@@ -168,7 +168,7 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 
 .about
 {
-    padding: 20px;
+    padding: 0 20px 0px 20px;
 }
 
 .section-title
@@ -186,7 +186,11 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 
 .main .project
 {
-    padding:20px;
+    padding:0 20px 0px 20px;
+}
+
+.main .project .section-title {
+    margin-top: 20px;
 }
 
 .main .about .card p{
@@ -228,7 +232,18 @@ p,h1,h2,h3,h4,h5,h6,ul,li
 }
 
 .about .about-tabs-wrap {
-    padding:0 65px;
+    padding:0 85px;
+}
+
+.info-card {
+    min-height:612px;
+    height:612px;
+    overflow: hidden;
+}
+.info-card p{
+    color:#101010;
+    font-size:14px !important;
+    padding-bottom:15px;
 }
 /* Mobile Responsive Media Query */
 @media only screen and (max-width:768px) {
