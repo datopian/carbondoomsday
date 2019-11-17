@@ -6,6 +6,7 @@ Originally at https://carbondoomsday.com/ now hosted at https://carbon.datahub.i
 
 ```
 git clone https://github.com/datahq/carbondoomsday
+cd carbondoomsday
 git submodule init
 git submodule update
 ```
