@@ -26,7 +26,8 @@ resp  = '' ;
 xmlHttp = new XMLHttpRequest();
 
 if (xmlHttp != null) {
-    xmlHttp.open( "GET", 'https://datahub.io/core/co2-ppm-daily/datapackage.json', false );
+    // xmlHttp.open( "GET", 'https://datahub.io/core/co2-ppm-daily/datapackage.json', false );
+    xmlHttp.open( "GET", '/data/datapackage.json', false );
     xmlHttp.send( null );
     resp = xmlHttp.responseText;
 }

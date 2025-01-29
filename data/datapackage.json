@@ -1,0 +1,243 @@
+{
+    "bytes": 375899,
+    "count_of_rows": 19840,
+    "hash": "ad6737408685e697b221acf246ce5c96",
+    "name": "co2-ppm-daily",
+    "profile": "data-package",
+    "resources": [
+      {
+        "bytes": 375899,
+        "dialect": {
+          "caseSensitiveHeader": false,
+          "delimiter": ",",
+          "doubleQuote": true,
+          "header": true,
+          "lineTerminator": "\r\n",
+          "quoteChar": "\"",
+          "skipInitialSpace": false
+        },
+        "encoding": "utf-8",
+        "format": "csv",
+        "hash": "2142a5c3e362a0a4a5dd56235f84bd49",
+        "name": "co2-ppm-daily",
+        "path": "data/co2-ppm-daily.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "format": "default",
+              "name": "date",
+              "type": "string"
+            },
+            {
+              "format": "default",
+              "name": "value",
+              "type": "string"
+            }
+          ],
+          "missingValues": [
+            ""
+          ]
+        }
+      }
+    ],
+    "title": "CO2 PPM - Trends in Atmospheric Carbon Dioxide",
+    "views": [
+      {
+        "resources": [
+          {
+            "name": "co2-ppm-daily",
+            "transform": []
+          }
+        ],
+        "spec": {
+          "$schema": "https://vega.github.io/schema/vega/v3.json",
+          "axes": [
+            {
+              "domain": false,
+              "format": "%b %Y",
+              "labelFont": "Lato",
+              "orient": "bottom",
+              "scale": "xscale",
+              "ticks": false
+            }
+          ],
+          "data": [
+            {
+              "format": {
+                "parse": {
+                  "date": "date"
+                }
+              },
+              "name": "co2-ppm-daily",
+              "transform": [
+                {
+                  "field": "value",
+                  "signal": "extent",
+                  "type": "extent"
+                }
+              ]
+            }
+          ],
+          "height": 400,
+          "marks": [
+            {
+              "encode": {
+                "enter": {
+                  "fill": {
+                    "value": "#FBE7E8"
+                  },
+                  "stroke": {
+                    "value": "#E3B3BD"
+                  },
+                  "x": {
+                    "field": "date",
+                    "scale": "xscale"
+                  },
+                  "y": {
+                    "field": "value",
+                    "scale": "yscale"
+                  },
+                  "y2": {
+                    "scale": "yscale",
+                    "signal": "floor(extent[0])"
+                  }
+                }
+              },
+              "from": {
+                "data": "co2-ppm-daily"
+              },
+              "type": "area"
+            },
+            {
+              "encode": {
+                "enter": {
+                  "text": {
+                    "signal": "extent[1] + ' PPM'"
+                  }
+                },
+                "update": {
+                  "font": {
+                    "value": "Lato"
+                  },
+                  "fontSize": {
+                    "value": 16
+                  },
+                  "opacity": {
+                    "value": 0.4
+                  },
+                  "x": {
+                    "value": -94
+                  }
+                }
+              },
+              "type": "text"
+            },
+            {
+              "encode": {
+                "enter": {
+                  "text": {
+                    "signal": "extent[0] + ' PPM'"
+                  }
+                },
+                "update": {
+                  "font": {
+                    "value": "Lato"
+                  },
+                  "fontSize": {
+                    "value": 16
+                  },
+                  "opacity": {
+                    "value": 0.4
+                  },
+                  "x": {
+                    "value": -94
+                  },
+                  "y": {
+                    "value": 385
+                  }
+                }
+              },
+              "type": "text"
+            },
+            {
+              "encode": {
+                "enter": {
+                  "text": {
+                    "signal": "extent[1] + ' PPM'"
+                  }
+                },
+                "update": {
+                  "font": {
+                    "value": "Lato"
+                  },
+                  "fontSize": {
+                    "value": 16
+                  },
+                  "opacity": {
+                    "value": 0.4
+                  },
+                  "x": {
+                    "value": 910
+                  }
+                }
+              },
+              "type": "text"
+            },
+            {
+              "encode": {
+                "enter": {
+                  "text": {
+                    "signal": "extent[0] + ' PPM'"
+                  }
+                },
+                "update": {
+                  "font": {
+                    "value": "Lato"
+                  },
+                  "fontSize": {
+                    "value": 16
+                  },
+                  "opacity": {
+                    "value": 0.4
+                  },
+                  "x": {
+                    "value": 910
+                  },
+                  "y": {
+                    "value": 385
+                  }
+                }
+              },
+              "type": "text"
+            }
+          ],
+          "padding": 30,
+          "scales": [
+            {
+              "domain": {
+                "data": "co2-ppm-daily",
+                "field": "date"
+              },
+              "name": "xscale",
+              "range": "width",
+              "type": "utc"
+            },
+            {
+              "domain": {
+                "data": "co2-ppm-daily",
+                "field": "value"
+              },
+              "name": "yscale",
+              "nice": true,
+              "range": "height",
+              "type": "linear",
+              "zero": false
+            }
+          ],
+          "width": 900
+        },
+        "specType": "vega"
+      }
+    ]
+  }
