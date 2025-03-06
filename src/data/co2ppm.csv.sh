@@ -1,0 +1,1 @@
+curl -Lf "https://datahub.io/core/co2-ppm-daily/_r/-/data/co2-ppm-daily.csv"
